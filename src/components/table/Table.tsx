@@ -10,22 +10,24 @@ type TableProps = {
   }[]; // [] na końcu zawsze będzie oznaczał, że obiekt będzię Array'em
 }
   
-type GenericType<Type> = {
-  data: Type
-}
+// type GenericType<Type> = {
+//   data: Type
+// }
 
-type MyKeys = 'name' | 'lastName'  // tuple type
+// type MyKeys = 'name' | 'lastName'  // tuple type
  
-type TrudnyGeneryk<Value> =  Record<MyKeys, Value>;
+// type TrudnyGeneryk<Value> =  Record<MyKeys, Value>;
 
-const mojaTrudnaZmienna:TrudnyGeneryk<number> = {name: 123, lastName: 123 }
+// const mojaTrudnaZmienna:TrudnyGeneryk<number> = {name: 123, lastName: 123 }
 
-// const mojaTrudnaZmienna2:TrudnyGeneryk<string> = {'lastName': '123' }
+// // const mojaTrudnaZmienna2:TrudnyGeneryk<string> = {'lastName': '123' }
 
-const data:GenericType<string> = {
-  data: 'myString'
-}
+// const data:GenericType<string> = {
+//   data: 'myString'
+// }
 
+
+// //////////////////////////////////////////////////////////////////////////////////
 // https://www.npmjs.com/package/react-router-dom dodać routing w App.tsx
 // https://reactrouter.com/en/main/start/tutorial
 /*
@@ -37,6 +39,8 @@ Jak ma wyglądać w App.tsx ścieżka dynamiczna?
 <Route path={'/my-element/:id'} element={<TableElementPreview/>}/>
 
 */
+// /////////////////////////////////////////////////////////////////////////////////
+
 const Table: FC<TableProps> = ({ list }) => {
   // const navigate = useNavigate();
   // navigate('/my-element/:id')
