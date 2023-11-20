@@ -1,5 +1,7 @@
 import React, { FC } from "react";
 import { TableCell, TableContainer, TableRow, Button } from "components/table/TableComponents";
+import { Link } from "react-router-dom";
+
 
 type TableProps = {
   list:{
@@ -52,7 +54,10 @@ const Table: FC<TableProps> = ({ list }) => {
           <TableCell>{item.description}</TableCell>
           <TableCell>Status: {item.status}</TableCell>
           <TableCell>
+            {/* Link sprawia że Button traci style poniższy kod nie pomaga */}
+          <Link to={`/my-element/${index}`} style={{ textDecoration: 'none' }}> 
             <Button>{item.action}</Button>
+            </Link>
           </TableCell>
         </TableRow>
       ))}
