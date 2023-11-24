@@ -1,15 +1,11 @@
 import React, { FC } from "react";
 import { TableCell, TableContainer, TableRow, Button } from "components/table/TableComponents";
 import { Link } from "react-router-dom";
+import { ListItem } from "types/ListTypes";
 
 
 type TableProps = {
-  list:{
-    title: string;
-    description: string;
-    status: string;
-    action: string;
-  }[]; // [] na końcu zawsze będzie oznaczał, że obiekt będzię Array'em
+  list: ListItem[]; // [] na końcu zawsze będzie oznaczał, że obiekt będzię Array'em
 }
   
 // type GenericType<Type> = {
@@ -55,7 +51,7 @@ const Table: FC<TableProps> = ({ list }) => {
           <TableCell>Status: {item.status}</TableCell>
           <TableCell>
             {/* Link sprawia że Button traci style poniższy kod nie pomaga */}
-          <Link to={`/my-element/${index}`} style={{ textDecoration: 'none' }}> 
+          <Link to={`/my-element/${item.id}`} style={{ textDecoration: 'none' }}> 
             <Button>{item.action}</Button>
             </Link>
           </TableCell>

@@ -1,24 +1,15 @@
 import { BasicContainer } from "components/containers/Containers";
+import { FC, useEffect, useState } from "react";
 import Table from "components/table/Table";
-import { useEffect, useState } from "react";
+import { MY_TASKS } from "components/db/Tasks";
+import { ListItem } from "types/ListTypes";
 
 
-type ListItem = {
-    title: string;
-    description: string;
-    status: string;
-    action: string;
-}
-
-
-const TablePage = () => {
+const TablePage:FC = () => {
     const [list, setList] = useState<ListItem[]>([]); // napisać typ, bo any nie uzywamy
 
     useEffect(() => {
-        setList([
-            {title: 'Title', description: 'Description', status: 'Completed', action: 'Action button'},
-            {title: 'Title2', description: 'Description2', status: 'Completed2', action: 'Action button2'},
-          ])
+        setList(MY_TASKS)
     }, [])
     // przekazac liste jako props do table
     return (
