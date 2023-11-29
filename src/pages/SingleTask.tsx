@@ -45,9 +45,15 @@ const SingleTask: FC = () => {
 
   const [isEditing, setIsEditing] = useState(false);
   const [task, setTask] = useState<ListItem>();
-  const [editedTask, setEditedTask] = useState<ListItem>();
+  const [title, setTitle] = useState<string>('');
+  const [desc, setDesc] = useState<string>('');
   
-  // Napisz funkcje do zmiany statusu(JEDNA FUNKCJE, a nie trzy razy useState i settery)
+  const deleteTask = () => {
+    const newTasks = tasks.filter((task)=> task.id !== id )
+    console.log(newTasks) // dokonczyc
+  }
+
+//react useContext, przezuc tabele do Contextu  i funkcje na arrayach powtorzyc
 
   const handleStatusChange = (id: string, newStatus: string) => {
     const updatedTask = tasks.map((task) => {
@@ -63,44 +69,18 @@ const SingleTask: FC = () => {
 
   };
 
-  // const editTaskTitle = (value: string) => {
-  //   if (task) {
-  //     const editedTask = { ...task, title: value };
-  //     setEditedTask(editedTask);
-  //   }
-  // }; // napisz funkcje do zmiany description (lub przerob editTaskTitle tak zeby zmieniala albo title albo description) oraz obsluz bledy (if/else);
-
-const editTask = (field: "title"|"description", value:string)=>{
-  if(task){
-    const editedTask = {...task, [field]: task}
-    setEditedTask(editedTask)
-    console.log("Edited Task:", editedTask)
-  }
-}
-
   const handleSave = () => {
-    if (editedTask && task !== editedTask) {
-      // const filteredTasks = tasks.filter((myTask) => myTask.id !== editedTask.id); // to jest zbedne, przekazalismy to nizej i w ten sposob mamy jedna zmienna
+    if (task) {
+      const newTask = {...task, title: title, description: desc}
+      console.log('NEW_TASK', newTask);
       const newTasks = [
-        ...tasks.filter((myTask) => myTask.id !== editedTask.id),
-        editedTask,
-      ];
+      ...tasks.filter((myTask) => myTask.id !== newTask.id),
+      newTask,
+    ];
       setTasks(newTasks);
+      setIsEditing(false);
     }
-    setIsEditing(false);
   };
-
-  // const handleClose = () => {
-  //   navigate("/"); // zrobić jak handleCancelEdit
-  // };
-
-  // const handleEdit = () => {
-  //   setIsEditing(true); // zrobić jak handleCancelEdit
-  // };
-
-  // const handleCancelEdit = () => {
-  //   setIsEditing(false); // zmienić w onClicku na () => setIsEditing(false); robi to w zasadzie to samo ale nie tworzymy zbednych funkcji
-  // };
 
   const fetchTask = async () => {
     return await tasks.find((task) => task.id === id);
@@ -110,6 +90,8 @@ const editTask = (field: "title"|"description", value:string)=>{
     fetchTask().then((task) => {
       if (task) {
         setTask(task);
+        setTitle(task.title);
+        setDesc(task.description);
       }
     });
   }, [tasks]);
@@ -135,20 +117,21 @@ const editTask = (field: "title"|"description", value:string)=>{
           <EditWrapper>
             <input
               type="text"
-              value={task.title}
-              onChange={(e) => editTask("title",e.target.value)}
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <textarea
-              value={task.description}
-              onChange={(e) => editTask("description", e.target.value)}
+              value={desc}
+              onChange={(e) => setDesc(e.target.value)}
             />
-            <button onClick={handleSave}>Save</button>
+            <button onClick={() => handleSave()}>Save</button>
             <button onClick={() => setIsEditing(false)}>Cancel</button>
           </EditWrapper>
         ) : (
           <>
             <TaskTitle>{task.title}</TaskTitle>
             <TaskInfo>{task.description}</TaskInfo>
+            <TaskInfo>{task.status}</TaskInfo>
             <CompleteButton
               onClick={() => handleStatusChange(task.id, "Completed")}
             >
@@ -159,7 +142,7 @@ const editTask = (field: "title"|"description", value:string)=>{
             >
               In Progress
             </InProgressButton>
-            <DeleteButton>Delete this task</DeleteButton>
+            <DeleteButton onClick={() => deleteTask()}>Delete this task</DeleteButton>
           </>
         )}
       </TaskWrapper>
