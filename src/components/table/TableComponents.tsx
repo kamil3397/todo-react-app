@@ -11,6 +11,7 @@ export const TableContainer = styled.div`
   -moz-box-shadow: 0px 10px 35px -1px rgba(66, 68, 90, 1);
   box-shadow: 0px 10px 35px -1px rgba(66, 68, 90, 1);
   padding: 0px 5px;
+  position: relative;
 `;
 
 export const TableRow = styled.div`
@@ -76,4 +77,10 @@ export const Button = styled.button`
     width: 95%;
     height: 45px; 
   }
+`;
+export const AddTaskIcon = styled.button`
+ position: absolute;
+  bottom: 10%;
+  left: 50%;
+  transform: translateX(-50%);
 `;

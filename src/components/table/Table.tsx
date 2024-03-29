@@ -1,47 +1,13 @@
 import React, { FC } from "react";
-import { TableCell, TableContainer, TableRow, Button } from "components/table/TableComponents";
+import { TableCell, TableContainer, TableRow } from "components/table/TableComponents";
 import { Link } from "react-router-dom";
 import { ListItem } from "types/ListTypes";
-
+import { Button } from "@mui/material";
 
 type TableProps = {
-  list: ListItem[]; // [] na końcu zawsze będzie oznaczał, że obiekt będzię Array'em
-}
-  
-// type GenericType<Type> = {
-//   data: Type
-// }
-
-// type MyKeys = 'name' | 'lastName'  // tuple type
- 
-// type TrudnyGeneryk<Value> =  Record<MyKeys, Value>;
-
-// const mojaTrudnaZmienna:TrudnyGeneryk<number> = {name: 123, lastName: 123 }
-
-// // const mojaTrudnaZmienna2:TrudnyGeneryk<string> = {'lastName': '123' }
-
-// const data:GenericType<string> = {
-//   data: 'myString'
-// }
-
-
-// //////////////////////////////////////////////////////////////////////////////////
-// https://www.npmjs.com/package/react-router-dom dodać routing w App.tsx
-// https://reactrouter.com/en/main/start/tutorial
-/*
-1. Stworzyć nowy component TableElementPreview
-2. Po kliknięciu w przycisk przekierować do podglądu elementu tablicy
-Tipy:
-Jak ma wyglądać w App.tsx ścieżka dynamiczna? 
-
-<Route path={'/my-element/:id'} element={<TableElementPreview/>}/>
-
-*/
-// /////////////////////////////////////////////////////////////////////////////////
-
+  list: ListItem[];
+};
 const Table: FC<TableProps> = ({ list }) => {
-  // const navigate = useNavigate();
-  // navigate('/my-element/:id')
   return (
     <TableContainer>
       {list.map((item, index) => (
@@ -50,18 +16,15 @@ const Table: FC<TableProps> = ({ list }) => {
           <TableCell>{item.description}</TableCell>
           <TableCell>Status: {item.status}</TableCell>
           <TableCell>
-            {/* Link sprawia że Button traci style poniższy kod nie pomaga */}
-          <Link to={`/my-element/${item.id}`} style={{ textDecoration: 'none' }}> 
-            <Button>{item.action}</Button>
+            <Link to={`/task/${item._id}`}>
+              <Button variant="contained" color="primary"> DETAILS</Button>
             </Link>
           </TableCell>
         </TableRow>
       ))}
+
     </TableContainer>
   );
 };
 
 export default Table;
-
-
-//czytaj z dokumentacji react

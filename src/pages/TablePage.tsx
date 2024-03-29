@@ -1,21 +1,23 @@
-import { BasicContainer } from "components/containers/Containers";
-import { FC, useEffect, useState } from "react";
+import React, { FC, useEffect } from "react";
 import Table from "components/table/Table";
-import { MY_TASKS } from "components/db/Tasks";
-import { ListItem } from "types/ListTypes";
+import { useTaskContext } from "../context/TaskContext";
+import { Button, Container } from "@mui/material";
+import { Link } from "react-router-dom";
 
 
-const TablePage:FC = () => {
-    const [list, setList] = useState<ListItem[]>([]); // napisać typ, bo any nie uzywamy
+const TablePage: FC = () => {
+  const { tasks, fetchTasks } = useTaskContext();
 
-    useEffect(() => {
-        setList(MY_TASKS)
-    }, [])
-    // przekazac liste jako props do table
-    return (
-        <BasicContainer>
-            <Table list={list}/>
-        </BasicContainer>
-    )
-}
+  useEffect(() => {
+    fetchTasks()
+  }, [])
+  return (
+    <Container sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+      <Table list={tasks} />
+      <Button variant="contained" sx={{ m: 2 }} component={Link} to="/addTask">+</Button>
+    </Container>
+  );
+};
+
 export default TablePage;
+
