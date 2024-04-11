@@ -6,9 +6,10 @@ import LogInPage from "pages/LogInPage";
 import RegisterPage from "pages/RegisterPage";
 import Navbar from "components/containers/NavbarContainer";
 import { MainContainer } from "components/containers/MainContainer";
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddTask from "pages/AddTask";
+import ProtectedRoute from "utils/ProtectedRoute";
 function App() {
 
   return (
@@ -19,9 +20,9 @@ function App() {
           <Routes>
             <Route path="/" element={<LogInPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/yourTasks" element={<TablePage />} />
-            <Route path="/task/:id" element={<SingleTask />} />
-            <Route path="/addTask" element={<AddTask />} />
+            <Route path="/yourTasks" element={<ProtectedRoute><TablePage /></ProtectedRoute>} />
+            <Route path="/task/:id" element={<ProtectedRoute><SingleTask /></ProtectedRoute>} />
+            <Route path="/addTask" element={<ProtectedRoute><AddTask /></ProtectedRoute>} />
           </Routes>
         </Router>
         <ToastContainer />
@@ -66,10 +67,17 @@ export default App;
 1. ###################Posprzatac te dziwne Promise.reject
 2. ###################Przerobic funkcje wenwatrz TaskContext na wzor AddTask
 3. ###################Popsrzatac kod- usunac console.logi, zadbac o skladnie, wszystko ma dzialac.
-4. Stworzyc repozytorium i wypchnac wszystko na gita
+4. ###################Stworzyc repozytorium i wypchnac wszystko na gita
 5. Zrobic GuardedRoutes (jest multum poradnikow w necie)
   - chodzi o chronione sciezki, tj sciezki, ktore sa dostepne tylko dla zalogowanych userow
   - jest to tylko frontendowa praca, z racji tego, ze juz mamy pelna obsluge JWT
   - pozwoli Ci to na wywalenie wiekszosci warunkow, na zasadzie if(token) to cos tam
 6. Na kolejnej lekcji robimy sobie 'rozmowe rekrutacyjna'. 30 minut na zadania, 30minut na pytania
+*/
+
+/*Praca domowa 03.04 
+1. Wyczyść nieptrzebne podwójne renderowanie routera
+2. Repo Github
+3. Ostylować 503 w protected routes
+
 */

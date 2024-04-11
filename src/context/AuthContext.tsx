@@ -25,9 +25,6 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     const registerClient = async (values: RegistrationData) => {
         await axios.post("http://localhost:4000/register", values)
-            .then((res) => {
-                console.log(res)
-            })
             .catch((error) => {
                 console.log("Error while adding user:", error);
             })

@@ -8,6 +8,10 @@ import { AuthProvider } from 'context/AuthContext';
 import { AlertProvider } from 'context/AlertContext';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LogInPage from 'pages/LogInPage';
+import ProtectedRoute from 'utils/ProtectedRoute';
+import TablePage from 'pages/TablePage';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 const theme = createTheme({
 
@@ -33,6 +37,21 @@ const theme = createTheme({
   }
 })
 
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: (
+      <ProtectedRoute>
+        <TablePage />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/login',
+    element: <LogInPage />,
+  },
+]);
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -41,6 +60,7 @@ root.render(
     <TaskProvider>
       <AuthProvider>
         <ThemeProvider theme={theme}>
+          {/*<RouterProvider router={router} /> */}
           <App />
         </ThemeProvider>
       </AuthProvider>
