@@ -2,7 +2,7 @@
 import { Controller, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Button, Card, Checkbox, FormControlLabel, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
+import { Box, Button, Card, Checkbox, FormControlLabel, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from 'context/AuthContext';
 import { RegistrationData } from 'types/ListTypes';
@@ -74,98 +74,101 @@ const RegisterPage: FC = () => {
     };
 
     return (
-        <Card>
-            <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', padding: 10, gap: 5 }}>
-                <TextField {...register('email')}
-                    label='Email'
-                    placeholder='Put your email here'
-                    error={!!errors.email}
-                    helperText={!!errors.email && errors.email.message}
-                />
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
 
-                <TextField {...register('name')}
-                    label='Name'
-                    placeholder='Put your name here'
-                    error={!!errors.name}
-                    helperText={!!errors.name && errors.name.message}
-                />
-                <TextField {...register("surname")}
-                    label="Surname"
-                    placeholder='Put your surname here'
-                    error={!!errors.surname}
-                    helperText={!!errors.surname && errors.surname.message}
-                />
-                <TextField {...register("password")}
-                    type={showPassword ? 'text' : 'password'}
-                    label="Password"
-                    placeholder='Put your password here'
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        )
-                    }}
-                    error={!!errors.password}
-                    helperText={!!errors.password && errors.password.message}
-                />
-                <TextField
-                    {...register("confirm_password")}
-                    type={showPassword ? 'text' : 'password'}
-                    label="Confirm Password"
-                    InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                    edge="end"
-                                >
-                                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                                </IconButton>
-                            </InputAdornment>
-                        )
-                    }}
-                    error={!!errors.password}
-                    helperText={!!errors.password && errors.password.message}
-                />
+            <Card>
+                <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', padding: 10, gap: 5 }}>
+                    <TextField {...register('email')}
+                        label='Email'
+                        placeholder='Put your email here'
+                        error={!!errors.email}
+                        helperText={!!errors.email && errors.email.message}
+                    />
 
-                <FormControlLabel
-                    control={
-                        <Controller
-                            name={'terms'}
-                            control={control}
-                            render={({ field: props }) => (
-                                <Checkbox
-                                    {...props}
-                                    checked={props.value}
-                                    onChange={(e) => props.onChange(e.target.checked)}
-                                />
-                            )}
-                        />
-                    }
-                    label={<>
-                        <Typography>Accepts terms of use</Typography>
-                        {!!errors.terms && <Typography color="error">{errors.terms.message}</Typography>}
-                        {/* ostylowac to jakos sensownie */}
-                    </>}
-                />
+                    <TextField {...register('name')}
+                        label='Name'
+                        placeholder='Put your name here'
+                        error={!!errors.name}
+                        helperText={!!errors.name && errors.name.message}
+                    />
+                    <TextField {...register("surname")}
+                        label="Surname"
+                        placeholder='Put your surname here'
+                        error={!!errors.surname}
+                        helperText={!!errors.surname && errors.surname.message}
+                    />
+                    <TextField {...register("password")}
+                        type={showPassword ? 'text' : 'password'}
+                        label="Password"
+                        placeholder='Put your password here'
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            )
+                        }}
+                        error={!!errors.password}
+                        helperText={!!errors.password && errors.password.message}
+                    />
+                    <TextField
+                        {...register("confirm_password")}
+                        type={showPassword ? 'text' : 'password'}
+                        label="Confirm Password"
+                        InputProps={{
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton
+                                        aria-label="toggle password visibility"
+                                        onClick={handleClickShowPassword}
+                                        edge="end"
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            )
+                        }}
+                        error={!!errors.password}
+                        helperText={!!errors.password && errors.password.message}
+                    />
+
+                    <FormControlLabel
+                        control={
+                            <Controller
+                                name={'terms'}
+                                control={control}
+                                render={({ field: props }) => (
+                                    <Checkbox
+                                        {...props}
+                                        checked={props.value}
+                                        onChange={(e) => props.onChange(e.target.checked)}
+                                    />
+                                )}
+                            />
+                        }
+                        label={<>
+                            <Typography>Accepts terms of use</Typography>
+                            {!!errors.terms && <Typography color="error">{errors.terms.message}</Typography>}
+                            {/* ostylowac to jakos sensownie */}
+                        </>}
+                    />
 
 
-                <Button type='submit' variant='contained'>Register</Button>
+                    <Button type='submit' variant='contained'>Register</Button>
 
-                <Button variant='contained' component={Link} to="/">
-                    Quit
-                </Button>
+                    <Button variant='contained' component={Link} to="/">
+                        Quit
+                    </Button>
 
-            </form>
-        </Card>
+                </form>
+            </Card>
+        </Box>
     );
 };
 

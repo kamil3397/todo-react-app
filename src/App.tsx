@@ -4,29 +4,29 @@ import SingleTask from "pages/SingleTask";
 import TablePage from "pages/TablePage";
 import LogInPage from "pages/LogInPage";
 import RegisterPage from "pages/RegisterPage";
-import Navbar from "components/containers/NavbarContainer";
-import { MainContainer } from "components/containers/MainContainer";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddTask from "pages/AddTask";
 import ProtectedRoute from "utils/ProtectedRoute";
+import { Drawer } from "components/drawer/Drawer";
+import { MainContainer } from "components/containers/MainContainer";
+
 function App() {
 
   return (
     <>
-      <Navbar />
-      <MainContainer>
-        <Router>
-          <Routes>
-            <Route path="/" element={<LogInPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/yourTasks" element={<ProtectedRoute><TablePage /></ProtectedRoute>} />
-            <Route path="/task/:id" element={<ProtectedRoute><SingleTask /></ProtectedRoute>} />
-            <Route path="/addTask" element={<ProtectedRoute><AddTask /></ProtectedRoute>} />
-          </Routes>
-        </Router>
-        <ToastContainer />
-      </MainContainer >
+      <Router>
+        {/* <MainContainer> */}
+        <Routes>
+          <Route path="/" element={<LogInPage />} />
+          <Route path="/register" element={<RegisterPage />} />
+          <Route path="/yourTasks" element={<ProtectedRoute><TablePage /><Drawer /></ProtectedRoute>} />
+          <Route path="/task/:id" element={<ProtectedRoute><SingleTask /><Drawer /></ProtectedRoute>} />
+          <Route path="/addTask" element={<ProtectedRoute><AddTask /><Drawer /></ProtectedRoute>} />
+        </Routes>
+        {/* </MainContainer> */}
+      </Router>
+      <ToastContainer />
     </>
   );
 }
@@ -76,8 +76,14 @@ export default App;
 */
 
 /*Praca domowa 03.04 
-1. Wyczyść nieptrzebne podwójne renderowanie routera
 2. Repo Github
 3. Ostylować 503 w protected routes
+*/
 
+/* Praca domowa 11.04
+1. ############Wyczyść nieptrzebne podwójne renderowanie routera
+
+1. Ostylowac Drawer, tzn MenuItemy, liste, zeby dzialaly przekierowania
+2. #############Zrobic magicznie tak, zeby Drawer byl widoczny dopiero po zalogowaniu sie :)) 
+3. Wymyśliść dodatkowe funkcjonalności do apki 
 */

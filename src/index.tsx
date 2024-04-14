@@ -37,21 +37,6 @@ const theme = createTheme({
   }
 })
 
-const router = createBrowserRouter([
-  {
-    path: '/',
-    element: (
-      <ProtectedRoute>
-        <TablePage />
-      </ProtectedRoute>
-    ),
-  },
-  {
-    path: '/login',
-    element: <LogInPage />,
-  },
-]);
-
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
@@ -60,7 +45,6 @@ root.render(
     <TaskProvider>
       <AuthProvider>
         <ThemeProvider theme={theme}>
-          {/*<RouterProvider router={router} /> */}
           <App />
         </ThemeProvider>
       </AuthProvider>

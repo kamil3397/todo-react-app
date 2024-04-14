@@ -4,8 +4,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRectangleXmark } from '@fortawesome/free-regular-svg-icons';
 import { useNavigate } from 'react-router-dom';
 
-
-
 type ProtectedRouteProps = PropsWithChildren;
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
@@ -50,15 +48,16 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
             Try to LogIn
           </Button>
         </Card>
-        <Box sx={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          top: '200px',
-          bgcolor: 'rgb(32,33,66)',
-          borderTopLeftRadius: '70%',
-          borderTopRightRadius: '70%'
-        }} />
+        <Box
+          sx={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            top: '200px',
+            bgcolor: 'rgb(32,33,66)',
+            borderTopLeftRadius: '70%',
+            borderTopRightRadius: '70%'
+          }} />
       </Container >
     );
   }

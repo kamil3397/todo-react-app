@@ -32,13 +32,16 @@ const SingleTask: FC = () => {
   }
 
   return (
-    <Card sx={{ borderRadius: 1.25 }}>
-      <Box sx={{ display: "flex", flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-        {!isEditing && <Button variant='contained' sx={{ m: 1 }} onClick={() => setIsEditing(true)}><FontAwesomeIcon icon={faPenToSquare} /></Button>}
-        {!isEditing && <Button variant='contained' color='error' sx={{ m: 1 }} onClick={() => navigate('/yourTasks')}><FontAwesomeIcon icon={faXmark} /></Button>}
-      </Box>
-      {isEditing ? <EditView task={task as ListItem} setIsEditing={setIsEditing} /> : <TaskView task={task as ListItem} />}
-    </Card>
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Card sx={{ borderRadius: 1.25, }}>
+        <Box sx={{ display: "flex", flexDirection: 'row', justifyContent: 'center', alignItems: 'center', }}>
+          {!isEditing && <Button variant='contained' sx={{ m: 1 }} onClick={() => setIsEditing(true)}><FontAwesomeIcon icon={faPenToSquare} /></Button>}
+          {!isEditing && <Button variant='contained' color='error' sx={{ m: 1 }} onClick={() => navigate('/yourTasks')}><FontAwesomeIcon icon={faXmark} /></Button>}
+        </Box>
+        {isEditing ? <EditView task={task as ListItem} setIsEditing={setIsEditing} /> : <TaskView task={task as ListItem} />}
+      </Card>
+    </Box>
+
   );
 };
 export default SingleTask;

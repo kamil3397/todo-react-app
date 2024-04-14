@@ -71,6 +71,7 @@ const LogInPage: FC = () => {
   }
 
   return (
+
     <div style={{ width: '80%', display: 'flex', padding: 50, height: 500 }}>
       <TransparentCard>
         <h1 style={{ width: 60, display: 'flex', padding: 50, color: '#FFF' }}>CONTROL YOUR TASKS EVERYDAY!</h1>

@@ -24,7 +24,6 @@ export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
       .catch((err) => { throw new Error(err) });
 
   const deleteTask = (_id: string) => {
-    /*Przerobic ta fukcje tak jak wyglada addTask, czyli tylko obsluga bledu i przekierowanie w miejscu gdzie ja wykonujemy do listy taskow */
     const token = localStorage.getItem('accessToken');
     if (!token) {
       throw new Error('accessToken not found in localStorage');
