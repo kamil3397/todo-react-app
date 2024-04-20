@@ -12,7 +12,7 @@ const TablePage: FC = () => {
     fetchTasks()
   }, [])
   return (
-    <Container sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+    <Container sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f7f2f2' }}>
       <Table list={tasks} />
       <Button variant="contained" sx={{ m: 2 }} component={Link} to="/addTask">+</Button>
     </Container>

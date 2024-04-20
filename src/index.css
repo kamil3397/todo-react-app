@@ -3,6 +3,9 @@ body {
 	margin: 0;
   padding: 0;
 }
+#root {
+  height: 100vh;
+}
 
 .drawerItems{
   text-decoration: none;

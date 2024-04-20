@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup"
-import { Card, TextField, Typography } from "@mui/material"
+import { Card, Container, TextField, Typography } from "@mui/material"
 import { Button } from '@mui/material';
 import { MainContainer } from "components/containers/MainContainer";
 import { useAlertContext } from "context/AlertContext";
@@ -29,7 +29,7 @@ const AddTask: FC = () => {
     const { showAlert } = useAlertContext()
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm<AddTaskInputs>({ resolver: yupResolver(schema) });
-    // const { user } = useAuthContext(); //skoro bierzemy samo id to powinnismy je brac z sessionstorage
+
     const userId = localStorage.getItem('userId')
 
     if (!userId) return null;
@@ -56,33 +56,35 @@ const AddTask: FC = () => {
     }
 
     return (
-        <Card sx={{ borderRadius: 1.25, width: 400, height: 350, display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 10 }}>
-            {/*Brakuje title i description do info clienta */}
-            <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: 5, width: '100%' }}>
+        <Container sx={{ display: "flex", justifyContent: 'center', alignItems: 'center' }} >
+            <Card sx={{ borderRadius: 1.25, width: 400, height: 350, display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: 'center', p: 10 }}>
+                {/*Brakuje title i description do info clienta */}
+                <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: 5, width: '100%' }}>
 
-                <TextField {...register('title')}
-                    label='Title'
-                    placeholder='Add title here'
-                    error={!!errors.title}
-                    helperText={!!errors.title && errors.title.message}
-                    multiline
-                    fullWidth
-                />
-                <TextField {...register("description")}
-                    label="Description"
-                    placeholder='Add description here'
-                    error={!!errors.description}
-                    helperText={!!errors.description && errors.description.message}
-                    multiline
-                    fullWidth
-                />
-                <Button type='submit' variant='contained'>Save</Button>
+                    <TextField {...register('title')}
+                        label='Title'
+                        placeholder='Add title here'
+                        error={!!errors.title}
+                        helperText={!!errors.title && errors.title.message}
+                        multiline
+                        fullWidth
+                    />
+                    <TextField {...register("description")}
+                        label="Description"
+                        placeholder='Add description here'
+                        error={!!errors.description}
+                        helperText={!!errors.description && errors.description.message}
+                        multiline
+                        fullWidth
+                    />
+                    <Button type='submit' variant='contained'>Save</Button>
 
-                <Button variant='contained' component={Link} to="/yourTasks">
-                    Quit
-                </Button>
-            </form>
-        </Card>
+                    <Button variant='contained' component={Link} to="/yourTasks">
+                        Quit
+                    </Button>
+                </form>
+            </Card>
+        </Container >
 
     )
 }

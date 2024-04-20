@@ -11,6 +11,7 @@ type UserType = {
 }
 
 type AuthContextProps = {
+    isAuth: (userId: string) => void
     registerClient: (values: RegistrationData) => Promise<void>
     loginClient: (values: LoginInputs) => Promise<void>
     logOutClient: () => Promise<void>
@@ -22,7 +23,6 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<UserType>();
-
     const registerClient = async (values: RegistrationData) => {
         await axios.post("http://localhost:4000/register", values)
             .catch((error) => {
@@ -60,13 +60,26 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
                 localStorage.removeItem('userId');
                 localStorage.removeItem('accessToken');
                 setUser(undefined);
+
             })
             .catch((error) => {
-                console.error('Error during logout:', error);
+                throw new Error('Error during logout:', error);
             })
     }
 
+    const isAuth = async (userId: string) => {
+        await axios.post(`http://localhost:4000/login"/${userId}`)
+            .then((response) => {
+                setUser(response.data)
+
+            })
+            .catch((error) => {
+                throw new Error(error);
+            });
+
+    }
     const contextValues: AuthContextProps = {
+        isAuth,
         registerClient,
         loginClient,
         logOutClient,

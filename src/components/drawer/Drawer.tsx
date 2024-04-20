@@ -9,7 +9,7 @@ import AddTaskIcon from '@mui/icons-material/AddTask';
 import PersonIcon from '@mui/icons-material/Person';
 import { DrawerAppBar } from './AppBar';
 import { DrawerHeader } from './DrawerHeader';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from 'context/AuthContext';
 
 export const DRAWER_WIDTH = 240;
@@ -21,7 +21,6 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
     justifyContent: 'center',
     alignItems: 'center',
     flexGrow: 1,
-    padding: theme.spacing(3),
     transition: theme.transitions.create('margin', {
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen,
@@ -41,7 +40,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<{
 export const Drawer = ({ children }: PropsWithChildren) => {
     const [open, setOpen] = useState(false);
     const { logOutClient } = useAuthContext();
-
+    const navigate = useNavigate();
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -52,11 +51,10 @@ export const Drawer = ({ children }: PropsWithChildren) => {
     };
 
     const handleLogout = async () => {
-        try {
-            await logOutClient();
-        } catch (error) {
-            console.log('Error during logout:', error);
-        }
+
+        await logOutClient()
+            .then(() => navigate('/'))
+            .catch((err) => console.log(err))
     };
 
     return (
@@ -79,7 +77,7 @@ export const Drawer = ({ children }: PropsWithChildren) => {
                 <DrawerHeader handleDrawerClose={handleDrawerClose} />
                 <Divider />
                 <List>
-                    <Link to='/' style={{ textDecoration: 'none', color: '#202142' }}>
+                    <Link to='/protectedHome' style={{ textDecoration: 'none', color: '#202142' }}>
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
@@ -89,7 +87,7 @@ export const Drawer = ({ children }: PropsWithChildren) => {
                             </ListItemButton>
                         </ListItem>
                     </Link>
-                    <Link to='/' style={{ textDecoration: 'none', color: '#202142' }}>
+                    <Link to='/about' style={{ textDecoration: 'none', color: '#202142' }}>
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>
@@ -109,7 +107,7 @@ export const Drawer = ({ children }: PropsWithChildren) => {
                             </ListItemButton>
                         </ListItem>
                     </Link>
-                    <Link to='/' style={{ textDecoration: 'none', color: '#202142' }}>
+                    <Link to='/addTask' style={{ textDecoration: 'none', color: '#202142' }}>
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>

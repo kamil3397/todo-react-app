@@ -3,7 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 
 import * as yup from "yup"
-import { Box, Button, Card as MuiCard, TextField, Typography, styled } from '@mui/material'
+import { Box, Button, Container, Card as MuiCard, TextField, Typography, styled } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from 'context/AuthContext'
 import { AuthContainer } from 'components/containers/AuthContainer'
@@ -71,39 +71,40 @@ const LogInPage: FC = () => {
   }
 
   return (
+    <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#f7f2f2', height: '100%' }}>
+      <div style={{ width: '80%', display: 'flex', padding: 50, height: 500 }}>
+        <TransparentCard>
+          <h1 style={{ width: 60, display: 'flex', padding: 50, color: '#FFF' }}>CONTROL YOUR TASKS EVERYDAY!</h1>
+        </TransparentCard>
+        <Card>
+          <Typography variant='h3' p={2}>Welcome back!</Typography>
+          <form onSubmit={handleSubmit(onSubmit)}
+            style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
 
-    <div style={{ width: '80%', display: 'flex', padding: 50, height: 500 }}>
-      <TransparentCard>
-        <h1 style={{ width: 60, display: 'flex', padding: 50, color: '#FFF' }}>CONTROL YOUR TASKS EVERYDAY!</h1>
-      </TransparentCard>
-      <Card>
-        <Typography variant='h3' p={2}>Welcome back!</Typography>
-        <form onSubmit={handleSubmit(onSubmit)}
-          style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+            <TextField {...register('email')}
+              label='Email'
+              placeholder='Put your email here'
+              error={!!errors.email}
+              helperText={!!errors.email && errors.email.message}
+            />
+            <TextField {...register("password")}
+              type='password'
+              label="Passowrd"
+              placeholder='Put your password here'
+              error={!!errors.password}
+              helperText={!!errors.password && errors.password.message}
+            />
 
-          <TextField {...register('email')}
-            label='Email'
-            placeholder='Put your email here'
-            error={!!errors.email}
-            helperText={!!errors.email && errors.email.message}
-          />
-          <TextField {...register("password")}
-            type='password'
-            label="Passowrd"
-            placeholder='Put your password here'
-            error={!!errors.password}
-            helperText={!!errors.password && errors.password.message}
-          />
+            <Button type='submit' variant='contained'>Sign In</Button>
 
-          <Button type='submit' variant='contained'>Sign In</Button>
-
-          <Button variant='contained' component={Link} to="/main">
-            Quit
-          </Button>
-          <Button variant='contained' component={Link} to='/register' >New user? SING UP!</Button>
-        </form>
-      </Card>
-    </div>
+            <Button variant='contained' component={Link} to="/">
+              Quit
+            </Button>
+            <Button variant='contained' component={Link} to='/register' >New user? SING UP!</Button>
+          </form>
+        </Card>
+      </div>
+    </Container>
   )
 }
 

@@ -8,23 +8,25 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AddTask from "pages/AddTask";
 import ProtectedRoute from "utils/ProtectedRoute";
+import HomePage from "pages/HomePage";
+import AboutPage from "pages/AboutPage";
 import { Drawer } from "components/drawer/Drawer";
-import { MainContainer } from "components/containers/MainContainer";
+
 
 function App() {
-
   return (
     <>
       <Router>
-        {/* <MainContainer> */}
         <Routes>
-          <Route path="/" element={<LogInPage />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/login" element={<LogInPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/yourTasks" element={<ProtectedRoute><TablePage /><Drawer /></ProtectedRoute>} />
-          <Route path="/task/:id" element={<ProtectedRoute><SingleTask /><Drawer /></ProtectedRoute>} />
-          <Route path="/addTask" element={<ProtectedRoute><AddTask /><Drawer /></ProtectedRoute>} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/yourTasks" element={<ProtectedRoute><TablePage /></ProtectedRoute>} />
+          <Route path="/task/:id" element={<ProtectedRoute><SingleTask /></ProtectedRoute>} />
+          <Route path="/addTask" element={<ProtectedRoute><AddTask /></ProtectedRoute>} />
+          {/* <Route path="/protectedHome" element={<ProtectedRoute><HomePage /></ProtectedRoute>} /> */}
         </Routes>
-        {/* </MainContainer> */}
       </Router>
       <ToastContainer />
     </>
@@ -82,8 +84,12 @@ export default App;
 
 /* Praca domowa 11.04
 1. ############Wyczyść nieptrzebne podwójne renderowanie routera
-
-1. Ostylowac Drawer, tzn MenuItemy, liste, zeby dzialaly przekierowania
+https://dribbble.com/shots/16624002-Landing-Page-for-an-Mobile-App-Download
+1. ############Ostylowac Drawer, tzn MenuItemy, liste, zeby dzialaly przekierowania
 2. #############Zrobic magicznie tak, zeby Drawer byl widoczny dopiero po zalogowaniu sie :)) 
 3. Wymyśliść dodatkowe funkcjonalności do apki 
+*/
+
+/*Praca domowa 18.04 
+1. #########Protected route nie powinien zwracac komponentu JSX, powinienes zrobic redirect na /unauthorised i dodac w routerze taki Route, ktory wyswietli ten komponent ktory napisales
 */
