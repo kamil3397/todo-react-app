@@ -1,59 +1,37 @@
-import React from "react";
+import { lazy, Suspense } from 'react'
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import TablePage from "pages/TablePage";
 import LogInPage from "pages/LogInPage";
 import RegisterPage from "pages/RegisterPage";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProtectedRoute from "utils/ProtectedRoute";
 import HomePage from "pages/HomePage";
-// import AboutPage from "pages/AboutPage";
-// import AddTask from "pages/AddTask";
-// import SingleTask from "pages/SingleTask";
-const LazyAddTask = React.lazy(() => import('./pages/AddTask'))
-const LazyAbout = React.lazy(() => import('./pages/AboutPage'))
-const LazySingleTask = React.lazy(() => import('./pages/SingleTask'))
-const LazyTablePage = React.lazy(() => import('./pages/TablePage'))
 
 
+import Loading from "pages/Loading";
+
+const LazyAddTask = lazy(() => import('./pages/AddTask'))
+const LazyAbout = lazy(() => import('./pages/AboutPage'))
+const LazySingleTask = lazy(() => import('./pages/SingleTask'))
+const LazyTablePage = lazy(() => import('./pages/TablePage'))
 
 function App() {
   return (
     <>
       <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LogInPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/about"
-            element={
-              <React.Suspense>
-                <LazyAbout />
-              </React.Suspense>
-            } />
-          <Route path="/yourTasks"
-            element={
-              <ProtectedRoute>
-                <React.Suspense>
-                  <LazyTablePage />
-                </React.Suspense>
-              </ProtectedRoute>} />
-          <Route path="/task/:id"
-            element={
-              <ProtectedRoute>
-                <React.Suspense>
-                  <LazySingleTask />
-                </React.Suspense>
-              </ProtectedRoute>} />
-          <Route path="/addTask"
-            element={
-              <React.Suspense>
-                <ProtectedRoute>
-                  <LazyAddTask />
-                </ProtectedRoute>
-              </React.Suspense>} />
-        </Routes>
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LogInPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/about" element={<LazyAbout />} />
+            <Route path="/yourTasks" element={<ProtectedRoute><LazyTablePage /></ProtectedRoute>} />
+            <Route path="/task/:id" element={<ProtectedRoute><LazySingleTask /></ProtectedRoute>} />
+            <Route path="/addTask"
+              element={<ProtectedRoute><LazyAddTask /></ProtectedRoute>} />
+          </Routes>
+        </Suspense>
       </Router>
       <ToastContainer />
     </>

@@ -77,7 +77,7 @@ export const Drawer = ({ children }: PropsWithChildren) => {
                 <DrawerHeader handleDrawerClose={handleDrawerClose} />
                 <Divider />
                 <List>
-                    <Link to='/protectedHome' style={{ textDecoration: 'none', color: '#202142' }}>
+                    <Link to='/yourTasks' style={{ textDecoration: 'none', color: '#202142' }}>
                         <ListItem disablePadding>
                             <ListItemButton>
                                 <ListItemIcon>

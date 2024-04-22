@@ -6,12 +6,7 @@ import { TaskProvider } from 'context/TaskContext';
 import { ThemeProvider, createTheme } from '@mui/material';
 import { AuthProvider } from 'context/AuthContext';
 import { AlertProvider } from 'context/AlertContext';
-import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import LogInPage from 'pages/LogInPage';
-import ProtectedRoute from 'utils/ProtectedRoute';
-import TablePage from 'pages/TablePage';
-import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 const theme = createTheme({
 
