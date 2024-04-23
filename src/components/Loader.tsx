@@ -1,13 +1,11 @@
 import * as React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
-import { Container, Typography } from '@mui/material';
+import { Container } from '@mui/material';
 
-const Loading = () => {
+export const Loader = () => {
     return (
         <Container sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100%' }}>
             <CircularProgress />
         </Container>
     );
 }
-
-export default Loading;

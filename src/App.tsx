@@ -7,9 +7,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProtectedRoute from "utils/ProtectedRoute";
 import HomePage from "pages/HomePage";
+import { Loader } from 'components/Loader';
 
-
-import Loading from "pages/Loading";
 
 const LazyAddTask = lazy(() => import('./pages/AddTask'))
 const LazyAbout = lazy(() => import('./pages/AboutPage'))
@@ -20,7 +19,7 @@ function App() {
   return (
     <>
       <Router>
-        <Suspense fallback={<Loading />}>
+        <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LogInPage />} />
