@@ -21,3 +21,15 @@ export type LoginInputs = {
 export type LogourData = {
     _id: string,
 }
+
+export type UserType = {
+    email: string
+    name: string
+    surname: string,
+    _id: string
+}
+export type EditUserType = {
+    _id: string,
+    email: string,
+    password: string,
+}
