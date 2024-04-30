@@ -1,21 +1,19 @@
 import { lazy, Suspense } from 'react'
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LogInPage from "pages/LogInPage";
-import RegisterPage from "pages/RegisterPage";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProtectedRoute from "utils/ProtectedRoute";
-import HomePage from "pages/HomePage";
 import { Loader } from 'components/Loader';
-import ProfilePage from 'pages/profile/ProfilePage';
 
-// wszystkie pages powinny byc importowane jako lazy
-
-const AddTask = lazy(() => import('./pages/AddTask'))
+const HomePage = lazy(() => import('./pages/HomePage'))
+const LoginPage = lazy(() => import('./pages/LogInPage'))
+const RegisterPage = lazy(() => import('./pages/RegisterPage'))
 const About = lazy(() => import('./pages/AboutPage'))
-const SingleTask = lazy(() => import('./pages/SingleTask'))
 const TablePage = lazy(() => import('./pages/TablePage'))
+const SingleTask = lazy(() => import('./pages/SingleTask'))
+const AddTask = lazy(() => import('./pages/AddTask'))
+const ProfilePage = lazy(() => import('./pages/profile/ProfilePage'))
 
 function App() {
   return (
@@ -24,7 +22,7 @@ function App() {
         <Suspense fallback={<Loader />}>
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/login" element={<LogInPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/about" element={<About />} />
             <Route path="/yourTasks" element={<ProtectedRoute><TablePage /></ProtectedRoute>} />
@@ -102,11 +100,14 @@ https://dribbble.com/shots/16624002-Landing-Page-for-an-Mobile-App-Download
 */
 
 /*Praca domowa 24.04
-1. Przerobic wszystkie requesty tak, aby uzywaly naszego helpera
-2. Dokonczyc ten lazyLoading
+1. #########Przerobic wszystkie requesty tak, aby uzywaly naszego helpera
+(nie udało się z edit task, zapytać o if'y w task context)
+2. ################Dokonczyc ten lazyLoading
+
+
 3. Zrobic edycje profilu w ten sposob: https://dribbble.com/shots/16701574-Profile-Settings
-  a). Zdjecie sobie pominmy, dodaj tutaj pusty component z mui <Avatar/>
-  b). Po wejsciu w profil powinien on wygladac tak jak na designie
+  ###############a). Zdjecie sobie pominmy, dodaj tutaj pusty component z mui <Avatar/>
+  ###############b). Po wejsciu w profil powinien on wygladac tak jak na designie
   c). Na dole strony (lub w innym zasadnym miejscu) przycisk Edit lub np jakis IconButton
   d). Po kliknieciu inputy, ktore w podgladzie sa "disabled" staja sie aktynwe i mozemy sobie zedytowac
   e). klikamy przycisk save i profil sie edytuje

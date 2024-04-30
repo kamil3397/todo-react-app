@@ -26,10 +26,12 @@ export type UserType = {
     email: string
     name: string
     surname: string,
-    _id: string
+    _id?: string
 }
 export type EditUserType = {
     _id: string,
+    name: string,
+    surname: string,
     email: string,
     password: string,
 }
