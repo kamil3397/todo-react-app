@@ -1,9 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons';
-import { EditUserType, UserType } from 'types/ListTypes';
-import { Avatar, Box, Button, Card, Grid, Switch, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Grid, Switch, TextField, Typography } from '@mui/material';
 import { useAuthContext } from 'context/AuthContext';
 import { useForm } from 'react-hook-form';
 import * as yup from "yup"
@@ -26,7 +23,7 @@ const ProfilePage: FC = () => {
     console.log(user)
     const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false)
-    const { register, formState: { errors }, handleSubmit } = useForm<Inputs>({
+    const { register, formState: { errors }, handleSubmit, getValues } = useForm<Inputs>({
         resolver: yupResolver(schema),
         defaultValues: { name: user?.name ?? '', surname: user?.surname ?? '', email: user?.email ?? '' }
     });
@@ -59,16 +56,46 @@ const ProfilePage: FC = () => {
                 </Grid>
             </Grid>
             <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', padding: 10, gap: 5 }}>
-                <Typography variant='h3' sx={{ mt: 5 }}>About you</Typography>
-                <TextField sx={{ my: 2 }} variant='outlined' label='Name' placeholder='Your Name' {...register("name")} error={!!errors.name} helperText={errors.name?.message} disabled={!isEditing} />
-                <TextField sx={{ mb: 2 }} variant='outlined' label='Surname' placeholder='Your Surname' {...register("surname")} error={!!errors.surname} helperText={errors.surname?.message} disabled={!isEditing} />
-                <TextField sx={{ mb: 2 }} variant='outlined' label='Email' placeholder='Your Email' {...register("email")} error={!!errors.email} helperText={errors.email?.message} disabled={!isEditing} />
-                <TextField variant='outlined' label='Phone number' placeholder='Your phone number' {...register("phone")} disabled={!isEditing} />
-                {isEditing && <Button onClick={handleSubmit(onSubmit)} variant='contained'
+                <Typography variant='h3' sx={{ mt: 5 }}>
+                    About you
+                </Typography>
+                <TextField
+                    sx={{ my: 2 }}
+                    variant='outlined'
+                    label='Name'
+                    placeholder='Your Name' {...register("name")}
+                    error={!!errors.name}
+                    helperText={errors.name?.message}
+                    disabled={!isEditing} />
+
+                <TextField sx={{ mb: 2 }} variant='outlined'
+                    label='Surname'
+                    placeholder='Your Surname' {...register("surname")}
+                    error={!!errors.surname} helperText={errors.surname?.message}
+                    disabled={!isEditing} />
+
+                <TextField sx={{ mb: 2 }} variant='outlined'
+                    label='Email'
+                    placeholder='Your Email' {...register("email")}
+                    error={!!errors.email} helperText={errors.email?.message}
+                    disabled={!isEditing} />
+
+                <TextField variant='outlined'
+                    label='Phone number'
+                    placeholder='Your phone number' {...register("phone")}
+                    disabled={!isEditing} />
+
+                {isEditing && <Button onClick={() => {
+                    const formData = getValues();
+                    console.log("Form data submitted:", formData);
+                    handleSubmit(onSubmit)();
+                }} variant='contained'
                 >Submit</Button>}
+
                 <Typography variant="body1" sx={{ mt: 3 }}>
                     Edit mode
                 </Typography>
+
                 <Switch
                     checked={isEditing}
                     onChange={() => setIsEditing(!isEditing)}
