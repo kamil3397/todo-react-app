@@ -37,26 +37,12 @@ export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
     if (!token) {
       throw new Error('accessToken not found in localStorage');
     }
-    await axios.put(`http://localhost:4000/updateTask/${_id}`, rest, {
-      headers: {
-        Authorization: token
-      }
-    })
-      // return await makeRequest('PUT', `/updateTask/${_id}`, rest)
+    await makeRequest('PUT', `/updateTask/${_id}`, rest)
       .catch((error) => { throw new Error(error) });
   };
 
   const fetchTasks = async (): Promise<void> => {
     const userId = localStorage.getItem('userId');
-
-    // czy takie rzeczy jak te if'y mogą zostać czy nie są potrzebne?
-    if (!userId) {
-      throw new Error('userId not found in localStorage');
-    }
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      throw new Error('accessToken not found in localStorage');
-    }
 
     await makeRequest('GET', `/getAllTasks/${userId}`)
       .then((response) => {
@@ -81,10 +67,6 @@ export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const addTask = async (newTask: { title: string, description: string, userId: string }) => {
     const token = localStorage.getItem('accessToken')
-    // czy if potrzebny?
-    if (!token) {
-      throw new Error('accessToken not found in localStorage')
-    }
     await makeRequest('POST', '/addTask', newTask)
       .catch((error) => {
         throw new Error(`Error while adding task: ${error}`)
