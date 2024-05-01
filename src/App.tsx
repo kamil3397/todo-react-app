@@ -113,3 +113,9 @@ https://dribbble.com/shots/16624002-Landing-Page-for-an-Mobile-App-Download
   e). klikamy przycisk save i profil sie edytuje
 4. (na kolejnej lekcji) bedziemy porownac zmiany formularza i przycisk "save" bedzie dostepny dopiero kiedy cos sie zmieni
 */
+
+/* Praca domowa 01.05.2024 
+1. Dokonczysz to edytowanie profilu- tzn sprawdzic czy wszystko dziala, updatuje sie, wysyla na backend, zapisuje sie (jak skonczysz i bedzie dzialac to prka)
+2. Sprzatania kodu ciag dalszy, co to znaczy? Jak zajrzysz sobie w terminal to zobacz ile masz logow na zasadzie "dziwny komponent is defined but never used" - ma nie byc, ani jednego takiego loga.
+
+*/

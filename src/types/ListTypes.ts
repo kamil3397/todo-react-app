@@ -29,9 +29,9 @@ export type UserType = {
     _id?: string
 }
 export type EditUserType = {
-    _id: string,
+    _id?: string,
     name: string,
     surname: string,
     email: string,
-    password: string,
+    password?: string,
 }
