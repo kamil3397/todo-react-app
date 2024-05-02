@@ -3,10 +3,9 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useForm } from 'react-hook-form'
 
 import * as yup from "yup"
-import { Box, Button, Container, Card as MuiCard, TextField, Typography, styled } from '@mui/material'
+import { Button, Container, Card as MuiCard, TextField, Typography, styled } from '@mui/material'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from 'context/AuthContext'
-import { AuthContainer } from 'components/containers/AuthContainer'
 import { useAlertContext } from 'context/AlertContext'
 import { Slide } from 'react-toastify'
 

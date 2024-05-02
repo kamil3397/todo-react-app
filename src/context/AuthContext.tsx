@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { makeRequest } from 'hooks/makeRequest'
 import React, { createContext, FC, ReactNode, useContext, useState } from 'react'
 import { EditUserType, LoginInputs, RegistrationData } from 'types/ListTypes'
@@ -70,13 +69,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
 
     const updateClient = async (user: EditUserType) => {
-        const { _id, ...rest } = user;
-        // const token = localStorage.getItem('accessToken');
-        // await axios.put(`http://localhost:4000/updateUser/${_id}`, rest, {
-        //     headers: {
-        //         Authorization: token
-        //     }
-        // })
+        const { _id } = user;
         await makeRequest('PUT', `/updateUser/${_id}`)
             .catch((error) => { throw new Error(error) })
     }

@@ -18,7 +18,7 @@ const HomePage: FC = () => {
                 </Box>
             </Stack>
             <Box sx={{ width: '50%' }}>
-                <img src='../images/undrawCompleted.jpg' />
+                {/* <img src='../images/undrawCompleted.jpg' /> */}
             </Box>
         </Container>
 

@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { EditUserType } from 'types/ListTypes';
@@ -26,6 +26,7 @@ const ProfilePage: FC = () => {
             };
             fetchUser();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     if (!user) {

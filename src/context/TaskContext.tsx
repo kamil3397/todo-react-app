@@ -1,5 +1,4 @@
 import { FC, ReactNode, createContext, useContext, useState } from 'react';
-import axios from 'axios';
 import { ListItem } from 'types/ListTypes';
 import { makeRequest } from 'hooks/makeRequest';
 
@@ -66,7 +65,6 @@ export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
 
   const addTask = async (newTask: { title: string, description: string, userId: string }) => {
-    const token = localStorage.getItem('accessToken')
     await makeRequest('POST', '/addTask', newTask)
       .catch((error) => {
         throw new Error(`Error while adding task: ${error}`)

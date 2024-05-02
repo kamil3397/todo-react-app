@@ -23,6 +23,7 @@ const SingleTask: FC = () => {
       setTask(taskData);
     };
     fetchTask();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!task) {
