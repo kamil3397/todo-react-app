@@ -1,32 +1,36 @@
+import { lazy, Suspense } from 'react'
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import SingleTask from "pages/SingleTask";
-import TablePage from "pages/TablePage";
 import LogInPage from "pages/LogInPage";
 import RegisterPage from "pages/RegisterPage";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AddTask from "pages/AddTask";
 import ProtectedRoute from "utils/ProtectedRoute";
 import HomePage from "pages/HomePage";
-import AboutPage from "pages/AboutPage";
-import { Drawer } from "components/drawer/Drawer";
+import { Loader } from 'components/Loader';
 
+
+const LazyAddTask = lazy(() => import('./pages/AddTask'))
+const LazyAbout = lazy(() => import('./pages/AboutPage'))
+const LazySingleTask = lazy(() => import('./pages/SingleTask'))
+const LazyTablePage = lazy(() => import('./pages/TablePage'))
 
 function App() {
   return (
     <>
       <Router>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LogInPage />} />
-          <Route path="/register" element={<RegisterPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/yourTasks" element={<ProtectedRoute><TablePage /></ProtectedRoute>} />
-          <Route path="/task/:id" element={<ProtectedRoute><SingleTask /></ProtectedRoute>} />
-          <Route path="/addTask" element={<ProtectedRoute><AddTask /></ProtectedRoute>} />
-          {/* <Route path="/protectedHome" element={<ProtectedRoute><HomePage /></ProtectedRoute>} /> */}
-        </Routes>
+        <Suspense fallback={<Loader />}>
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/login" element={<LogInPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/about" element={<LazyAbout />} />
+            <Route path="/yourTasks" element={<ProtectedRoute><LazyTablePage /></ProtectedRoute>} />
+            <Route path="/task/:id" element={<ProtectedRoute><LazySingleTask /></ProtectedRoute>} />
+            <Route path="/addTask"
+              element={<ProtectedRoute><LazyAddTask /></ProtectedRoute>} />
+          </Routes>
+        </Suspense>
       </Router>
       <ToastContainer />
     </>
