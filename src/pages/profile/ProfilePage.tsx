@@ -1,10 +1,11 @@
-import { FC, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { FC, useState } from 'react';
 import { Avatar, Box, Button, Grid, Switch, TextField, Typography } from '@mui/material';
 import { useAuthContext } from 'context/AuthContext';
 import { useForm } from 'react-hook-form';
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup';
+
+
 type Inputs = {
     name: string,
     surname: string,
@@ -20,8 +21,6 @@ const schema = yup.object({
 
 const ProfilePage: FC = () => {
     const { user, updateClient } = useAuthContext();
-    console.log(user)
-    const navigate = useNavigate();
     const [isEditing, setIsEditing] = useState(false)
     const { register, formState: { errors }, handleSubmit, getValues } = useForm<Inputs>({
         resolver: yupResolver(schema),

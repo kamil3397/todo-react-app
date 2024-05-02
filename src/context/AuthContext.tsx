@@ -12,7 +12,7 @@ type UserType = {
 }
 
 type AuthContextProps = {
-    isAuth: (userId: string) => void
+    loginUser: (userId: string) => void
     registerClient: (values: RegistrationData) => Promise<void>
     loginClient: (values: LoginInputs) => Promise<void>
     logOutClient: () => Promise<void>
@@ -67,24 +67,9 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
             .catch((error) => {
                 throw new Error('Error during logout:', error);
             })
-        // return await makeRequest('POST', `logout`, {})
-        //     .then(() => {
-        //         localStorage.removeItem('userId');
-        //         localStorage.removeItem('accessToken');
-        //         setUser(undefined);
-        //     })
-        //     .catch((error) => { throw new Error(error) });
     }
 
-    const isAuth = async (userId: string) => {
-        // await axios.post(`http://localhost:4000/login"/${userId}`)
-        //     .then((response) => {
-        //         setUser(response.data)
-
-        //     })
-        //     .catch((error) => {
-        //         throw new Error(error);
-        //     });
+    const loginUser = async (userId: string) => {
         return await makeRequest('POST', `login"/${userId}`)
             .then((res) => setUser(res?.data))
             .catch((error) => { throw new Error(error) });
@@ -110,7 +95,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
 
     const contextValues: AuthContextProps = {
-        isAuth,
+        loginUser,
         registerClient,
         loginClient,
         logOutClient,
