@@ -8,12 +8,14 @@ import 'react-toastify/dist/ReactToastify.css';
 import ProtectedRoute from "utils/ProtectedRoute";
 import HomePage from "pages/HomePage";
 import { Loader } from 'components/Loader';
+import ProfilePage from 'pages/profile/ProfilePage';
 
+// wszystkie pages powinny byc importowane jako lazy
 
-const LazyAddTask = lazy(() => import('./pages/AddTask'))
-const LazyAbout = lazy(() => import('./pages/AboutPage'))
-const LazySingleTask = lazy(() => import('./pages/SingleTask'))
-const LazyTablePage = lazy(() => import('./pages/TablePage'))
+const AddTask = lazy(() => import('./pages/AddTask'))
+const About = lazy(() => import('./pages/AboutPage'))
+const SingleTask = lazy(() => import('./pages/SingleTask'))
+const TablePage = lazy(() => import('./pages/TablePage'))
 
 function App() {
   return (
@@ -24,11 +26,12 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LogInPage />} />
             <Route path="/register" element={<RegisterPage />} />
-            <Route path="/about" element={<LazyAbout />} />
-            <Route path="/yourTasks" element={<ProtectedRoute><LazyTablePage /></ProtectedRoute>} />
-            <Route path="/task/:id" element={<ProtectedRoute><LazySingleTask /></ProtectedRoute>} />
+            <Route path="/about" element={<About />} />
+            <Route path="/yourTasks" element={<ProtectedRoute><TablePage /></ProtectedRoute>} />
+            <Route path="/task/:id" element={<ProtectedRoute><SingleTask /></ProtectedRoute>} />
             <Route path="/addTask"
-              element={<ProtectedRoute><LazyAddTask /></ProtectedRoute>} />
+              element={<ProtectedRoute><AddTask /></ProtectedRoute>} />
+            <Route path='/profile' element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           </Routes>
         </Suspense>
       </Router>
@@ -96,4 +99,16 @@ https://dribbble.com/shots/16624002-Landing-Page-for-an-Mobile-App-Download
 
 /*Praca domowa 18.04 
 1. #########Protected route nie powinien zwracac komponentu JSX, powinienes zrobic redirect na /unauthorised i dodac w routerze taki Route, ktory wyswietli ten komponent ktory napisales
+*/
+
+/*Praca domowa 24.04
+1. Przerobic wszystkie requesty tak, aby uzywaly naszego helpera
+2. Dokonczyc ten lazyLoading
+3. Zrobic edycje profilu w ten sposob: https://dribbble.com/shots/16701574-Profile-Settings
+  a). Zdjecie sobie pominmy, dodaj tutaj pusty component z mui <Avatar/>
+  b). Po wejsciu w profil powinien on wygladac tak jak na designie
+  c). Na dole strony (lub w innym zasadnym miejscu) przycisk Edit lub np jakis IconButton
+  d). Po kliknieciu inputy, ktore w podgladzie sa "disabled" staja sie aktynwe i mozemy sobie zedytowac
+  e). klikamy przycisk save i profil sie edytuje
+4. (na kolejnej lekcji) bedziemy porownac zmiany formularza i przycisk "save" bedzie dostepny dopiero kiedy cos sie zmieni
 */

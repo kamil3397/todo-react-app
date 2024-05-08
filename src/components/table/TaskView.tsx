@@ -1,9 +1,9 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { TaskInfo } from 'layouts/SingleTaskPage';
 import { ListItem } from 'types/ListTypes';
 import { useTaskContext } from '../../context/TaskContext';
 import { Box, Button, Typography } from '@mui/material';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 type TaskViewProps = {
   task: ListItem;

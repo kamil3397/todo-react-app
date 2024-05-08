@@ -15,5 +15,3 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   return <Drawer>{children}</Drawer>;
 }
 export default ProtectedRoute
-
-/* zrobic stylowana strone, ktora pokaze, np: error 503 i jakis tekst oraz przycisk zaloguj sie, ktory przekieruje do loginu https://dribbble.com/shots/18405822-Error-state-page-Service-unavailable-503 */
