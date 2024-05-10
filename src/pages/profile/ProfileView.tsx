@@ -1,16 +1,14 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import { TaskInfo } from 'layouts/SingleTaskPage';
 import { EditUserType, } from 'types/ListTypes';
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { useAuthContext } from 'context/AuthContext';
 
 type UserViewProps = {
     user: EditUserType;
 }
 
 const ProfileView: FC<UserViewProps> = ({ user }) => {
-    const { updateClient } = useAuthContext();
     const navigate = useNavigate()
 
     return (

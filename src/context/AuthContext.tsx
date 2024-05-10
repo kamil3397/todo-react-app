@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { makeRequest } from 'hooks/makeRequest'
 import React, { createContext, FC, ReactNode, useContext, useState } from 'react'
 import { EditUserType, LoginInputs, RegistrationData } from 'types/ListTypes'
@@ -26,43 +25,33 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<UserType>();
+
     const registerClient = async (values: RegistrationData) => {
-        await axios.post("http://localhost:4000/register", values)
+        await makeRequest('POST', '/register', values)
             .catch((error) => {
                 console.log("Error while adding user:", error);
             })
-
     };
 
     const loginClient = async (values: LoginInputs) => {
-        await axios.post("http://localhost:4000/login", values)
+        return await makeRequest('POST', '/login', values)
             .then((response) => {
-                const userData = response.data;
+                const userData = response?.data;
                 if (userData && userData.user._id) {
                     localStorage.setItem('userId', userData.user._id);
                     localStorage.setItem('accessToken', userData.accessToken)
                     setUser(userData.user);
-                } else {
-                    console.error("Invalid user data received");
-
-                }
+                } else { console.error("Invalid user data received") }
             })
-            .catch((error) => {
-                console.error('Error during login:', error);
-                throw new Error('error')
-            });
+            .catch((error) => { throw new Error(error) });
     }
-    const logOutClient = async () => {
-        await axios.post("http://localhost:4000/logout", {}, {
-            headers: {
-                Authorization: localStorage.getItem('accessToken')
-            }
-        })
-            .then(() => {
-                localStorage.removeItem('userId');
-                localStorage.removeItem('accessToken');
-                setUser(undefined);
 
+    const logOutClient = async () => {
+        return await makeRequest('POST', '/logout')
+            .then(() => {
+                localStorage.removeItem('userId')
+                localStorage.removeItem('accessToken')
+                setUser(undefined)
             })
             .catch((error) => {
                 throw new Error('Error during logout:', error);
@@ -82,16 +71,9 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
 
     const updateClient = async (user: EditUserType) => {
-        const { _id, ...rest } = user;
-        const token = localStorage.getItem('accessToken');
-        await axios.put(`http://localhost:4000/updateUser/${_id}`, rest, {
-            headers: {
-                Authorization: token
-            }
-        })
-            .catch((error) => {
-                throw new Error(error)
-            })
+        const { _id } = user;
+        await makeRequest('PUT', `/updateUser/${_id}`)
+            .catch((error) => { throw new Error(error) })
     }
 
     const contextValues: AuthContextProps = {
