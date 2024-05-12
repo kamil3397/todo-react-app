@@ -6,57 +6,48 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-type AlertDialogProps = {
-    handleDelete: () => void;
-};
+export type ConfirmationOptions = {
+    catchOnCancel?: boolean;
+    variant: "danger" | "info" | undefined;
+    title: string;
+    description: string;
+}
 
-const AlertDialog: FC<AlertDialogProps> = ({ handleDelete }) => {
-    const [open, setOpen] = useState(false);
+interface ConfirmationDialogProps extends Partial<ConfirmationOptions> {
+    open: boolean;
+    onSubmit: () => void;
+    onClose: () => void;
+}
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
 
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const handleConfirm = () => {
-        handleDelete();
-        setOpen(false);
-    };
+export const ConfirmationDialog: FC<ConfirmationDialogProps> = ({ open, title, variant, description, onSubmit, onClose }) => {
 
     return (
-        <>
-            <Button onClick={handleClickOpen}>Delete Task</Button>
-            <Dialog
-                open={open}
-                fullWidth
-                maxWidth='md'
-                scroll='body'
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {'Are you sure you want to delete?'}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        By clicking 'Confirm' you will delete this permanently.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
+        <Dialog open={open}>
+            <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+            <DialogContent>
+                <DialogContentText>{description}</DialogContentText>
+            </DialogContent>
+            <DialogActions>
+                {variant === "danger" && (
+                    <>
+                        <Button color="primary" onClick={onSubmit}>
+                            Yes, I agree
+                        </Button>
+                        <Button color="primary" onClick={onClose} autoFocus>
+                            CANCEL
+                        </Button>
+                    </>
+                )}
+
+                {variant === "info" && (
+                    <Button color="primary" onClick={onSubmit}>
+                        OK
                     </Button>
-                    <Button onClick={handleConfirm} color="primary">
-                        Confirm
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </>
+                )}
+            </DialogActions>
+        </Dialog>
     );
 };
 
-export default AlertDialog;
+// export default ConfirmationDialog;

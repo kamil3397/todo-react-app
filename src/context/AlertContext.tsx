@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode, FC } from 'react';
 import { toast, ToastOptions } from 'react-toastify';
 
 type AlertType = 'info' | 'success' | 'error';
@@ -9,7 +9,7 @@ interface AlertContextType {
 
 const AlertContext = createContext<AlertContextType | undefined>(undefined);
 
-export const AlertProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AlertProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [alert, setAlert] = useState<string | null>(null);
 
     const showAlert = (message: string, type: AlertType = 'info', options?: ToastOptions) => {
