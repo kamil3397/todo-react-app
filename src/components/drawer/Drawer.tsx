@@ -120,14 +120,16 @@ export const Drawer = ({ children }: PropsWithChildren) => {
                 </List>
                 <Divider />
                 <List>
-                    <ListItem disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <PersonIcon style={{ color: '#202142' }} />
-                            </ListItemIcon>
-                            <ListItemText primary={'Profile'} />
-                        </ListItemButton>
-                    </ListItem>
+                    <Link to='/profile' style={{ textDecoration: 'none', color: '#202142' }}>
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <PersonIcon style={{ color: '#202142' }} />
+                                </ListItemIcon>
+                                <ListItemText primary={'Profile'} />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
                     <Link to='/' style={{ textDecoration: 'none', color: '#202142' }}>
                         <ListItem disablePadding>
                             <ListItemButton onClick={handleLogout}>
