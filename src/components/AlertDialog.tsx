@@ -1,26 +1,26 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { DialogConfiguration } from 'context/DialogContext';
 
-export type ConfirmationOptions = {
-    catchOnCancel?: boolean;
-    variant: "danger" | "info" | undefined;
-    title: string;
-    description: string;
-}
-
-interface ConfirmationDialogProps extends Partial<ConfirmationOptions> {
+interface AlertDialogProps extends DialogConfiguration {
     open: boolean;
-    onSubmit: () => void;
     onClose: () => void;
 }
 
 
-export const ConfirmationDialog: FC<ConfirmationDialogProps> = ({ open, title, variant, description, onSubmit, onClose }) => {
+export const AlertDialog: FC<AlertDialogProps> = ({ open, title, variant, description, onSubmit, onClose }) => {
+
+    const handleDelete = () => {
+        if (onSubmit) {
+            onSubmit()
+        }
+        onClose()
+    }
 
     return (
         <Dialog open={open}>
@@ -29,25 +29,15 @@ export const ConfirmationDialog: FC<ConfirmationDialogProps> = ({ open, title, v
                 <DialogContentText>{description}</DialogContentText>
             </DialogContent>
             <DialogActions>
-                {variant === "danger" && (
-                    <>
-                        <Button color="primary" onClick={onSubmit}>
-                            Yes, I agree
-                        </Button>
-                        <Button color="primary" onClick={onClose} autoFocus>
-                            CANCEL
-                        </Button>
-                    </>
-                )}
 
-                {variant === "info" && (
-                    <Button color="primary" onClick={onSubmit}>
-                        OK
-                    </Button>
-                )}
+                <Button color="primary" onClick={handleDelete}>
+                    {variant === 'delete' ? 'Delete' : 'Confirm'}
+                </Button>
+                <Button color="primary" onClick={onClose} autoFocus>
+                    CANCEL
+                </Button>
+
             </DialogActions>
         </Dialog>
     );
 };
-
-// export default ConfirmationDialog;

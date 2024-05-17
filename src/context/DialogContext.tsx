@@ -1,62 +1,50 @@
-import * as React from "react";
-import { ConfirmationDialog, ConfirmationOptions } from "../components/AlertDialog";
+import { AlertDialog } from 'components/AlertDialog';
 import { FC, ReactNode, createContext, useContext, useState } from 'react';
 
+type DialogContextProps = {
+    open: boolean
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>
+    setDialogConfiguration: React.Dispatch<React.SetStateAction<DialogConfiguration>>
+};
 
-const ConfirmationServiceContext = createContext<
-    (options: ConfirmationOptions) => Promise<void>
->(Promise.reject);
+export type DialogConfiguration = {
+    onSubmit: () => void | Promise<void>
+    title: string;
+    description: string;
+    variant: 'delete' | 'confirmation'
+}
 
-export const useConfirmation = () =>
-    useContext(ConfirmationServiceContext);
+const DialogContext = createContext<DialogContextProps | undefined>(undefined);
 
-export const ConfirmationServiceProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const [
-        confirmationState,
-        setConfirmationState
-    ] = useState<ConfirmationOptions | null>(null);
+export const DialogContextProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
-    const awaitingPromiseRef = React.useRef<{
-        resolve: () => void;
-        reject: () => void;
-    }>();
+    const [open, setOpen] = useState(false)
+    const [dialogConfiguration, setDialogConfiguration] = useState<DialogConfiguration>({
+        onSubmit: () => console.log(''),
+        title: 'Default title',
+        description: "default description",
+        variant: 'confirmation'
+    })
 
-    const openConfirmation = (options: ConfirmationOptions) => {
-        setConfirmationState(options);
-        return new Promise<void>((resolve, reject) => {
-            awaitingPromiseRef.current = { resolve, reject };
-        });
-    };
 
-    const handleClose = () => {
-        if (confirmationState?.catchOnCancel && awaitingPromiseRef.current) {
-            awaitingPromiseRef.current.reject();
-        }
-
-        setConfirmationState(null);
-    };
-
-    const handleSubmit = () => {
-        if (awaitingPromiseRef.current) {
-            awaitingPromiseRef.current.resolve();
-        }
-
-        setConfirmationState(null);
+    const contextValues: DialogContextProps = {
+        open,
+        setOpen,
+        setDialogConfiguration
     };
 
     return (
-        <>
-            <ConfirmationServiceContext.Provider
-                value={openConfirmation}
-                children={children}
-            />
-
-            <ConfirmationDialog
-                open={Boolean(confirmationState)}
-                onSubmit={handleSubmit}
-                onClose={handleClose}
-                {...confirmationState}
-            />
-        </>
+        <DialogContext.Provider value={contextValues}>
+            <AlertDialog {...dialogConfiguration} onClose={() => setOpen(false)} open={open} />
+            {children}
+        </DialogContext.Provider>
     );
+};
+
+export const useDialogContext = (): DialogContextProps => {
+    const context = useContext(DialogContext);
+    if (!context) {
+        throw new Error('useDialogContext musi być używane wewnątrz DialogProvider');
+    }
+    return context;
 };

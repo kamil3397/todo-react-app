@@ -1,12 +1,11 @@
 import { FC, ReactNode, createContext, useContext, useState } from 'react';
 import { ListItem } from 'types/ListTypes';
 import { makeRequest } from 'hooks/makeRequest';
-import { useConfirmation } from './DialogContext';
 
 type TaskContextProps = {
   tasks: ListItem[];
   setTasks: (newTasks: ListItem[]) => void;
-  deleteTask: (_id: string) => void;
+  deleteTask: (_id: string) => Promise<void>;
   fetchTasks: () => Promise<void>;
   fetchSingleTask: (taskId: string) => Promise<ListItem>;
   editTask: (task: ListItem) => void;
@@ -18,30 +17,15 @@ const TaskContext = createContext<TaskContextProps | undefined>(undefined);
 
 export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [tasks, setTasks] = useState<ListItem[]>([]);
-  const confirm = useConfirmation()
+
 
   const fetchSingleTask = async (taskId: string): Promise<ListItem> =>
     await makeRequest('GET', `/getTaskById/${taskId}`)
       .then((res) => res?.data)
       .catch((err) => { throw new Error(err) });
 
-  const tryToDelete = async (_id: string) => {
-    confirm({
-      variant: "danger",
-      catchOnCancel: true,
-      title: "Are you sure you want to delete this task?",
-      description: "If you will delete this task you will never get it back"
-    })
-      .then(async () => {
-        await makeRequest('DELETE', `/deleteTaskById/${_id}`)
-          .catch((error) => { throw new Error(error) });
-      })
-      .catch(() => console.log("Anulowano usuwanie zadania."));
-  };
-
-
   const deleteTask = async (_id: string) => {
-    await tryToDelete(_id);
+    await makeRequest('DELETE', `/deleteTaskById/${_id}`)
   };
 
   const editTask = async (task: ListItem) => {

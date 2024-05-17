@@ -4,6 +4,7 @@ import { ListItem } from 'types/ListTypes';
 import { useTaskContext } from '../../context/TaskContext';
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useDialogContext } from 'context/DialogContext';
 
 type TaskViewProps = {
   task: ListItem;
@@ -11,11 +12,27 @@ type TaskViewProps = {
 
 const TaskView: FC<TaskViewProps> = ({ task }) => {
   const { deleteTask, editTask } = useTaskContext();
+  const { setOpen, setDialogConfiguration } = useDialogContext()
   const navigate = useNavigate()
 
+  const deleteTaskWithRedirection = async (taskId: string) => {
+    // tutaj w przypadku pozytywnym dodaj success toast
+    // w przypadku negatywnym dodaj error toast
+    // ewentualnie zastanow sie, bo moze lepiej je dorzucic juz w DialogContext?
+    await deleteTask(taskId).then(() => {
+      navigate('/yourTasks')
+    }).catch((err) => console.log(err))
+
+  }
+
   const handleDelete = async (taskId: string) => {
-    await deleteTask(taskId) //delete task jest asynchroniczy bo wykonuje zapytanie, wiec ma zwracac promise
-    navigate('/yourTasks') // jak poprawisz to to powinno byc w then
+    setOpen(true)
+    setDialogConfiguration({
+      onSubmit: async () => await deleteTaskWithRedirection(taskId),
+      title: "Delete a task",
+      description: 'Are you sure?',
+      variant: 'delete'
+    })
   }
 
   return (
