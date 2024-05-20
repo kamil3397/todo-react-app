@@ -5,6 +5,7 @@ import { useTaskContext } from '../../context/TaskContext';
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDialogContext } from 'context/DialogContext';
+import { useAlertContext } from 'context/AlertContext';
 
 type TaskViewProps = {
   task: ListItem;
@@ -13,6 +14,8 @@ type TaskViewProps = {
 const TaskView: FC<TaskViewProps> = ({ task }) => {
   const { deleteTask, editTask } = useTaskContext();
   const { setOpen, setDialogConfiguration } = useDialogContext()
+  const { showSuccessAlert, showErrorAlert } = useAlertContext()
+
   const navigate = useNavigate()
 
   const deleteTaskWithRedirection = async (taskId: string) => {
@@ -20,8 +23,11 @@ const TaskView: FC<TaskViewProps> = ({ task }) => {
     // w przypadku negatywnym dodaj error toast
     // ewentualnie zastanow sie, bo moze lepiej je dorzucic juz w DialogContext?
     await deleteTask(taskId).then(() => {
+      showSuccessAlert('Task deleted succesfully')
       navigate('/yourTasks')
-    }).catch((err) => console.log(err))
+    }).catch(() => {
+      showErrorAlert('Something went wrong! Task has not been deleted.')
+    })
 
   }
 

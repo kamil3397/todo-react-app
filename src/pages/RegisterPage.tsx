@@ -7,7 +7,6 @@ import { useAuthContext } from 'context/AuthContext';
 import { RegistrationData } from 'types/ListTypes';
 import { FC, useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-import { Slide } from 'react-toastify';
 import { useAlertContext } from 'context/AlertContext';
 
 type Inputs = {
@@ -29,7 +28,7 @@ const schema = yup.object().shape({
 
 const RegisterPage: FC = () => {
     const { registerClient } = useAuthContext()
-    const { showAlert } = useAlertContext()
+    const { showAlert, showSuccessAlert, showErrorAlert } = useAlertContext()
     const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false)
@@ -55,20 +54,14 @@ const RegisterPage: FC = () => {
         const newUserData: RegistrationData = { email, name, surname, password, terms };
 
         registerClient(newUserData)
-            .then(() => navigate('/'))
+            .then(() => {
+                showSuccessAlert('Registered succesfully')
+                navigate('/')
+            })
+            //wszedzie dziala a tu nie, tu dziala tylko success
             .catch((error) => {
+                showErrorAlert('Wrong credencials provided')
                 console.error(error);
-                showAlert('Wrong credencials provided', 'error', {
-                    position: "top-right",
-                    autoClose: 2000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Slide,
-                });
             });
     };
 

@@ -121,9 +121,9 @@ https://dribbble.com/shots/16624002-Landing-Page-for-an-Mobile-App-Download
 */
 
 /*Praca domowa 15.05
-1. ############Dokonczyc DialogContext /AlertDialog tak, zeby po requescie zamykal nam sie ###############modal (reszta juz dziala)
+1. ############Dokonczyc DialogContext /AlertDialog tak, zeby po requescie zamykal nam sie modal (reszta juz dziala)
 2. Przejsc sobie na spokojnie przez ten kod i go przeanalizowac, jesli czegos nie roznumiesz to dodaj komentarz i Ci to wytlumacze dokladnie
-3. Dodaj toasty (wykmin gdzie bedzie najlepiej)
+3. ############Dodaj toasty (wykmin gdzie bedzie najlepiej)
 4. Dodaj nasz ConfirmationDialog do edytowania taska (tez ma byc potwierdzenie)
 
 */
