@@ -3,8 +3,8 @@ import { FC, ReactNode, createContext, useContext, useState } from 'react';
 
 type DialogContextProps = {
     open: boolean
-    setOpen: React.Dispatch<React.SetStateAction<boolean>>
-    setDialogConfiguration: React.Dispatch<React.SetStateAction<DialogConfiguration>>
+    setOpen: (value: boolean) => void;
+    setDialogConfiguration: (value: DialogConfiguration) => void;
 };
 
 export type DialogConfiguration = {

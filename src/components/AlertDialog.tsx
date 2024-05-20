@@ -16,9 +16,7 @@ interface AlertDialogProps extends DialogConfiguration {
 export const AlertDialog: FC<AlertDialogProps> = ({ open, title, variant, description, onSubmit, onClose }) => {
 
     const handleDelete = () => {
-        if (onSubmit) {
-            onSubmit()
-        }
+        onSubmit()
         onClose()
     }
 
