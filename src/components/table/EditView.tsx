@@ -7,6 +7,7 @@ import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { useDialogContext } from 'context/DialogContext';
 
 
 type EditViewProps = {
@@ -27,6 +28,7 @@ const schema = yup.object({
 
 const EditView: FC<EditViewProps> = ({ task, setIsEditing }) => {
   const { editTask } = useTaskContext();
+  const { setOpen, setDialogConfiguration } = useDialogContext()
   const navigate = useNavigate();
 
   const { register, formState: { errors }, handleSubmit } = useForm<Inputs>({
@@ -37,10 +39,16 @@ const EditView: FC<EditViewProps> = ({ task, setIsEditing }) => {
 
   const onSubmit = (values: Inputs) => {
     const editedTask = { ...task, title: values.title, description: values.description }
-    if (values) {
-      editTask(editedTask);
-      navigate('/yourTasks')
-    }
+    setDialogConfiguration({
+      onSubmit: async () => {
+        editTask(editedTask)
+        navigate('/yourTasks')
+      },
+      title: "Confirm Save",
+      description: "Are you sure you want to save the changes?",
+      variant: 'confirmation'
+    })
+    setOpen(true)
   }
   return (
 

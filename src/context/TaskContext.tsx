@@ -30,10 +30,6 @@ export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
   const editTask = async (task: ListItem) => {
     const { _id, ...rest } = task;
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      throw new Error('accessToken not found in localStorage');
-    }
     await makeRequest('PUT', `/updateTask/${_id}`, rest)
       .catch((error) => { throw new Error(error) });
   };
