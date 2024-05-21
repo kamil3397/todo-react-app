@@ -15,7 +15,7 @@ interface AlertDialogProps extends DialogConfiguration {
 
 export const AlertDialog: FC<AlertDialogProps> = ({ open, title, variant, description, onSubmit, onClose }) => {
 
-    const handleDelete = () => {
+    const handleSubmit = () => {
         onSubmit()
         onClose()
     }
@@ -28,7 +28,7 @@ export const AlertDialog: FC<AlertDialogProps> = ({ open, title, variant, descri
             </DialogContent>
             <DialogActions>
 
-                <Button color="primary" onClick={handleDelete}>
+                <Button color="primary" onClick={handleSubmit}>
                     {variant === 'delete' ? 'Delete' : 'Confirm'}
                 </Button>
                 <Button color="primary" onClick={onClose} autoFocus>
