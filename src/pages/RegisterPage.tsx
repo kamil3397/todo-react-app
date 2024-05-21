@@ -58,7 +58,6 @@ const RegisterPage: FC = () => {
                 showSuccessAlert('Registered succesfully')
                 navigate('/')
             })
-            //wszedzie dziala a tu nie, tu dziala tylko success
             .catch((error) => {
                 showErrorAlert('Wrong credencials provided')
                 console.error(error);
