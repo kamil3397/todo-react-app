@@ -7,7 +7,6 @@ import { Button, Container, Card as MuiCard, TextField, Typography, styled } fro
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from 'context/AuthContext'
 import { useAlertContext } from 'context/AlertContext'
-import { Slide } from 'react-toastify'
 
 type LoginInputs = {
   email?: string,
@@ -43,7 +42,7 @@ const TransparentCard = styled(MuiCard)(() => ({
 
 const LogInPage: FC = () => {
   const { loginClient } = useAuthContext()
-  const { showAlert } = useAlertContext()
+  const { showErrorAlert, showSuccessAlert } = useAlertContext()
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm<LoginInputs>({ resolver: yupResolver(schema) });
 
@@ -52,19 +51,11 @@ const LogInPage: FC = () => {
     const userLogin: LoginInputs = { email, password }
 
     await loginClient(userLogin)
-      .then(() => navigate('/yourTasks'))
-      .catch(() => {
-        showAlert('Wrong login or password provided', 'error', {
-          position: "top-right",
-          autoClose: 2000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Slide,
-        })
+      .then(() => {
+        showSuccessAlert('Successfully logged in')
+        navigate('/yourTasks')
+      }).catch(() => {
+        showErrorAlert('Wrong login or password provided')
       }
       )
   }

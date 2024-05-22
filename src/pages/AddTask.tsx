@@ -6,7 +6,6 @@ import { useTaskContext } from "context/TaskContext"
 import { FC } from "react"
 import { useForm } from "react-hook-form"
 import { Link, useNavigate } from 'react-router-dom';
-import { Slide } from "react-toastify";
 
 import * as yup from "yup"
 
@@ -24,7 +23,7 @@ const schema = yup.object({
 const AddTask: FC = () => {
 
     const { addTask } = useTaskContext()
-    const { showAlert } = useAlertContext()
+    const { showAlert, showSuccessAlert, showErrorAlert } = useAlertContext()
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm<AddTaskInputs>({ resolver: yupResolver(schema) });
 
@@ -39,18 +38,11 @@ const AddTask: FC = () => {
             description: values.description,
             userId: userId,
         })
-            .then(() => navigate('/yourTasks'))
-            .catch((err) => showAlert(`Something went wrong!: ${err}`, 'error', {
-                position: "top-right",
-                autoClose: 2000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Slide,
-            }))
+            .then(() => {
+                showSuccessAlert('Task added successfully')
+                navigate('/yourTasks')
+            })
+            .catch(() => showErrorAlert('Something went wrong!'))
     }
 
     return (

@@ -1,35 +1,59 @@
 import React, { createContext, useState, useContext, ReactNode, FC } from 'react';
-import { toast, ToastOptions } from 'react-toastify';
+import { Slide, toast, ToastOptions } from 'react-toastify';
 
 type AlertType = 'info' | 'success' | 'error';
 
 interface AlertContextType {
     showAlert: (message: string, type?: AlertType, options?: ToastOptions) => void;
+    showSuccessAlert: (message: string) => void;
+    showErrorAlert: (message: string) => void;
 }
 
 const AlertContext = createContext<AlertContextType | undefined>(undefined);
 
+const defaultToastOptions: ToastOptions = {
+    position: "top-right",
+    autoClose: 2000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    theme: "light",
+    transition: Slide,
+};
+
+
 export const AlertProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [alert, setAlert] = useState<string | null>(null);
 
+
     const showAlert = (message: string, type: AlertType = 'info', options?: ToastOptions) => {
         setAlert(message);
+        const finalOptions = { ...defaultToastOptions, ...options };
 
         switch (type) {
             case 'success':
-                toast.success(message, options);
+                toast.success(message, finalOptions);
                 break;
             case 'error':
-                toast.error(message, options);
+                toast.error(message, finalOptions);
                 break;
             case 'info':
-                toast.info(message, options);
+                toast.info(message, finalOptions);
                 break;
         }
     };
+    const showSuccessAlert = (message: string) => {
+        showAlert(message, 'success');
+    };
+
+    const showErrorAlert = (message: string) => {
+        showAlert(message, 'error');
+    };
 
     return (
-        <AlertContext.Provider value={{ showAlert }}>
+        <AlertContext.Provider value={{ showAlert, showSuccessAlert, showErrorAlert }}>
             {children}
         </AlertContext.Provider>
     );

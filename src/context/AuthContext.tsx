@@ -29,7 +29,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const registerClient = async (values: RegistrationData) => {
         await makeRequest('POST', '/register', values)
             .catch((error) => {
-                console.log("Error while adding user:", error);
+                throw new Error(error)
             })
     };
 
