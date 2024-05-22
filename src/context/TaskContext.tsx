@@ -5,7 +5,7 @@ import { makeRequest } from 'hooks/makeRequest';
 type TaskContextProps = {
   tasks: ListItem[];
   setTasks: (newTasks: ListItem[]) => void;
-  deleteTask: (_id: string) => void;
+  deleteTask: (_id: string) => Promise<void>;
   fetchTasks: () => Promise<void>;
   fetchSingleTask: (taskId: string) => Promise<ListItem>;
   editTask: (task: ListItem) => void;
@@ -18,24 +18,18 @@ const TaskContext = createContext<TaskContextProps | undefined>(undefined);
 export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
   const [tasks, setTasks] = useState<ListItem[]>([]);
 
+
   const fetchSingleTask = async (taskId: string): Promise<ListItem> =>
     await makeRequest('GET', `/getTaskById/${taskId}`)
       .then((res) => res?.data)
       .catch((err) => { throw new Error(err) });
 
   const deleteTask = async (_id: string) => {
-    if (window.confirm('Czy na pewno chcesz usunąć?')) { //zmienic to np na modal z mui?
-      await makeRequest('DELETE', `/deleteTaskById/${_id}`)
-        .catch((error) => { throw new Error(error) });
-    }
+    await makeRequest('DELETE', `/deleteTaskById/${_id}`)
   };
 
   const editTask = async (task: ListItem) => {
     const { _id, ...rest } = task;
-    const token = localStorage.getItem('accessToken');
-    if (!token) {
-      throw new Error('accessToken not found in localStorage');
-    }
     await makeRequest('PUT', `/updateTask/${_id}`, rest)
       .catch((error) => { throw new Error(error) });
   };

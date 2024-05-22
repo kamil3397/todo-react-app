@@ -7,6 +7,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { AuthProvider } from 'context/AuthContext';
 import { AlertProvider } from 'context/AlertContext';
 import 'react-toastify/dist/ReactToastify.css';
+import { DialogContextProvider } from 'context/DialogContext';
 
 const theme = createTheme({
 
@@ -36,13 +37,15 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <AlertProvider>
-    <TaskProvider>
-      <AuthProvider>
-        <ThemeProvider theme={theme}>
-          <App />
-        </ThemeProvider>
-      </AuthProvider>
-    </TaskProvider>
-  </AlertProvider>
+  <DialogContextProvider>
+    <AlertProvider>
+      <TaskProvider>
+        <AuthProvider>
+          <ThemeProvider theme={theme}>
+            <App />
+          </ThemeProvider>
+        </AuthProvider>
+      </TaskProvider>
+    </AlertProvider>
+  </DialogContextProvider>
 );

@@ -1,62 +1,41 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import { DialogConfiguration } from 'context/DialogContext';
 
-type AlertDialogProps = {
-    handleDelete: () => void;
-};
+interface AlertDialogProps extends DialogConfiguration {
+    open: boolean;
+    onClose: () => void;
+}
 
-const AlertDialog: FC<AlertDialogProps> = ({ handleDelete }) => {
-    const [open, setOpen] = useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+export const AlertDialog: FC<AlertDialogProps> = ({ open, title, variant, description, onSubmit, onClose }) => {
 
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const handleConfirm = () => {
-        handleDelete();
-        setOpen(false);
-    };
+    const handleSubmit = () => {
+        onSubmit()
+        onClose()
+    }
 
     return (
-        <>
-            <Button onClick={handleClickOpen}>Delete Task</Button>
-            <Dialog
-                open={open}
-                fullWidth
-                maxWidth='md'
-                scroll='body'
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-            >
-                <DialogTitle id="alert-dialog-title">
-                    {'Are you sure you want to delete?'}
-                </DialogTitle>
-                <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                        By clicking 'Confirm' you will delete this permanently.
-                    </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                    <Button onClick={handleClose} color="primary">
-                        Cancel
-                    </Button>
-                    <Button onClick={handleConfirm} color="primary">
-                        Confirm
-                    </Button>
-                </DialogActions>
-            </Dialog>
-        </>
+        <Dialog open={open}>
+            <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+            <DialogContent>
+                <DialogContentText>{description}</DialogContentText>
+            </DialogContent>
+            <DialogActions>
+
+                <Button color="primary" onClick={handleSubmit}>
+                    {variant === 'delete' ? 'Delete' : 'Confirm'}
+                </Button>
+                <Button color="primary" onClick={onClose} autoFocus>
+                    CANCEL
+                </Button>
+
+            </DialogActions>
+        </Dialog>
     );
 };
-
-export default AlertDialog;
