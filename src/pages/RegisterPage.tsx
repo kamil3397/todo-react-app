@@ -13,14 +13,19 @@ type Inputs = {
     email: string,
     name: string,
     surname: string,
+    phone_number?: string | null | undefined,
     password: string,
     confirm_password: string,
     terms: boolean,
 }
+
+const phoneNumberRegex = /^(\+\d{1,3}[- ]?)?(\d{3}[- ]\d{3}[- ]\d{3}|\d{10})$/;
+
 const schema = yup.object().shape({
     email: yup.string().email().required(),
     name: yup.string().min(2).max(50).required(),
     surname: yup.string().min(2).max(50).required(),
+    phone_number: yup.string().nullable().matches(phoneNumberRegex, 'Phone is not valid'),
     password: yup.string().min(8).required(),
     confirm_password: yup.string().label('confirm password').required().oneOf([yup.ref('password')], 'Passwords must match'),
     terms: yup.boolean().oneOf([true], 'You must accept the terms of use').required(),
@@ -28,7 +33,7 @@ const schema = yup.object().shape({
 
 const RegisterPage: FC = () => {
     const { registerClient } = useAuthContext()
-    const { showAlert, showSuccessAlert, showErrorAlert } = useAlertContext()
+    const { showSuccessAlert, showErrorAlert } = useAlertContext()
     const navigate = useNavigate();
 
     const [showPassword, setShowPassword] = useState(false)
@@ -43,6 +48,7 @@ const RegisterPage: FC = () => {
             email: '',
             name: '',
             surname: '',
+            phone_number: null,
             password: '',
             confirm_password: '',
             terms: false,
@@ -50,8 +56,8 @@ const RegisterPage: FC = () => {
     });
 
     const onSubmit = (values: Inputs) => {
-        const { email, name, surname, password, terms } = values;
-        const newUserData: RegistrationData = { email, name, surname, password, terms };
+        const { email, name, surname, phone_number, password, terms } = values;
+        const newUserData: RegistrationData = { email, name, surname, phone_number, password, terms };
 
         registerClient(newUserData)
             .then(() => {
@@ -87,6 +93,12 @@ const RegisterPage: FC = () => {
                         placeholder='Put your surname here'
                         error={!!errors.surname}
                         helperText={!!errors.surname && errors.surname.message}
+                    />
+                    <TextField {...register("phone_number")}
+                        label="Phone Number"
+                        placeholder='Put your phone number here'
+                        error={!!errors.phone_number}
+                        helperText={!!errors.phone_number && errors.phone_number.message}
                     />
                     <TextField {...register("password")}
                         type={showPassword ? 'text' : 'password'}
@@ -146,7 +158,6 @@ const RegisterPage: FC = () => {
                         label={<>
                             <Typography>Accepts terms of use</Typography>
                             {!!errors.terms && <Typography color="error">{errors.terms.message}</Typography>}
-                            {/* ostylowac to jakos sensownie */}
                         </>}
                     />
 

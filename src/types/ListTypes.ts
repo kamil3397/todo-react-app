@@ -10,6 +10,7 @@ export type RegistrationData = {
     email: string;
     name: string;
     surname: string;
+    phone_number?: string | null,
     password: string;
     terms: boolean;
 }
