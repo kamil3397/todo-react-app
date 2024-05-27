@@ -6,7 +6,7 @@ import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
 
 const StyledDataGrid = styled(DataGrid)({
   '& .MuiDataGrid-columnHeaders': {
-    backgroundColor: '#202142', // Opcjonalne: zmiana koloru tła nagłówków kolumn
+    backgroundColor: '#202142',
     '& .MuiDataGrid-columnHeaderTitle': {
       fontWeight: 'bold',
       color: '#fff'
@@ -15,7 +15,7 @@ const StyledDataGrid = styled(DataGrid)({
 });
 const TablePage: FC = () => {
   const { tasks, fetchTasks } = useTaskContext();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
 
   const columns: GridColDef[] = [
@@ -39,9 +39,9 @@ const TablePage: FC = () => {
     fetchTasks();
   }, []);
 
-  // const handleRowClick = (params: GridRowParams) => {
-  //   navigate(`/task/${params.row._id}`);
-  // };
+  const handleRowClick = (params: GridRowParams) => {
+    navigate(`/task/${params.row._id}`);
+  };
 
   return (
     <Container sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f7f2f2' }}>
@@ -59,7 +59,7 @@ const TablePage: FC = () => {
           }}
           pageSizeOptions={[5]}
 
-        // onRowClick={handleRowClick}
+          onRowClick={handleRowClick}
         />
       </div>
       <Button variant="contained" sx={{ m: 2 }} component={Link} to="/addTask">+</Button>
