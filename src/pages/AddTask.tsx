@@ -30,7 +30,7 @@ const AddTask: FC = () => {
     const { showSuccessAlert, showErrorAlert } = useAlertContext()
     const [alignment, setAlignment] = useState<TaskCategory>(TaskCategory.Personal)
     const navigate = useNavigate();
-    const { register, handleSubmit, formState: { errors } } = useForm<AddTaskInputs>({ resolver: yupResolver(schema) });
+    const { register, handleSubmit, formState: { errors }, setValue } = useForm<AddTaskInputs>({ resolver: yupResolver(schema) });
 
 
     const handleCategoryChange = (
@@ -38,6 +38,7 @@ const AddTask: FC = () => {
         newAlignment: TaskCategory,
     ) => {
         setAlignment(newAlignment);
+        setValue('category', newAlignment)
     }
 
     const userId = localStorage.getItem('userId')
@@ -45,7 +46,6 @@ const AddTask: FC = () => {
     if (!userId) return null;
 
     const onSubmit = async (values: AddTaskInputs) => {
-        console.log("wysyłam dane :", values, "z kategorią:", alignment);
 
         await addTask({
             title: values.title,
