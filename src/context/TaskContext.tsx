@@ -1,5 +1,5 @@
 import { FC, ReactNode, createContext, useContext, useState } from 'react';
-import { ListItem } from 'types/ListTypes';
+import { ListItem, TaskCategory } from 'types/ListTypes';
 import { makeRequest } from 'hooks/makeRequest';
 
 type TaskContextProps = {
@@ -9,7 +9,7 @@ type TaskContextProps = {
   fetchTasks: () => Promise<void>;
   fetchSingleTask: (taskId: string) => Promise<ListItem>;
   editTask: (task: ListItem) => void;
-  addTask: (newTask: Pick<ListItem, 'title' | 'description' | 'userId'>) => Promise<void>;
+  addTask: (newTask: Pick<ListItem, 'title' | 'description' | 'userId' | 'category'>) => Promise<void>;
   fetchUserId: () => Promise<string | null>;
 };
 
@@ -58,7 +58,7 @@ export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
 
-  const addTask = async (newTask: { title: string, description: string, userId: string }) => {
+  const addTask = async (newTask: { title: string, description: string, userId: string, category: TaskCategory }) => {
     await makeRequest('POST', '/addTask', newTask)
       .catch((error) => {
         throw new Error(`Error while adding task: ${error}`)

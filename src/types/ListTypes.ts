@@ -1,8 +1,15 @@
+export enum TaskCategory {
+    Personal = 'personal',
+    Work = 'work',
+    Family = 'family',
+    Other = 'other'
+}
 export type ListItem = {
     userId: string;
     _id: string;
     title: string;
     description: string;
+    category: TaskCategory,
     status: 'completed' | 'in-progress' | "active";
 }
 
