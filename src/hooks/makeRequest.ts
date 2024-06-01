@@ -3,7 +3,7 @@ import axios from "axios";
 
 export const makeRequest = async (method: 'POST' | 'GET' | 'PUT' | 'DELETE', url: string, data?: unknown) => {
     const token = localStorage.getItem('accessToken');
-    console.log(token)
+
     if (method === 'POST') {
         return await axios.post(`http://localhost:4000${url}`, data, {
             headers: {
