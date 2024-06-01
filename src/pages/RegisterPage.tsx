@@ -13,7 +13,7 @@ type Inputs = {
     email: string,
     name: string,
     surname: string,
-    phone_number?: string | null | undefined,
+    phone?: string | null | undefined,
     password: string,
     confirm_password: string,
     terms: boolean,
@@ -25,7 +25,7 @@ const schema = yup.object().shape({
     email: yup.string().email().required(),
     name: yup.string().min(2).max(50).required(),
     surname: yup.string().min(2).max(50).required(),
-    phone_number: yup.string().nullable().matches(phoneNumberRegex, 'Phone is not valid'),
+    phone: yup.string().nullable().transform((value, originalValue) => originalValue === '' ? null : value).matches(phoneNumberRegex, 'Phone is not valid').notRequired(),
     password: yup.string().min(8).required(),
     confirm_password: yup.string().label('confirm password').required().oneOf([yup.ref('password')], 'Passwords must match'),
     terms: yup.boolean().oneOf([true], 'You must accept the terms of use').required(),
@@ -48,7 +48,7 @@ const RegisterPage: FC = () => {
             email: '',
             name: '',
             surname: '',
-            phone_number: null,
+            phone: '',
             password: '',
             confirm_password: '',
             terms: false,
@@ -56,8 +56,8 @@ const RegisterPage: FC = () => {
     });
 
     const onSubmit = (values: Inputs) => {
-        const { email, name, surname, phone_number, password, terms } = values;
-        const newUserData: RegistrationData = { email, name, surname, phone_number, password, terms };
+        const { email, name, surname, phone, password, terms } = values;
+        const newUserData: RegistrationData = { email, name, surname, phone, password, terms };
 
         registerClient(newUserData)
             .then(() => {
@@ -94,11 +94,11 @@ const RegisterPage: FC = () => {
                         error={!!errors.surname}
                         helperText={!!errors.surname && errors.surname.message}
                     />
-                    <TextField {...register("phone_number")}
-                        label="Phone Number"
+                    <TextField {...register("phone")}
+                        label="Phone Number (optional)"
                         placeholder='Put your phone number here'
-                        error={!!errors.phone_number}
-                        helperText={!!errors.phone_number && errors.phone_number.message}
+                        error={!!errors.phone}
+                        helperText={!!errors.phone && errors.phone.message}
                     />
                     <TextField {...register("password")}
                         type={showPassword ? 'text' : 'password'}

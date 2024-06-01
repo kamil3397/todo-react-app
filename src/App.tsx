@@ -127,3 +127,9 @@ https://dribbble.com/shots/16624002-Landing-Page-for-an-Mobile-App-Download
 4. Dodaj nasz ConfirmationDialog do edytowania taska (tez ma byc potwierdzenie)
 
 */
+
+/* Praca domowa 29.05
+1. Po aktualizacji profilu z backendu zwrocic
+uaktualnionego usera i nadpisac stan contextu zmienionymi danymi
+2. Przeanalizowac co sie dzieje, ze po aktualizacji przestaje dzialac profil.
+*/ 
