@@ -17,6 +17,7 @@ export type RegistrationData = {
     email: string;
     name: string;
     surname: string;
+    phone?: string | null,
     password: string;
     terms: boolean;
 }
@@ -41,4 +42,5 @@ export type EditUserType = {
     surname: string,
     email: string,
     password?: string,
+    phone?: string | null
 }
