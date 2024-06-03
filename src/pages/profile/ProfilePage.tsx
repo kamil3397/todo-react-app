@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Avatar, Box, Button, Grid, Switch, TextField, Typography } from '@mui/material';
 import { useAuthContext } from 'context/AuthContext';
 import { useForm } from 'react-hook-form';
@@ -20,20 +20,19 @@ const schema = yup.object({
 })
 
 const ProfilePage: FC = () => {
-    const { user, updateClient } = useAuthContext();
+    const { user, updateClient, fetchSingleClient } = useAuthContext();
     const [isEditing, setIsEditing] = useState(false)
     const { register, formState: { errors }, handleSubmit, getValues } = useForm<Inputs>({
         resolver: yupResolver(schema),
         defaultValues: { name: user?.name ?? '', surname: user?.surname ?? '', email: user?.email ?? '', phone: user?.phone ?? '' }
     });
 
-
-
     if (!user) {
         return (
             <div>User not found</div>
         );
     }
+
     const onSubmit = async (values: Inputs) => {
         const editedUser = { ...user, name: values.name, surname: values.surname, email: values.email, phone: values.phone }
         if (values) {

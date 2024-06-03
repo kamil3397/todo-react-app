@@ -1,5 +1,5 @@
 import { makeRequest } from 'hooks/makeRequest'
-import React, { createContext, FC, ReactNode, useContext, useState } from 'react'
+import React, { createContext, FC, ReactNode, useContext, useEffect, useState } from 'react'
 import { EditUserType, LoginInputs, RegistrationData } from 'types/ListTypes'
 
 
@@ -26,6 +26,14 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<UserType>();
+
+    useEffect(() => {
+        const userId = localStorage.getItem('userId');
+        if (userId) {
+            fetchSingleClient(userId)
+                .catch(error => console.error('Błąd podczas pobierania użytkownika:', error));
+        }
+    }, [user]);
 
     const registerClient = async (values: RegistrationData) => {
         await makeRequest('POST', '/register', values)
@@ -67,7 +75,10 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     const fetchSingleClient = async (userId: string): Promise<EditUserType> => {
         return await makeRequest('GET', `/getUserById/${userId}`)
-            .then((res) => res?.data)
+            .then((res) => {
+                setUser(res?.data);
+                return res?.data
+            })
             .catch((err) => { throw new Error(err) });
     }
 
