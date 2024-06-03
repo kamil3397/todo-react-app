@@ -24,7 +24,7 @@ const ProfilePage: FC = () => {
     const [isEditing, setIsEditing] = useState(false)
     const { register, formState: { errors }, handleSubmit, getValues } = useForm<Inputs>({
         resolver: yupResolver(schema),
-        defaultValues: { name: user?.name ?? '', surname: user?.surname ?? '', email: user?.email ?? '' }
+        defaultValues: { name: user?.name ?? '', surname: user?.surname ?? '', email: user?.email ?? '', phone: user?.phone ?? '' }
     });
 
     if (!user) {
@@ -34,10 +34,11 @@ const ProfilePage: FC = () => {
     }
 
     const onSubmit = async (values: Inputs) => {
-        const editedUser = { ...user, name: values.name, surname: values.surname, email: values.email }
+        const editedUser = { ...user, name: values.name, surname: values.surname, email: values.email, phone: values.phone }
         if (values) {
             await updateClient(editedUser);
             setIsEditing(false);
+            console.log("Submitting form with values:", values);
         }
     };
 

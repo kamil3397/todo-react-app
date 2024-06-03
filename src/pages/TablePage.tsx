@@ -23,6 +23,8 @@ const TablePage: FC = () => {
     { field: 'title', headerName: 'Title', width: 150 },
     { field: 'description', headerName: 'Description', width: 150 },
     { field: 'status', headerName: 'Status', width: 100 },
+    { field: 'createdAt', headerName: 'Created At', width: 107 },
+    { field: 'category', headerName: 'Category', width: 100 },
     {
       field: 'details',
       headerName: 'Details',
@@ -45,7 +47,7 @@ const TablePage: FC = () => {
 
   return (
     <Container sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f7f2f2' }}>
-      <div style={{ height: 400, width: '52%' }}>
+      <div style={{ height: 400, width: '70%' }}>
         <StyledDataGrid
           rows={tasks}
           columns={columns}
