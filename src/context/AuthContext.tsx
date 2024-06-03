@@ -33,7 +33,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
             fetchSingleClient(userId)
                 .catch(error => console.error('Błąd podczas pobierania użytkownika:', error));
         }
-    }, []);
+    }, [user]);
 
     const registerClient = async (values: RegistrationData) => {
         await makeRequest('POST', '/register', values)
