@@ -8,8 +8,8 @@ type TaskContextProps = {
   deleteTask: (_id: string) => Promise<void>;
   fetchTasks: () => Promise<void>;
   fetchSingleTask: (taskId: string) => Promise<ListItem>;
-  editTask: (task: ListItem) => void;
-  addTask: (newTask: Pick<ListItem, 'title' | 'description' | 'userId' | 'category'>) => Promise<void>;
+  editTask: (task: ListItem) => Promise<void>;
+  addTask: (newTask: Pick<ListItem, 'title' | 'description' | 'userId' | 'category' | 'startDate' | 'endDate'>) => Promise<void>;
   fetchUserId: () => Promise<string | null>;
 };
 
@@ -32,6 +32,8 @@ export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const { _id, ...rest } = task;
     await makeRequest('PUT', `/updateTask/${_id}`, rest)
       .catch((error) => { throw new Error(error) });
+
+
   };
 
   const fetchTasks = async (): Promise<void> => {
