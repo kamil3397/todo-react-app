@@ -51,6 +51,7 @@ const AddTask: FC = () => {
 
     const onSubmit = async (values: AddTaskInputs) => {
 
+        //poprawic blad (category sie podkresla)
         await addTask({
             title: values.title,
             description: values.description,
@@ -99,10 +100,14 @@ const AddTask: FC = () => {
                         onChange={handleCategoryChange}
                         aria-label="Platform"
                     >
-                        <ToggleButton sx={{ backgroundColor: '#007AFF', color: 'black' }} value={TaskCategory.Personal}>Personal</ToggleButton>
-                        <ToggleButton sx={{ backgroundColor: '#FF9500', color: 'black' }} value={TaskCategory.Work}>Work</ToggleButton>
-                        <ToggleButton sx={{ backgroundColor: '#FF2D55', color: 'black' }} value={TaskCategory.Family}>Family</ToggleButton>
-                        <ToggleButton sx={{ backgroundColor: '#4CD964', color: 'black' }} value={TaskCategory.Other}>Other</ToggleButton>
+                        {/*
+                        Stworz sobie komponent dla tego ToggleButton (z uzyciem styled() i nadpisz klase .Mui-selected) jak ponizej
+                        
+                        */}
+                        <ToggleButton sx={{ color: 'black', "&.Mui-selected": { background: 'red' } }} value={TaskCategory.Personal}>Personal</ToggleButton>
+                        <ToggleButton sx={{ color: 'black' }} value={TaskCategory.Work}>Work</ToggleButton>
+                        <ToggleButton sx={{ color: 'black' }} value={TaskCategory.Family}>Family</ToggleButton>
+                        <ToggleButton sx={{ color: 'black' }} value={TaskCategory.Other}>Other</ToggleButton>
                     </ToggleButtonGroup>
 
                     <Box sx={{ display: 'flex', gap: 5 }}>
