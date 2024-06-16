@@ -45,18 +45,21 @@ export default App;
 2. Zmienic strukture taska:
   - w tabeli taskow nie mamy headerow (https://dribbble.com/shots/21506478-Data-Table-Invoice) przerobic tabele na ten wzor (front) (moze uzyc mui data grid?? https://mui.com/x/react-data-grid/ )
   - struktura taska powinna byc nastepujaca (front + backend):
-    userId: string;
-    _id: string;
-    title: string;
-    description: string;
-    status: 'completed' | 'in-progress' | 'pending' ( to powinien byc enum)
-    createdAt - kiedy zostal stworzony
-    completedAt - kiedy zostal zakonczony (po zakonczeniu nie mozna go juz edytowac)
+    ###########userId: string;
+    ###########_id: string;
+    ###########title: string;
+    ###########description: string;
+    ############status: 'completed' | 'in-progress' | 'pending' ( to powinien byc enum)
+    ###########createdAt - kiedy zostal stworzony
+
+    ######POKAZAC EDIT TASK##### completedAt - kiedy zostal zakonczony (po zakonczeniu nie mozna go juz edytowac)
+    MAMY POLE COMPLETEDAT wiec  teraz tylko ogarnacnac front zeby nie mozna bylo edytowac taska
     completionTime - ile (w dniach) zajelo ukoneczenie
-    category - enum- zamkniete wartosci (select)
-  3.  Przerobic component AddTask (front)
-    - design: https://dribbble.com/shots/20750880-Project-Dashboard-element
-    - ten modal (1 obrazek), nie chce, zeby byl modalem.
+
+    ###########category - enum- zamkniete wartosci (select)
+  ##############3.  Przerobic component AddTask (front)
+  ##############  - design: https://dribbble.com/shots/20750880-Project-Dashboard-element
+  ##############  - ten modal (1 obrazek), nie chce, zeby byl modalem.
     Po kliknieciu naszego + (buttona) otworzymy drugi drawer z prawej strony cos na wzor tego (https://dribbble.com/shots/20280952-Task-management-task-view)
     - uwzglednic nowe pola taska:
       - createdAt powinno byc tworzone na backendzie
@@ -78,9 +81,3 @@ export default App;
   1. Wyswietlanie listy wszystkich taskow (tez innych userow)
   2. Wyswietlanie kto jest przypisany itd
 */
-
-/* Praca domowa 29.05
-1. Po aktualizacji profilu z backendu zwrocic
-uaktualnionego usera i nadpisac stan contextu zmienionymi danymi
-2. Przeanalizowac co sie dzieje, ze po aktualizacji przestaje dzialac profil.
-*/ 
