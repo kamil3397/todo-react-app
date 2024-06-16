@@ -9,7 +9,7 @@ type TaskContextProps = {
   fetchTasks: () => Promise<void>;
   fetchSingleTask: (taskId: string) => Promise<ListItem>;
   editTask: (task: ListItem) => void;
-  addTask: (newTask: Pick<ListItem, 'title' | 'description' | 'userId' | 'category'>) => Promise<void>;
+  addTask: (newTask: Pick<ListItem, 'title' | 'description' | 'userId' | 'category' | 'startDate' | 'endDate'>) => Promise<void>;
   fetchUserId: () => Promise<string | null>;
 };
 
