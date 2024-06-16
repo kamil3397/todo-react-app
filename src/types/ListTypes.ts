@@ -11,6 +11,8 @@ export type ListItem = {
     description: string;
     category: TaskCategory,
     status: 'completed' | 'in-progress' | "active";
+    startDate: Date,
+    endDate: Date,
 }
 
 export type RegistrationData = {
@@ -43,4 +45,13 @@ export type EditUserType = {
     email: string,
     password?: string,
     phone?: string | null
+}
+
+export type TaskItem = {
+    userId: string;
+    _id: string;
+    title: string;
+    description: string;
+    category: TaskCategory,
+    status: 'completed' | 'in-progress' | "active";
 }
