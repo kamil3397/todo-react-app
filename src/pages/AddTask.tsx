@@ -51,7 +51,6 @@ const AddTask: FC = () => {
 
     const onSubmit = async (values: AddTaskInputs) => {
 
-        //poprawic blad (category sie podkresla)
         await addTask({
             title: values.title,
             description: values.description,
@@ -70,7 +69,6 @@ const AddTask: FC = () => {
     return (
         <Container sx={{ display: "flex", justifyContent: 'center', alignItems: 'center', height: '100vh' }} >
             <Card sx={{ borderRadius: 1.25, width: 500, height: 520, display: "flex", flexDirection: 'column', py: 6, px: 2, boxShadow: 10 }}>
-                {/*Brakuje title i description do info clienta */}
 
                 <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%' }}>
                     <Typography variant="h3" sx={{ display: 'flex', justifyContent: 'flex-start' }}>Add your new Task!</Typography>
