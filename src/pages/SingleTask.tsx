@@ -57,7 +57,7 @@ const SingleTask: FC = () => {
         )}
       </Card>
       <ReusableDrawer open={drawerOpen} toggleDrawer={toggleDrawer} width={500} title='Edit Your Tasks'>
-        <EditView task={task as ListItem} setIsEditing={toggleDrawer} />
+        <EditView task={task} setIsEditing={toggleDrawer} />
       </ReusableDrawer>
     </Box>
   );
