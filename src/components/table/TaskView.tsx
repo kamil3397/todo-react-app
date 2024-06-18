@@ -18,10 +18,8 @@ const TaskView: FC<TaskViewProps> = ({ task }) => {
 
   const navigate = useNavigate()
 
+  //taka sama funkcje musimy zrobic dla editTaskStatus
   const deleteTaskWithRedirection = async (taskId: string) => {
-    // tutaj w przypadku pozytywnym dodaj success toast
-    // w przypadku negatywnym dodaj error toast
-    // ewentualnie zastanow sie, bo moze lepiej je dorzucic juz w DialogContext?
     await deleteTask(taskId).then(() => {
       showSuccessAlert('Task deleted succesfully')
       navigate('/yourTasks')
@@ -29,6 +27,14 @@ const TaskView: FC<TaskViewProps> = ({ task }) => {
       showErrorAlert('Something went wrong! Task has not been deleted.')
     })
 
+  }
+  const updateStatusWithRedirection = async (task: ListItem) => {
+    await editTask(task).then(() => {
+      showSuccessAlert('Task status updated succesfully')
+      navigate('/yourTasks')
+    }).catch(() => {
+      showErrorAlert('Something went wrong! Task has not been deleted.')
+    })
   }
 
   const handleDelete = async (taskId: string) => {
@@ -48,8 +54,8 @@ const TaskView: FC<TaskViewProps> = ({ task }) => {
       <TaskInfo>{task.description}</TaskInfo>
       <TaskInfo>{task.status}</TaskInfo>
       <Box sx={{ m: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <Button variant='contained' color='success' sx={{ m: 1 }} onClick={() => editTask({ ...task, status: 'completed' })}>Completed</Button>
-        <Button variant='contained' sx={{ m: 1 }} onClick={() => editTask({ ...task, status: 'in-progress' })}>In Progress</Button>
+        <Button variant='contained' color='success' sx={{ m: 1 }} onClick={() => updateStatusWithRedirection({ ...task, status: 'completed' })}>Completed</Button>
+        <Button variant='contained' sx={{ m: 1 }} onClick={() => updateStatusWithRedirection({ ...task, status: 'in-progress' })}>In Progress</Button>
         <Button variant="contained" color='error' sx={{ m: 1 }} onClick={() => handleDelete(task._id)} >Delete Task</Button>
 
 

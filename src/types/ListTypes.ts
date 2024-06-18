@@ -13,6 +13,8 @@ export type ListItem = {
     status: 'completed' | 'in-progress' | "active";
     startDate: Date,
     endDate: Date,
+    createdAt: Date,
+    completedAt: Date
 }
 
 export type RegistrationData = {
