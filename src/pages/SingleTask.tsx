@@ -14,7 +14,7 @@ const SingleTask: FC = () => {
   const navigate = useNavigate();
 
   const [isEditing, setIsEditing] = useState(false);
-  const [task, setTask] = useState<ListItem>();
+  const [task, setTask] = useState<ListItem | null>(null);
   const { id } = useParams();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -29,7 +29,7 @@ const SingleTask: FC = () => {
     };
     fetchTask();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [task]);
 
   if (!task) {
     return <div>Task not found</div>;
@@ -51,9 +51,9 @@ const SingleTask: FC = () => {
           )}
         </Box>
         {isEditing ? (
-          <EditView task={task as ListItem} setIsEditing={setIsEditing} />
+          <EditView task={task} setIsEditing={setIsEditing} />
         ) : (
-          <TaskView task={task as ListItem} />
+          <TaskView task={task} />
         )}
       </Card>
       <ReusableDrawer open={drawerOpen} toggleDrawer={toggleDrawer} width={500} title='Edit Your Tasks'>
