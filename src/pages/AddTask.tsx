@@ -25,7 +25,7 @@ const schema = yup.object({
     category: yup.mixed<TaskCategory>().oneOf(Object.values(TaskCategory)).required('Category is required'),
     startDate: yup.date().required('Start date is required'),
     endDate: yup.date().required('End date is required')
-
+  
 })
 
 const AddTask: FC = () => {

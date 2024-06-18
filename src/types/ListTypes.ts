@@ -48,3 +48,12 @@ export type EditUserType = {
     password?: string,
     phone?: string | null
 }
+
+export type TaskItem = {
+    userId: string;
+    _id: string;
+    title: string;
+    description: string;
+    category: TaskCategory,
+    status: 'completed' | 'in-progress' | "active";
+}

@@ -1,8 +1,10 @@
-import React, { FC, useEffect } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useTaskContext } from "../context/TaskContext";
 import { Button, Container, styled } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
+import { ReusableDrawer } from "components/drawer/ReusableDrawer";
+import AddTask from "./AddTask"
 
 const StyledDataGrid = styled(DataGrid)({
   '& .MuiDataGrid-columnHeaders': {
@@ -15,8 +17,12 @@ const StyledDataGrid = styled(DataGrid)({
 });
 const TablePage: FC = () => {
   const { tasks, fetchTasks } = useTaskContext();
+  const [drawerOpen, setDrawerOpen] = useState(false)
   const navigate = useNavigate();
 
+  const toggleDrawer = (open: boolean) => {
+    setDrawerOpen(open)
+  }
 
   const columns: GridColDef[] = [
     { field: '_id', headerName: 'ID', width: 90 },
@@ -64,7 +70,10 @@ const TablePage: FC = () => {
           onRowClick={handleRowClick}
         />
       </div>
-      <Button variant="contained" sx={{ m: 2 }} component={Link} to="/addTask">+</Button>
+      <Button variant="contained" sx={{ m: 2 }} onClick={() => toggleDrawer(true)}>+</Button>
+      <ReusableDrawer open={drawerOpen} toggleDrawer={toggleDrawer} width={480} title="Add New Task">
+        <AddTask />
+      </ReusableDrawer>
     </Container>
   );
 };
