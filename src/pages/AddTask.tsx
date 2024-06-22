@@ -4,7 +4,6 @@ import { useAlertContext } from "context/AlertContext";
 import { useTaskContext } from "context/TaskContext";
 import { FC, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
 import { MouseEvent } from "react";
 import { TaskCategory } from "types/ListTypes";
 import * as yup from "yup";
@@ -33,7 +32,6 @@ const AddTask: FC<{ toggleDrawer: (open: boolean) => void }> = ({ toggleDrawer }
     const { addTask, fetchTasks } = useTaskContext();
     const { showSuccessAlert, showErrorAlert } = useAlertContext();
     const [alignment, setAlignment] = useState<TaskCategory>(TaskCategory.Personal);
-    const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors }, setValue } = useForm<AddTaskInputs>({ resolver: yupResolver(schema) });
 
     const CustomToggleButton = styled(ToggleButton)<CustomToggleButtonProps>(({ backgroundColor }) => ({
