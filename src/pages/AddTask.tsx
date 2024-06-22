@@ -1,22 +1,24 @@
-import { yupResolver } from "@hookform/resolvers/yup"
-import { Box, Card, Container, TextField, ToggleButton, ToggleButtonGroup, Typography } from "@mui/material"
-import { Button } from '@mui/material';
+import { yupResolver } from "@hookform/resolvers/yup";
+import { Box, styled, Container, TextField, ToggleButton, ToggleButtonGroup, Typography, ToggleButtonProps, Button } from "@mui/material";
 import { useAlertContext } from "context/AlertContext";
-import { useTaskContext } from "context/TaskContext"
-import { FC, useState } from "react"
-import { useForm } from "react-hook-form"
-import { Link, useNavigate } from 'react-router-dom';
+import { useTaskContext } from "context/TaskContext";
+import { FC, useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from 'react-router-dom';
 import { MouseEvent } from "react";
 import { TaskCategory } from "types/ListTypes";
-
-import * as yup from "yup"
+import * as yup from "yup";
 
 type AddTaskInputs = {
-    title: string,
-    description: string,
-    category: TaskCategory,
-    startDate: Date,
-    endDate: Date,
+    title: string;
+    description: string;
+    category: TaskCategory;
+    startDate: Date;
+    endDate: Date;
+};
+
+interface CustomToggleButtonProps extends ToggleButtonProps {
+    backgroundColor: string;
 }
 
 const schema = yup.object({
@@ -25,117 +27,118 @@ const schema = yup.object({
     category: yup.mixed<TaskCategory>().oneOf(Object.values(TaskCategory)).required('Category is required'),
     startDate: yup.date().required('Start date is required'),
     endDate: yup.date().required('End date is required')
-  
-})
+});
 
-const AddTask: FC = () => {
-
-    const { addTask } = useTaskContext()
-    const { showSuccessAlert, showErrorAlert } = useAlertContext()
-    const [alignment, setAlignment] = useState<TaskCategory>(TaskCategory.Personal)
+const AddTask: FC<{ toggleDrawer: (open: boolean) => void }> = ({ toggleDrawer }) => {
+    const { addTask, fetchTasks } = useTaskContext();
+    const { showSuccessAlert, showErrorAlert } = useAlertContext();
+    const [alignment, setAlignment] = useState<TaskCategory>(TaskCategory.Personal);
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors }, setValue } = useForm<AddTaskInputs>({ resolver: yupResolver(schema) });
 
+    const CustomToggleButton = styled(ToggleButton)<CustomToggleButtonProps>(({ backgroundColor }) => ({
+        color: 'black',
+        '&.Mui-selected': {
+            backgroundColor: backgroundColor,
+            color: 'white',
+        },
+    }));
 
     const handleCategoryChange = (
         event: MouseEvent<HTMLElement>,
         newAlignment: TaskCategory,
     ) => {
         setAlignment(newAlignment);
-        setValue('category', newAlignment)
-    }
+        setValue('category', newAlignment);
+    };
 
-    const userId = localStorage.getItem('userId')
-
+    const userId = localStorage.getItem('userId');
     if (!userId) return null;
 
     const onSubmit = async (values: AddTaskInputs) => {
-
         await addTask({
             title: values.title,
             description: values.description,
             userId: userId,
             category: alignment,
-            startDate: values.startDate,
-            endDate: values.endDate
+            startDate: values.startDate.toISOString(),
+            endDate: values.endDate.toISOString()
         })
-            .then(() => {
+            .then(async () => {
                 showSuccessAlert('Task added successfully');
-                navigate('/yourTasks');
+                toggleDrawer(false);
+                await fetchTasks(); // Refresh the task list
             })
             .catch(() => showErrorAlert('Something went wrong!'));
-    }
+    };
+
+    const handleQuit = () => {
+        toggleDrawer(false);
+    };
 
     return (
-        <Container sx={{ display: "flex", justifyContent: 'center', alignItems: 'center', height: '100vh' }} >
-            <Card sx={{ borderRadius: 1.25, width: 500, height: 520, display: "flex", flexDirection: 'column', py: 6, px: 2, boxShadow: 10 }}>
+        <Container sx={{ display: "flex", justifyContent: 'center', alignItems: 'center', height: '70vh' }}>
+            <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+                <Typography variant="h4" sx={{ mb: 2, textAlign: 'center' }}>Add your new Task!</Typography>
+                <Typography variant="body1" sx={{ mb: 4, textAlign: 'center', color: 'gray' }}>Add necessary informations and start working on getting done!</Typography>
 
-                <form onSubmit={handleSubmit(onSubmit)} style={{ display: 'flex', flexDirection: 'column', gap: 20, width: '100%' }}>
-                    <Typography variant="h3" sx={{ display: 'flex', justifyContent: 'flex-start' }}>Add your new Task!</Typography>
-                    <Typography variant="body1" sx={{ display: 'flex', justifyContent: 'flex-start', color: 'gray' }}>Add neccesary informations and start working on getting done!</Typography>
+                <TextField
+                    {...register('title')}
+                    label='Title'
+                    placeholder='Add title here'
+                    error={!!errors.title}
+                    helperText={!!errors.title && errors.title.message}
+                    fullWidth
+                />
+                <TextField
+                    {...register("description")}
+                    label="Description"
+                    placeholder='Add description here'
+                    error={!!errors.description}
+                    helperText={!!errors.description && errors.description.message}
+                    fullWidth
+                />
+                <ToggleButtonGroup
+                    sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}
+                    color="primary"
+                    value={alignment}
+                    exclusive
+                    onChange={handleCategoryChange}
+                    aria-label="Category"
+                >
+                    <CustomToggleButton backgroundColor='#007AFF' value={TaskCategory.Personal}>Personal</CustomToggleButton>
+                    <CustomToggleButton backgroundColor='#FF9500' value={TaskCategory.Work}>Work</CustomToggleButton>
+                    <CustomToggleButton backgroundColor='#4CD964' value={TaskCategory.Family}>Family</CustomToggleButton>
+                    <CustomToggleButton backgroundColor='#8E8E93' value={TaskCategory.Other}>Other</CustomToggleButton>
+                </ToggleButtonGroup>
 
-
-                    <TextField {...register('title')}
-                        label='Title'
-                        placeholder='Add title here'
-                        error={!!errors.title}
-                        helperText={!!errors.title && errors.title.message}
-                        multiline
+                <Box sx={{ display: 'flex', gap: 2 }}>
+                    <TextField
+                        {...register('startDate')}
+                        label="Start Date"
+                        type='date'
+                        InputLabelProps={{ shrink: true }}
+                        error={!!errors.startDate}
+                        helperText={errors.startDate?.message}
                         fullWidth
                     />
-                    <TextField {...register("description")}
-                        label="Description"
-                        placeholder='Add description here'
-                        error={!!errors.description}
-                        helperText={!!errors.description && errors.description.message}
-                        multiline
+                    <TextField
+                        {...register('endDate')}
+                        label='End Date'
+                        type='date'
+                        InputLabelProps={{ shrink: true }}
+                        error={!!errors.endDate}
+                        helperText={errors.endDate?.message}
                         fullWidth
                     />
-                    <ToggleButtonGroup sx={{ display: 'flex', justifyContent: 'center' }}
-                        color="primary"
-                        value={alignment}
-                        exclusive
-                        onChange={handleCategoryChange}
-                        aria-label="Platform"
-                    >
-                        {/*
-                        Stworz sobie komponent dla tego ToggleButton (z uzyciem styled() i nadpisz klase .Mui-selected) jak ponizej
-                        
-                        */}
-                        <ToggleButton sx={{ color: 'black', "&.Mui-selected": { background: 'red' } }} value={TaskCategory.Personal}>Personal</ToggleButton>
-                        <ToggleButton sx={{ color: 'black' }} value={TaskCategory.Work}>Work</ToggleButton>
-                        <ToggleButton sx={{ color: 'black' }} value={TaskCategory.Family}>Family</ToggleButton>
-                        <ToggleButton sx={{ color: 'black' }} value={TaskCategory.Other}>Other</ToggleButton>
-                    </ToggleButtonGroup>
+                </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 4 }}>
+                    <Button variant='contained' onClick={handleQuit} sx={{ width: '45%', backgroundColor: 'gray' }}>Quit</Button>
+                    <Button type='submit' variant='contained' sx={{ width: '45%' }}>Create Task</Button>
+                </Box>
+            </form>
+        </Container>
+    );
+};
 
-                    <Box sx={{ display: 'flex', gap: 5 }}>
-                        <TextField
-                            {...register('startDate')}
-                            label="Start Date"
-                            type='date'
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.startDate}
-                            helperText={errors.startDate?.message}
-                            fullWidth
-                        />
-                        <TextField
-                            {...register('endDate')}
-                            label='End Date'
-                            type='date'
-                            InputLabelProps={{ shrink: true }}
-                            error={!!errors.endDate}
-                            helperText={errors.endDate?.message}
-                            fullWidth
-                        />
-                    </Box>
-                    <Box sx={{ display: 'flex', justifyContent: 'flex-end', gap: 2 }}>
-                        <Button sx={{ m: 2, mr: 1 }} type='submit' variant='contained'>Create Task</Button>
-                        <Button sx={{ m: 2, ml: 0 }} variant='contained' component={Link} to="/yourTasks">Quit</Button>
-                    </Box >
-                </form>
-            </Card>
-        </Container >
-
-    )
-}
 export default AddTask;

@@ -31,6 +31,8 @@ const TablePage: FC = () => {
     { field: 'status', headerName: 'Status', width: 100 },
     { field: 'createdAt', headerName: 'Created At', width: 107 },
     { field: 'category', headerName: 'Category', width: 100 },
+    { field: 'completionTime', headerName: 'Complition time', width: 100 },
+
     {
       field: 'details',
       headerName: 'Details',
@@ -72,7 +74,7 @@ const TablePage: FC = () => {
       </div>
       <Button variant="contained" sx={{ m: 2 }} onClick={() => toggleDrawer(true)}>+</Button>
       <ReusableDrawer open={drawerOpen} toggleDrawer={toggleDrawer} width={480} title="Add New Task">
-        <AddTask />
+        <AddTask toggleDrawer={toggleDrawer} />
       </ReusableDrawer>
     </Container>
   );

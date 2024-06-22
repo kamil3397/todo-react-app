@@ -28,39 +28,33 @@ const SingleTask: FC = () => {
       setTask(taskData);
     };
     fetchTask();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [task]);
+  }, []);
 
   if (!task) {
     return <div>Task not found</div>;
   }
-
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <Card sx={{ borderRadius: 1.25 }}>
-        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
-          {!isEditing && (
-            <Button variant="contained" sx={{ m: 1 }} onClick={() => toggleDrawer(true)}>
-              <FontAwesomeIcon icon={faPenToSquare} />
-            </Button>
-          )}
-          {!isEditing && (
-            <Button variant="contained" color="error" sx={{ m: 1 }} onClick={() => navigate('/yourTasks')}>
-              <FontAwesomeIcon icon={faXmark} />
-            </Button>
-          )}
+    <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
+      <Card sx={{ borderRadius: 1.25, padding: 3, width: '100%', maxWidth: 600 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', mb: 2 }}>
+          <Button variant="contained" sx={{ m: 1 }} onClick={() => toggleDrawer(true)}>
+            <FontAwesomeIcon icon={faPenToSquare} />
+          </Button>
+          <Button variant="contained" color="error" sx={{ m: 1 }} onClick={() => navigate('/yourTasks')}>
+            <FontAwesomeIcon icon={faXmark} />
+          </Button>
         </Box>
-        {isEditing ? (
-          <EditView task={task} setIsEditing={setIsEditing} />
-        ) : (
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
           <TaskView task={task} />
-        )}
+        </Box>
       </Card>
       <ReusableDrawer open={drawerOpen} toggleDrawer={toggleDrawer} width={500} title='Edit Your Tasks'>
         <EditView task={task} setIsEditing={toggleDrawer} />
       </ReusableDrawer>
     </Box>
   );
-};
 
+
+
+}
 export default SingleTask;
