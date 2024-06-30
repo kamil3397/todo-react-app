@@ -31,7 +31,6 @@ const TaskView: FC<TaskViewProps> = ({ task }) => {
       showSuccessAlert('Task status updated succesfully')
       navigate('/yourTasks')
     }).catch((err) => {
-      console.log(err);
       showErrorAlert('Something went wrong! Task has not been updated.')
     })
   }
