@@ -50,12 +50,7 @@ const TaskView: FC<TaskViewProps> = ({ task }) => {
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 2 }}>
         <Typography variant='h3'>{task.title}</Typography>
       </Box>
-      {/* <TextField sx={{ p: 1 }} id="outlined-disabledf"
-        label="Title"
-        defaultValue={task.title}
-        InputProps={{
-          readOnly: true,
-        }} /> */}
+     
       <TextField sx={{ p: 1 }} id="outlined-read-only-input"
         label="Description"
         defaultValue={task.description}
