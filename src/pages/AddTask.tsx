@@ -65,7 +65,7 @@ const AddTask: FC<{ toggleDrawer: (open: boolean) => void }> = ({ toggleDrawer }
             .then(async () => {
                 showSuccessAlert('Task added successfully');
                 toggleDrawer(false);
-                await fetchTasks(); // Refresh the task list
+                await fetchTasks();
             })
             .catch(() => showErrorAlert('Something went wrong!'));
     };
