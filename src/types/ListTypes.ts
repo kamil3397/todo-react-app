@@ -11,10 +11,11 @@ export type ListItem = {
     description: string;
     category: TaskCategory,
     status: 'completed' | 'in-progress' | "active";
-    startDate: Date,
-    endDate: Date,
-    createdAt: Date,
-    completedAt: Date
+    startDate: string,
+    endDate: string,
+    createdAt: string,
+    completedAt: string
+    completionTime: string | null
 }
 
 export type RegistrationData = {
