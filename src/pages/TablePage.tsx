@@ -2,9 +2,12 @@ import React, { FC, useEffect, useState } from "react";
 import { useTaskContext } from "../context/TaskContext";
 import { Button, Container, styled } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridDensity, GridRowParams, GridSortModel, GridToolbar, useGridApiRef } from "@mui/x-data-grid";
 import { ReusableDrawer } from "components/drawer/ReusableDrawer";
 import AddTask from "./AddTask"
+import { useTableContext } from "context/TableContext";
+
+
 
 const StyledDataGrid = styled(DataGrid)({
   '& .MuiDataGrid-columnHeaders': {
@@ -17,6 +20,8 @@ const StyledDataGrid = styled(DataGrid)({
 });
 const TablePage: FC = () => {
   const { tasks, fetchTasks } = useTaskContext();
+  const { density, setDensity } = useTableContext();
+
   const [drawerOpen, setDrawerOpen] = useState(false)
   const navigate = useNavigate();
 
@@ -52,6 +57,34 @@ const TablePage: FC = () => {
   const handleRowClick = (params: GridRowParams) => {
     navigate(`/task/${params.row._id}`);
   };
+  const apiRef = useGridApiRef();
+
+
+  // const soringModel = gridSortModelSelector(
+  //   apiRef.current.state,
+  //   apiRef.current
+  // )
+  const [sortModel, setSortModel] = useState<GridSortModel>();
+  const handleSaveSortToContext = () => {
+    apiRef.current.applySorting();
+    const sortModel = apiRef.current.state.sorting.sortModel
+    setSortModel(sortModel)
+  }
+
+  /*
+  1. Stworzyc nowy table context
+  2. Zapisywac w nim zmiany ustawien tabeli (np tak jak tu sortowanie)
+  3. Przy przeladowaniu strony, zamiast podawac initialState jak teraz, powinnismy dawac initalState z contextu.
+  4. Narazie ogarnij sort i density.
+  
+  */
+  useEffect(() => {
+    console.log(sortModel)
+  }, [sortModel])
+
+  const handleSortModelChange = (model: GridSortModel) => {
+    setSortModel(model);
+  };
 
   return (
     <Container sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f7f2f2' }}>
@@ -60,6 +93,8 @@ const TablePage: FC = () => {
           rows={tasks}
           columns={columns}
           getRowId={(row) => row._id}
+          sortModel={sortModel}
+          onSortModelChange={handleSortModelChange}
           initialState={{
             pagination: {
               paginationModel: {
@@ -68,8 +103,9 @@ const TablePage: FC = () => {
             },
           }}
           pageSizeOptions={[5]}
-
+          slots={{ toolbar: GridToolbar }}
           onRowClick={handleRowClick}
+          density={density as GridDensity}
         />
       </div>
       <Button variant="contained" sx={{ m: 2 }} onClick={() => toggleDrawer(true)}>+</Button>
