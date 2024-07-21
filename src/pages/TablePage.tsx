@@ -20,7 +20,7 @@ const StyledDataGrid = styled(DataGrid)({
 });
 const TablePage: FC = () => {
   const { tasks, fetchTasks } = useTaskContext();
-  const { density, setDensity } = useTableContext();
+  const { sortModel, setSortModel, density, setDensity } = useTableContext();
 
   const [drawerOpen, setDrawerOpen] = useState(false)
   const navigate = useNavigate();
@@ -60,16 +60,18 @@ const TablePage: FC = () => {
   const apiRef = useGridApiRef();
 
 
+
   // const soringModel = gridSortModelSelector(
   //   apiRef.current.state,
   //   apiRef.current
   // )
-  const [sortModel, setSortModel] = useState<GridSortModel>();
-  const handleSaveSortToContext = () => {
-    apiRef.current.applySorting();
-    const sortModel = apiRef.current.state.sorting.sortModel
-    setSortModel(sortModel)
-  }
+
+  // const [sortModel, setSortModel] = useState<GridSortModel>();
+  // const handleSaveSortToContext = () => {
+  //   apiRef.current.applySorting();
+  //   const sortModel = apiRef.current.state.sorting.sortModel
+  //   setSortModel(sortModel)
+  // }
 
   /*
   1. Stworzyc nowy table context
@@ -79,8 +81,18 @@ const TablePage: FC = () => {
   
   */
   useEffect(() => {
-    console.log(sortModel)
-  }, [sortModel])
+    const handleStateChange = () => {
+      const state = apiRef.current.state;
+      if (state.sorting) {
+        setSortModel(state.sorting.sortModel);
+      }
+    };
+
+    if (apiRef.current) {
+      apiRef.current.subscribeEvent('sortModelChange', handleStateChange);
+    }
+  }, [apiRef, setSortModel]);
+
 
   const handleSortModelChange = (model: GridSortModel) => {
     setSortModel(model);
@@ -90,6 +102,7 @@ const TablePage: FC = () => {
     <Container sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f7f2f2' }}>
       <div style={{ height: 400, width: '70%' }}>
         <StyledDataGrid
+          apiRef={apiRef}
           rows={tasks}
           columns={columns}
           getRowId={(row) => row._id}
@@ -100,6 +113,9 @@ const TablePage: FC = () => {
               paginationModel: {
                 pageSize: 5,
               },
+            },
+            sorting: {
+              sortModel: sortModel,
             },
           }}
           pageSizeOptions={[5]}
