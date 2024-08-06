@@ -5,7 +5,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { DataGrid, GridColDef, GridDensity, GridRowParams, GridSortModel, GridToolbar, useGridApiRef } from "@mui/x-data-grid";
 import { ReusableDrawer } from "components/drawer/ReusableDrawer";
 import AddTask from "./AddTask"
-import { useTableContext } from "context/TableContext";
+import { GridInitialState, useTableContext } from "context/TableContext";
+import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
+import { isDeepEqual } from "@mui/x-data-grid/internals";
 
 
 
@@ -20,7 +22,7 @@ const StyledDataGrid = styled(DataGrid)({
 });
 const TablePage: FC = () => {
   const { tasks, fetchTasks } = useTaskContext();
-  const { sortModel, setSortModel, density, setDensity } = useTableContext();
+  const { sortModel, setSortModel, changeTableState, tableState: { density, ...tableState } } = useTableContext();
 
   const [drawerOpen, setDrawerOpen] = useState(false)
   const navigate = useNavigate();
@@ -101,23 +103,32 @@ const TablePage: FC = () => {
   return (
     <Container sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f7f2f2' }}>
       <div style={{ height: 400, width: '70%' }}>
+
         <StyledDataGrid
           apiRef={apiRef}
           rows={tasks}
           columns={columns}
           getRowId={(row) => row._id}
           sortModel={sortModel}
-          onSortModelChange={handleSortModelChange}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
-            sorting: {
-              sortModel: sortModel,
-            },
-          }}
+          onSortModelChange={(model) => handleSortModelChange(model)}
+          onStateChange={(state) => {
+            const newState: GridInitialState = {
+              pagination: state.pagination,
+              columns: state.columns,
+              filter: state.filter,
+              sorting: state.sorting,
+              preferencePanel: state.preferencePanel,
+              density: state.density.value
+            }
+            console.log('in')
+
+            if (!isDeepEqual(newState, tableState)) {
+              changeTableState(newState)
+            }
+
+          }
+          }
+          initialState={tableState}
           pageSizeOptions={[5]}
           slots={{ toolbar: GridToolbar }}
           onRowClick={handleRowClick}
@@ -128,6 +139,7 @@ const TablePage: FC = () => {
       <ReusableDrawer open={drawerOpen} toggleDrawer={toggleDrawer} width={480} title="Add New Task">
         <AddTask toggleDrawer={toggleDrawer} />
       </ReusableDrawer>
+
     </Container>
   );
 };
