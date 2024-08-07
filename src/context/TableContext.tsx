@@ -44,7 +44,9 @@ export const TableProvider: FC<{ children: ReactNode }> = ({ children }) => {
             localStorage.setItem(val, JSON.stringify(value[val as TableStateKeys]))
         )
     }
+
     useEffect(() => {
+
         const initialState: Partial<GridInitialState> = {};
         LOCAL_STORAGE_KEYS.forEach(key => {
             const savedValue = localStorage.getItem(key);
