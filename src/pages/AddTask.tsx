@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { Box, styled, Container, TextField, ToggleButton, ToggleButtonGroup, Typography, ToggleButtonProps, Button } from "@mui/material";
 import { useAlertContext } from "context/AlertContext";
 import { useTaskContext } from "context/TaskContext";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MouseEvent } from "react";
 import { TaskCategory } from "types/ListTypes";
@@ -12,8 +12,8 @@ type AddTaskInputs = {
     title: string;
     description: string;
     category: TaskCategory;
-    startDate: Date;
-    endDate: Date;
+    startDate: string;
+    endDate: string;
 };
 
 interface CustomToggleButtonProps extends ToggleButtonProps {
@@ -24,15 +24,29 @@ const schema = yup.object({
     title: yup.string().required("Title is required").min(3, "Must be at least 3 characters"),
     description: yup.string().required("Description is required").min(3, "Must be at least 3 characters"),
     category: yup.mixed<TaskCategory>().oneOf(Object.values(TaskCategory)).required('Category is required'),
-    startDate: yup.date().required('Start date is required'),
-    endDate: yup.date().required('End date is required')
+    startDate: yup.string().required('Start date is required'),
+    endDate: yup.string().required('End date is required')
 });
 
 const AddTask: FC<{ toggleDrawer: (open: boolean) => void }> = ({ toggleDrawer }) => {
     const { addTask, fetchTasks } = useTaskContext();
     const { showSuccessAlert, showErrorAlert } = useAlertContext();
     const [alignment, setAlignment] = useState<TaskCategory>(TaskCategory.Personal);
-    const { register, handleSubmit, formState: { errors }, setValue } = useForm<AddTaskInputs>({ resolver: yupResolver(schema) });
+    const { watch, register, handleSubmit, formState: { errors }, setValue } = useForm<AddTaskInputs>({
+        resolver: yupResolver(schema), defaultValues: {
+            title: '',
+            description: '',
+            category: TaskCategory.Personal,
+            startDate: '',
+            endDate: ''
+        }
+    });
+
+    // const x = watch('startDate')
+    // useEffect(() => {
+    //     console.log(x);
+    //     console.log(typeof x)
+    // }, [x])
 
     const CustomToggleButton = styled(ToggleButton)<CustomToggleButtonProps>(({ backgroundColor }) => ({
         color: 'black',
@@ -50,22 +64,25 @@ const AddTask: FC<{ toggleDrawer: (open: boolean) => void }> = ({ toggleDrawer }
         setValue('category', newAlignment);
     };
 
+    // const userId = '123'
     const userId = localStorage.getItem('userId');
+
     if (!userId) return null;
 
     const onSubmit = async (values: AddTaskInputs) => {
+
         await addTask({
             title: values.title,
             description: values.description,
             userId: userId,
             category: alignment,
-            startDate: values.startDate.toISOString(),
-            endDate: values.endDate.toISOString()
+            startDate: values.startDate,
+            endDate: values.endDate
         })
             .then(async () => {
                 showSuccessAlert('Task added successfully');
                 toggleDrawer(false);
-                await fetchTasks(); // Refresh the task list
+                await fetchTasks();
             })
             .catch(() => showErrorAlert('Something went wrong!'));
     };

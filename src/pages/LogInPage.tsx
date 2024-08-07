@@ -79,7 +79,7 @@ const LogInPage: FC = () => {
             />
             <TextField {...register("password")}
               type='password'
-              label="Passowrd"
+              label="Password"
               placeholder='Put your password here'
               error={!!errors.password}
               helperText={!!errors.password && errors.password.message}
