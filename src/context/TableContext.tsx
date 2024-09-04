@@ -2,17 +2,6 @@ import { createContext, FC, useContext, useState, useEffect, ReactNode } from "r
 import { GridSortModel, GridDensity } from "@mui/x-data-grid";
 import { GridInitialStateCommunity, GridStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
-/*
-1. Wyeksportowac tableState i uzywac go jako initialState tablicy
-2. Przy inicjowaniu contextu pobierac dane z localStorage (nasz tableState, sa zapisane pojedyncze klucze) i ustawiac tableState na podstawie localStorage.
-* nie gdzie widziec kodu, ktory bedzie wygladal tak:
-const pagination = localStorage.getItem('pagination')
-const filters = localStorage.getItem('filters')
-setTableState({pagination, filters});
-3. napisz funkcję (chyba ze taka istnieje) do porównywania 2 tablic (prorównasz dzięki pętli for)
-4. jak poeównywać obiekty
-*/
-
 export type GridInitialState = GridInitialStateCommunity & {
     density: GridDensity
 }
@@ -25,7 +14,7 @@ type TableContextProps = {
 
 }
 
-const LOCAL_STORAGE_KEYS = ['columns', 'sorting', 'filter', 'density'];
+const LOCAL_STORAGE_KEYS = ['sorting', 'filter', 'density'];
 
 type TableStateKeys = keyof GridInitialStateCommunity | 'density'
 
@@ -46,7 +35,6 @@ export const TableProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
 
     useEffect(() => {
-
         const initialState: Partial<GridInitialState> = {};
         LOCAL_STORAGE_KEYS.forEach(key => {
             const savedValue = localStorage.getItem(key);

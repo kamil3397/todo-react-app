@@ -8,7 +8,7 @@ import AddTask from "./AddTask"
 import { GridInitialState, useTableContext } from "context/TableContext";
 import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 import { isDeepEqual } from "@mui/x-data-grid/internals";
-
+import { isEqual } from 'lodash'
 
 
 const StyledDataGrid = styled(DataGrid)({
@@ -22,7 +22,7 @@ const StyledDataGrid = styled(DataGrid)({
 });
 const TablePage: FC = () => {
   const { tasks, fetchTasks } = useTaskContext();
-  const { sortModel, setSortModel, changeTableState, tableState: { density, ...tableState } } = useTableContext();
+  const { sortModel, setSortModel, changeTableState, tableState } = useTableContext();
 
   const [drawerOpen, setDrawerOpen] = useState(false)
   const navigate = useNavigate();
@@ -113,16 +113,15 @@ const TablePage: FC = () => {
           onSortModelChange={(model) => handleSortModelChange(model)}
           onStateChange={(state) => {
             const newState: GridInitialState = {
-              pagination: state.pagination,
-              columns: state.columns,
+              // pagination: state.pagination,
+              // columns: state.columns,
               filter: state.filter,
               sorting: state.sorting,
-              preferencePanel: state.preferencePanel,
               density: state.density.value
             }
-            console.log('in')
 
-            if (!isDeepEqual(newState, tableState)) {
+
+            if (!isEqual(newState, tableState)) {
               changeTableState(newState)
             }
 
@@ -132,7 +131,7 @@ const TablePage: FC = () => {
           pageSizeOptions={[5]}
           slots={{ toolbar: GridToolbar }}
           onRowClick={handleRowClick}
-          density={density as GridDensity}
+
         />
       </div>
       <Button variant="contained" sx={{ m: 2 }} onClick={() => toggleDrawer(true)}>+</Button>

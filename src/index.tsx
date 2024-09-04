@@ -8,6 +8,7 @@ import { AuthProvider } from 'context/AuthContext';
 import { AlertProvider } from 'context/AlertContext';
 import 'react-toastify/dist/ReactToastify.css';
 import { DialogContextProvider } from 'context/DialogContext';
+import { TableProvider } from 'context/TableContext';
 
 const theme = createTheme({
 
@@ -41,9 +42,11 @@ root.render(
     <AlertProvider>
       <TaskProvider>
         <AuthProvider>
-          <ThemeProvider theme={theme}>
-            <App />
-          </ThemeProvider>
+          <TableProvider>
+            <ThemeProvider theme={theme}>
+              <App />
+            </ThemeProvider>
+          </TableProvider>
         </AuthProvider>
       </TaskProvider>
     </AlertProvider>
