@@ -9,6 +9,7 @@ type UserType = {
     surname: string,
     _id: string
     phone: string
+    role: string | null // should be an enum
 }
 
 type AuthContextProps = {

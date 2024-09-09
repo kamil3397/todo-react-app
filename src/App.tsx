@@ -77,5 +77,8 @@ export default App;
  ///////////////////
   Nowe funkcje
   1. Wyswietlanie listy wszystkich taskow (tez innych userow)
+      - musimy zrobic liste rol usera (backend)
+      - zrobic nowa tabele users (dostepna dla wszystkich)
+      - opcja- assing role (dostepna dla admina)
   2. Wyswietlanie kto jest przypisany itd
 */
