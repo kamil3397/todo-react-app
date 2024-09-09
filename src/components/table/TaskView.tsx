@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
-import { TaskInfo } from 'layouts/SingleTaskPage';
 import { ListItem } from 'types/ListTypes';
 import { useTaskContext } from '../../context/TaskContext';
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useDialogContext } from 'context/DialogContext';
 import { useAlertContext } from 'context/AlertContext';
@@ -18,13 +17,12 @@ const TaskView: FC<TaskViewProps> = ({ task }) => {
 
   const navigate = useNavigate()
 
-  //taka sama funkcje musimy zrobic dla editTaskStatus
   const deleteTaskWithRedirection = async (taskId: string) => {
     await deleteTask(taskId).then(() => {
       showSuccessAlert('Task deleted succesfully')
       navigate('/yourTasks')
     }).catch(() => {
-      showErrorAlert('Something went wrong! Task has not been deleted.')
+      showErrorAlert('Something went wrong! Status has not been changed.')
     })
 
   }
@@ -32,8 +30,8 @@ const TaskView: FC<TaskViewProps> = ({ task }) => {
     await editTask(task).then(() => {
       showSuccessAlert('Task status updated succesfully')
       navigate('/yourTasks')
-    }).catch(() => {
-      showErrorAlert('Something went wrong! Task has not been deleted.')
+    }).catch((err) => {
+      showErrorAlert('Something went wrong! Task has not been updated.')
     })
   }
 
@@ -49,16 +47,26 @@ const TaskView: FC<TaskViewProps> = ({ task }) => {
 
   return (
     <>
-      <Typography variant='h3'
-        sx={{ mt: 1.25, mb: 1.25, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>{task.title}</Typography>
-      <TaskInfo>{task.description}</TaskInfo>
-      <TaskInfo>{task.status}</TaskInfo>
+      <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 2 }}>
+        <Typography variant='h3'>{task.title}</Typography>
+      </Box>
+     
+      <TextField sx={{ p: 1 }} id="outlined-read-only-input"
+        label="Description"
+        defaultValue={task.description}
+        InputProps={{
+          readOnly: true,
+        }} />
+      <TextField sx={{ p: 1 }} id="outlined-read-only-input"
+        label="Status"
+        defaultValue={task.status}
+        InputProps={{
+          readOnly: true,
+        }} />
       <Box sx={{ m: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <Button variant='contained' color='success' sx={{ m: 1 }} onClick={() => updateStatusWithRedirection({ ...task, status: 'completed' })}>Completed</Button>
         <Button variant='contained' sx={{ m: 1 }} onClick={() => updateStatusWithRedirection({ ...task, status: 'in-progress' })}>In Progress</Button>
         <Button variant="contained" color='error' sx={{ m: 1 }} onClick={() => handleDelete(task._id)} >Delete Task</Button>
-
-
       </Box>
     </>
   );

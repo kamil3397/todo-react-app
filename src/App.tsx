@@ -12,7 +12,6 @@ const RegisterPage = lazy(() => import('./pages/RegisterPage'))
 const About = lazy(() => import('./pages/AboutPage'))
 const TablePage = lazy(() => import('./pages/TablePage'))
 const SingleTask = lazy(() => import('./pages/SingleTask'))
-const AddTask = lazy(() => import('./pages/AddTask'))
 const ProfilePage = lazy(() => import('./pages/profile/ProfilePage'))
 
 function App() {
@@ -27,8 +26,6 @@ function App() {
             <Route path="/about" element={<About />} />
             <Route path="/yourTasks" element={<ProtectedRoute><TablePage /></ProtectedRoute>} />
             <Route path="/task/:id" element={<ProtectedRoute><SingleTask /></ProtectedRoute>} />
-            <Route path="/addTask"
-              element={<ProtectedRoute><AddTask /></ProtectedRoute>} />
             <Route path='/profile' element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
           </Routes>
         </Suspense>
@@ -62,17 +59,18 @@ export default App;
   ##############  - ten modal (1 obrazek), nie chce, zeby byl modalem.
     Po kliknieciu naszego + (buttona) otworzymy drugi drawer z prawej strony cos na wzor tego (https://dribbble.com/shots/20280952-Task-management-task-view)
     - uwzglednic nowe pola taska:
-      - createdAt powinno byc tworzone na backendzie
-      - status automatycznie na backendzie na 'PENDING'
-      - category- select, zamknieta lista
+      - createdAt powinno byc tworzone na backendzie #######
+      - status automatycznie na backendzie na 'PENDING' #####
+      - category- select, zamknieta lista ######
       - completionTime przy tworzeniu zostaje puste (moze byc null)
-      * sprobuj zrobic tak, zeby nowy Drawer byl rezuwalny, ulatwi Ci to zycie w przyszlosci
+      * sprobuj zrobic tak, zeby nowy Drawer byl rezuwalny, ulatwi Ci to zycie w przyszlosci ######
   4. Przerobic TaskDetails (front)
     - taki sam jak w AddTask (tylko bez inputw, tylko wyswietla)
     - wymyslic jakas fajna zmiane statusu (mozesz uzyc toggle button z MUI lub np buttongroup, icon buttons)
     - wyswietlac nowe pola
   5. Zmienic edycje taska
     - edytujemy w drawerze (tak jak przy dodawania)
+    /// przed tym zaczniemy testy
   6. Dodac filtrowanie w tabeli
     - filtrowanie to tak na prawde jakies przyciski w headerze
     - ale filtrujemy na poziomie zapytania do bazy danych, wiec musimy przesylac wszystkie info dotyczace filtorwanie w requescie
