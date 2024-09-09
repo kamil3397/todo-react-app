@@ -2,9 +2,14 @@ import React, { FC, useEffect, useState } from "react";
 import { useTaskContext } from "../context/TaskContext";
 import { Button, Container, styled } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { DataGrid, GridColDef, GridRowParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridDensity, GridRowParams, GridSortModel, GridToolbar, useGridApiRef } from "@mui/x-data-grid";
 import { ReusableDrawer } from "components/drawer/ReusableDrawer";
 import AddTask from "./AddTask"
+import { GridInitialState, useTableContext } from "context/TableContext";
+import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
+import { isDeepEqual } from "@mui/x-data-grid/internals";
+import { isEqual } from 'lodash'
+
 
 const StyledDataGrid = styled(DataGrid)({
   '& .MuiDataGrid-columnHeaders': {
@@ -17,6 +22,8 @@ const StyledDataGrid = styled(DataGrid)({
 });
 const TablePage: FC = () => {
   const { tasks, fetchTasks } = useTaskContext();
+  const { sortModel, setSortModel, changeTableState, tableState } = useTableContext();
+
   const [drawerOpen, setDrawerOpen] = useState(false)
   const navigate = useNavigate();
 
@@ -52,30 +59,86 @@ const TablePage: FC = () => {
   const handleRowClick = (params: GridRowParams) => {
     navigate(`/task/${params.row._id}`);
   };
+  const apiRef = useGridApiRef();
+
+
+
+  // const soringModel = gridSortModelSelector(
+  //   apiRef.current.state,
+  //   apiRef.current
+  // )
+
+  // const [sortModel, setSortModel] = useState<GridSortModel>();
+  // const handleSaveSortToContext = () => {
+  //   apiRef.current.applySorting();
+  //   const sortModel = apiRef.current.state.sorting.sortModel
+  //   setSortModel(sortModel)
+  // }
+
+  /*
+  1. Stworzyc nowy table context
+  2. Zapisywac w nim zmiany ustawien tabeli (np tak jak tu sortowanie)
+  3. Przy przeladowaniu strony, zamiast podawac initialState jak teraz, powinnismy dawac initalState z contextu.
+  4. Narazie ogarnij sort i density.
+  
+  */
+  useEffect(() => {
+    const handleStateChange = () => {
+      const state = apiRef.current.state;
+      if (state.sorting) {
+        setSortModel(state.sorting.sortModel);
+      }
+    };
+
+    if (apiRef.current) {
+      apiRef.current.subscribeEvent('sortModelChange', handleStateChange);
+    }
+  }, [apiRef, setSortModel]);
+
+
+  const handleSortModelChange = (model: GridSortModel) => {
+    setSortModel(model);
+  };
 
   return (
     <Container sx={{ display: "flex", flexDirection: 'column', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', backgroundColor: '#f7f2f2' }}>
       <div style={{ height: 400, width: '70%' }}>
+
         <StyledDataGrid
+          apiRef={apiRef}
           rows={tasks}
           columns={columns}
           getRowId={(row) => row._id}
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 5,
-              },
-            },
-          }}
-          pageSizeOptions={[5]}
+          sortModel={sortModel}
+          onSortModelChange={(model) => handleSortModelChange(model)}
+          onStateChange={(state) => {
+            const newState: GridInitialState = {
+              // pagination: state.pagination,
+              // columns: state.columns,
+              filter: state.filter,
+              sorting: state.sorting,
+              density: state.density.value
+            }
 
+
+            if (!isEqual(newState, tableState)) {
+              changeTableState(newState)
+            }
+
+          }
+          }
+          initialState={tableState}
+          pageSizeOptions={[5]}
+          slots={{ toolbar: GridToolbar }}
           onRowClick={handleRowClick}
+
         />
       </div>
       <Button variant="contained" sx={{ m: 2 }} onClick={() => toggleDrawer(true)}>+</Button>
       <ReusableDrawer open={drawerOpen} toggleDrawer={toggleDrawer} width={480} title="Add New Task">
         <AddTask toggleDrawer={toggleDrawer} />
       </ReusableDrawer>
+
     </Container>
   );
 };
