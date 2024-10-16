@@ -39,7 +39,9 @@ export type UserType = {
     email: string
     name: string
     surname: string,
-    _id?: string
+    _id: string
+    phone: string
+    role: UserRoles
 }
 export type EditUserType = {
     _id?: string,
@@ -58,3 +60,14 @@ export type TaskItem = {
     category: TaskCategory,
     status: 'completed' | 'in-progress' | "active";
 }
+
+export enum UserRoles {
+    ADMIN = 'admin',
+    MANAGER = 'manager',
+    EMPLOYEE = 'employee'
+}
+
+// powinnismy miec rozne pliki dla roznych typow typow
+// nazwa pliku to ListTypes
+// jak do Listy ma sie np UserRoles, TaskItem czy EditUserType?
+// SOLID - Interface Segregation Principle!!!

@@ -7,6 +7,7 @@ import ListIcon from '@mui/icons-material/List';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AddTaskIcon from '@mui/icons-material/AddTask';
 import PersonIcon from '@mui/icons-material/Person';
+import GroupsIcon from '@mui/icons-material/Groups';
 import { DrawerAppBar } from './AppBar';
 import { DrawerHeader } from './DrawerHeader';
 import { Link, useNavigate } from 'react-router-dom';
@@ -127,6 +128,16 @@ export const Drawer = ({ children }: PropsWithChildren) => {
                                     <PersonIcon style={{ color: '#202142' }} />
                                 </ListItemIcon>
                                 <ListItemText primary={'Profile'} />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
+                    <Link to='/users' style={{ textDecoration: 'none', color: '#202142' }}>
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <GroupsIcon style={{ color: '#202142' }} />
+                                </ListItemIcon>
+                                <ListItemText primary={'All Users'} />
                             </ListItemButton>
                         </ListItem>
                     </Link>

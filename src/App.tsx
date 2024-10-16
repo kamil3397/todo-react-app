@@ -5,6 +5,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProtectedRoute from "utils/ProtectedRoute";
 import { Loader } from 'components/Loader';
+import UserTasksPreview from 'pages/Users/UserProfile/components/UserTasksPreview';
 
 const HomePage = lazy(() => import('./pages/HomePage'))
 const LoginPage = lazy(() => import('./pages/LogInPage'))
@@ -13,6 +14,8 @@ const About = lazy(() => import('./pages/AboutPage'))
 const TablePage = lazy(() => import('./pages/TablePage'))
 const SingleTask = lazy(() => import('./pages/SingleTask'))
 const ProfilePage = lazy(() => import('./pages/profile/ProfilePage'))
+const UserProfile = lazy(() => import('./pages/Users/UserProfile'))
+const UsersList = lazy(() => import('./pages/Users/UsersList'))
 
 function App() {
   return (
@@ -27,6 +30,9 @@ function App() {
             <Route path="/yourTasks" element={<ProtectedRoute><TablePage /></ProtectedRoute>} />
             <Route path="/task/:id" element={<ProtectedRoute><SingleTask /></ProtectedRoute>} />
             <Route path='/profile' element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+            <Route path='/users/:id' element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
+            <Route path='/users' element={<ProtectedRoute><UsersList /></ProtectedRoute>} />
+            <Route path='/user/:id/tasks' element={<ProtectedRoute><UserTasksPreview /></ProtectedRoute>} />
           </Routes>
         </Suspense>
       </Router>
@@ -64,21 +70,31 @@ export default App;
       - category- select, zamknieta lista ######
       - completionTime przy tworzeniu zostaje puste (moze byc null)
       * sprobuj zrobic tak, zeby nowy Drawer byl rezuwalny, ulatwi Ci to zycie w przyszlosci ######
-  4. Przerobic TaskDetails (front)
+  #######4. Przerobic TaskDetails (front)
     - taki sam jak w AddTask (tylko bez inputw, tylko wyswietla)
     - wymyslic jakas fajna zmiane statusu (mozesz uzyc toggle button z MUI lub np buttongroup, icon buttons)
     - wyswietlac nowe pola
-  5. Zmienic edycje taska
+  #######5. Zmienic3 edycje taska
     - edytujemy w drawerze (tak jak przy dodawania)
     /// przed tym zaczniemy testy
-  6. Dodac filtrowanie w tabeli
+ ########### 6. Dodac filtrowanie w tabeli
     - filtrowanie to tak na prawde jakies przyciski w headerze
     - ale filtrujemy na poziomie zapytania do bazy danych, wiec musimy przesylac wszystkie info dotyczace filtorwanie w requescie
  ///////////////////
   Nowe funkcje
   1. Wyswietlanie listy wszystkich taskow (tez innych userow)
       - musimy zrobic liste rol usera (backend)
-      - zrobic nowa tabele users (dostepna dla wszystkich)
-      - opcja- assing role (dostepna dla admina)
-  2. Wyswietlanie kto jest przypisany itd
+      #####- zrobic nowa tabele users (dostepna dla wszystkich)
+      #####- UserList (rename to UsersList)
+        - uzyjmy tabeli, ktora juz mamy (sprawic aby byla reuzywalna) (jak nie dasz rady to zrob nowa)
+        #####- po kliknieciu w konkretnego usera jestesmy przekierowywani na /users/:id
+  2. Profil usera
+    - wyswietlamy wszystkie dane profilu
+    - opcja assign role (tylko dla admina)
+      - otwiera nam sie drawer
+      - mamy autocomplete z dostepnymi rolami (najpierw zrobimy to na backendzie, zeby mozna bylo je pobrac)
+      - wybieramy nowa role dla usera i wysylamy post request
+      - aktualizujemy profil, aby wyswietlal aktualne informacje
+  3. Wyswietlanie kto jest przypisany itd
+  4.Na lekcji- skonfigurac MUI theme
 */

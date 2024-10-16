@@ -1,16 +1,7 @@
 import { makeRequest } from 'hooks/makeRequest'
 import React, { createContext, FC, ReactNode, useContext, useEffect, useState } from 'react'
-import { EditUserType, LoginInputs, RegistrationData } from 'types/ListTypes'
+import { EditUserType, LoginInputs, RegistrationData, UserType } from 'types/ListTypes'
 
-
-type UserType = {
-    email: string
-    name: string
-    surname: string,
-    _id: string
-    phone: string
-    role: string | null // should be an enum
-}
 
 type AuthContextProps = {
     loginUser: (userId: string) => void
@@ -27,6 +18,7 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<UserType>();
+    const [users, setUsers] = useState<UserType[]>([])
 
     useEffect(() => {
         const userId = localStorage.getItem('userId');
@@ -50,6 +42,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
                 if (userData && userData.user._id) {
                     localStorage.setItem('userId', userData.user._id);
                     localStorage.setItem('accessToken', userData.accessToken)
+                    localStorage.setItem('role', userData.role)
                     setUser(userData.user);
                 } else { console.error("Invalid user data received") }
             })
@@ -75,7 +68,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
 
     const fetchSingleClient = async (userId: string): Promise<EditUserType> => {
-        return await makeRequest('GET', `/getUserById/${userId}`)
+        return await makeRequest('GET', `/users/${userId}`)
             .then((res) => {
                 setUser(res?.data);
                 return res?.data
@@ -97,7 +90,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         logOutClient,
         fetchSingleClient,
         updateClient,
-        user
+        user,
     }
 
     return (
