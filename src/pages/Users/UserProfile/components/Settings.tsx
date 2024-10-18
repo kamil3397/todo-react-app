@@ -36,7 +36,7 @@ export const Settings: FC<{ role: UserRoles, userId: string, setSubmitted: (arg:
     };
 
     return (
-        <Box display="flex" flexDirection="column" gap={3}>
+        <Box display="flex" flexDirection="column" gap={3} padding={2}>
             <Typography variant="h6" component="h1">User Role Settings</Typography>
 
             {Object.values(UserRoles).map((userRole) => (

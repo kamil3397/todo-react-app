@@ -77,10 +77,10 @@ const ProfilePreview: FC<ProfilePreviewProps> = ({ userId }) => {
 7. ########Dodac loader do profilePreview
 
 praca domowa 16.10
-1. Wypozycjonowac badga przy zmianie roli;
-2. Popsprzatac z backendu nieuzywane endpointy i uzywane przez nie funkcje
-    - zmienic nazwy obecnych endpointow jesli sa pisane camelCasem na get-all-by-id np;
-    - sprawdzic potem front czy nic sie nie wywalilo, uaktualnic te, ktore sa w uzyciu
+1. ##### Wypozycjonowac badga przy zmianie roli; (nie byłem w stanie ruszyć samego badge, ale zmienjszyłem padding całego Boxa co poskutkowao tym ze elementy nie sa tak rozciagniete a tak miało być)
+#####2. Popsprzatac z backendu nieuzywane endpointy i uzywane przez nie funkcje
+##### - zmienic nazwy obecnych endpointow jesli sa pisane camelCasem na get-all-by-id np;
+#####- sprawdzic potem front czy nic sie nie wywalilo, uaktualnic te, ktore sa w uzyciu
 */
 
 export default ProfilePreview;

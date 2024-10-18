@@ -78,7 +78,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     const updateClient = async (user: EditUserType) => {
         const { _id, ...rest } = user;
-        return await makeRequest('PUT', `/updateUser/${_id}`, rest)
+        return await makeRequest('PUT', `/update-user/${_id}`, rest)
             .then((res) => setUser(res?.data))
             .catch((error) => console.log(error))
     }
