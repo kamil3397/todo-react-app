@@ -20,26 +20,24 @@ export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
 
   const fetchSingleTask = async (taskId: string): Promise<ListItem> =>
-    await makeRequest('GET', `/getTaskById/${taskId}`)
+    await makeRequest('GET', `/get-task/${taskId}`)
       .then((res) => res?.data)
       .catch((err) => { throw new Error(err) });
 
   const deleteTask = async (_id: string) => {
-    await makeRequest('DELETE', `/deleteTaskById/${_id}`)
+    await makeRequest('DELETE', `/delete-task/${_id}`)
   };
 
   const editTask = async (task: ListItem) => {
     const { _id, ...rest } = task;
-    await makeRequest('PUT', `/updateTask/${_id}`, rest)
+    await makeRequest('PUT', `/update-task/${_id}`, rest)
       .catch((error) => { throw new Error(error) });
-
-
   };
 
   const fetchTasks = async (): Promise<void> => {
     const userId = localStorage.getItem('userId');
 
-    await makeRequest('GET', `/getAllTasks/${userId}`)
+    await makeRequest('GET', `/get-all-tasks/${userId}`)
       .then((response) => {
         setTasks(response?.data)
       })
@@ -61,7 +59,7 @@ export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
 
   const addTask = async (newTask: { title: string, description: string, userId: string, category: TaskCategory }) => {
-    await makeRequest('POST', '/addTask', newTask)
+    await makeRequest('POST', '/add-task', newTask)
       .catch((error) => {
         throw new Error(`Error while adding task: ${error}`)
       });
