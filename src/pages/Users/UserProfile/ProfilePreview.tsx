@@ -2,7 +2,6 @@ import React, { FC, useEffect, useState } from 'react';
 import { Box, Tabs, Tab } from '@mui/material';
 import { Preview } from './components/Preview';
 import { Settings } from './components/Settings';
-import TablePage from 'pages/TablePage';
 import { makeRequest } from 'hooks/makeRequest';
 import { UserType } from 'types/ListTypes';
 import UserTasksPreview from './components/UserTasksPreview';
@@ -50,7 +49,7 @@ const ProfilePreview: FC<ProfilePreviewProps> = ({ userId }) => {
                 ) : activeTab === 1 ? (
                     <Settings role={user.role} userId={user._id} setSubmitted={setIsSubmitted} />
                 ) : activeTab === 2 ? (
-                    <UserTasksPreview />
+                    <UserTasksPreview userId={userId} />
                 ) : null}
             </Box>
         </Box>

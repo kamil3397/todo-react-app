@@ -52,7 +52,7 @@ const UsersList: FC = () => {
                 columns={columns}
                 onRowClick={handleRowClick}
             />
-            <ReusableDrawer open={drawerOpen} toggleDrawer={toggleDrawer} width={500} title='Profile page'>
+            <ReusableDrawer open={drawerOpen} toggleDrawer={toggleDrawer} width={800} title='Profile page'>
                 {selectedUser && <ProfilePreview userId={selectedUser._id} />}
             </ReusableDrawer>
         </>

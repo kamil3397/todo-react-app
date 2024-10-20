@@ -32,7 +32,6 @@ function App() {
             <Route path='/profile' element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
             <Route path='/users/:id' element={<ProtectedRoute><UserProfile /></ProtectedRoute>} />
             <Route path='/users' element={<ProtectedRoute><UsersList /></ProtectedRoute>} />
-            <Route path='/user/:id/tasks' element={<ProtectedRoute><UserTasksPreview /></ProtectedRoute>} />
           </Routes>
         </Suspense>
       </Router>

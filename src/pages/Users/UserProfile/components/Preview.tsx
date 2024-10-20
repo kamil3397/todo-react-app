@@ -27,12 +27,15 @@ export const Preview: FC<UserType> = (user) => {
                         margin="dense"
                         InputProps={{
                             readOnly: true,
-                            sx: {
-                                '&.Mui-disabled': { background: 'red' }
-                            }
+                            // sx: {
+                            //     '&.input.Mui-disabled': {
+                            //         background: 'white',
+                            //         color: 'red',
+                            //     }
+                            // }
                         }}
-                        disabled
 
+                    // disabled
                     />
                     <TextField
                         label="Surname"
@@ -40,7 +43,7 @@ export const Preview: FC<UserType> = (user) => {
                         value={user.surname || ''}
                         margin="dense"
                         InputProps={{
-                            readOnly: true,
+                            readOnly: true
                         }}
                     />
                     <TextField
