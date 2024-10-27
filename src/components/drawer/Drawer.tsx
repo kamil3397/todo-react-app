@@ -1,20 +1,15 @@
 import React, { PropsWithChildren, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box, Drawer as MuiDrawer, CssBaseline, List, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
-import HomeIcon from '@mui/icons-material/Home';
-import InfoIcon from '@mui/icons-material/Info';
-import ListIcon from '@mui/icons-material/List';
 import LogoutIcon from '@mui/icons-material/Logout';
-import AddTaskIcon from '@mui/icons-material/AddTask';
 import PersonIcon from '@mui/icons-material/Person';
 import GroupsIcon from '@mui/icons-material/Groups';
-
 import { DrawerAppBar } from './AppBar';
 import { DrawerHeader } from './DrawerHeader';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from 'context/AuthContext';
 import { MenuList } from './MenuList';
-import LogoutIcon from '@mui/icons-material/Logout';
+
 
 export const DRAWER_WIDTH = 240;
 
