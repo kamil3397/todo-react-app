@@ -53,7 +53,7 @@ const LogInPage: FC = () => {
     await loginClient(userLogin)
       .then(() => {
         showSuccessAlert('Successfully logged in')
-        navigate('/yourTasks')
+        navigate('/tasks')
       }).catch(() => {
         showErrorAlert('Wrong login or password provided')
       }
