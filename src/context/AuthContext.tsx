@@ -75,7 +75,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     }
 
     const fetchSingleClient = async (userId: string): Promise<EditUserType> => {
-        return await makeRequest('GET', `/getUserById/${userId}`)
+        return await makeRequest('GET', `/users/${userId}`)
             .then((res) => {
                 setUser(res?.data);
                 return res?.data

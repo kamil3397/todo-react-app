@@ -61,7 +61,7 @@ export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
 
   const addTask = async (newTask: { title: string, description: string, userId: string, category: TaskCategory }) => {
-    await makeRequest('POST', '/addTask', newTask)
+    await makeRequest('POST', '/add-task', newTask)
       .catch((error) => {
         throw new Error(`Error while adding task: ${error}`)
       });

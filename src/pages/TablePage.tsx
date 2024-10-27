@@ -2,12 +2,10 @@ import React, { FC, useEffect, useState } from "react";
 import { useTaskContext } from "../context/TaskContext";
 import { Button, Container, styled } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
-import { DataGrid, GridColDef, GridDensity, GridRowParams, GridSortModel, GridToolbar, useGridApiRef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowParams, GridSortModel, GridToolbar, useGridApiRef } from "@mui/x-data-grid";
 import { ReusableDrawer } from "components/drawer/ReusableDrawer";
 import AddTask from "./AddTask"
 import { GridInitialState, useTableContext } from "context/TableContext";
-import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
-import { isDeepEqual } from "@mui/x-data-grid/internals";
 import { isEqual } from 'lodash'
 
 
@@ -61,27 +59,6 @@ const TablePage: FC = () => {
   };
   const apiRef = useGridApiRef();
 
-
-
-  // const soringModel = gridSortModelSelector(
-  //   apiRef.current.state,
-  //   apiRef.current
-  // )
-
-  // const [sortModel, setSortModel] = useState<GridSortModel>();
-  // const handleSaveSortToContext = () => {
-  //   apiRef.current.applySorting();
-  //   const sortModel = apiRef.current.state.sorting.sortModel
-  //   setSortModel(sortModel)
-  // }
-
-  /*
-  1. Stworzyc nowy table context
-  2. Zapisywac w nim zmiany ustawien tabeli (np tak jak tu sortowanie)
-  3. Przy przeladowaniu strony, zamiast podawac initialState jak teraz, powinnismy dawac initalState z contextu.
-  4. Narazie ogarnij sort i density.
-  
-  */
   useEffect(() => {
     const handleStateChange = () => {
       const state = apiRef.current.state;
