@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { UserType } from 'types/ListTypes';
+import { UserType } from 'types/UserTypes';
 import { userHasPermissions } from 'utils/userHasPermissions';
 
 const UserProfile = () => {

@@ -1,6 +1,6 @@
 import React, { FC, useState } from 'react';
 import { Box, Grid, TextField, Typography, Badge } from '@mui/material';
-import { UserType } from 'types/ListTypes';
+import { UserType } from 'types/UserTypes';
 
 export const Preview: FC<UserType> = (user) => {
 
@@ -14,12 +14,6 @@ export const Preview: FC<UserType> = (user) => {
                 </Grid>
 
                 <Grid item xs={12}>
-                    {/*
-                    mozesz zrobic nowy komponent DisabledField (np)
-                    przyjmowac on bedzie wszystkie propsy textfield'a 
-                    ale bedzie mial na sztywno dodany InputProps.sx 
-                    tak jak nizej (ostyluj to jakos poprawnie)
-                    */}
                     <TextField
                         label="Name"
                         fullWidth
@@ -27,15 +21,7 @@ export const Preview: FC<UserType> = (user) => {
                         margin="dense"
                         InputProps={{
                             readOnly: true,
-                            // sx: {
-                            //     '&.input.Mui-disabled': {
-                            //         background: 'white',
-                            //         color: 'red',
-                            //     }
-                            // }
                         }}
-
-                    // disabled
                     />
                     <TextField
                         label="Surname"

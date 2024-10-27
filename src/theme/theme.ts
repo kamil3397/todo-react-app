@@ -20,14 +20,5 @@ export const theme = createTheme({
             fontWeight: 'bold'
         },
     },
-    // components: {
-    //     MuiTabs: {
-    //         styleOverrides: {
-    //             root: {
-    //                 background: 'red'
-    //             }
-    //         }
-    //     }
-    // }
 });
 

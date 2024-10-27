@@ -5,7 +5,6 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProtectedRoute from "utils/ProtectedRoute";
 import { Loader } from 'components/Loader';
-import UserTasksPreview from 'pages/Users/UserProfile/components/UserTasksPreview';
 
 const HomePage = lazy(() => import('./pages/HomePage'))
 const LoginPage = lazy(() => import('./pages/LogInPage'))

@@ -3,7 +3,7 @@ import { GridColDef, GridRowParams, useGridApiRef } from '@mui/x-data-grid';
 import { ReusableDrawer } from 'components/drawer/ReusableDrawer';
 import ProfilePreview from './UserProfile/ProfilePreview';
 import { Table } from 'components/table2/Table';
-import { UserType } from 'types/ListTypes';
+import { UserType } from 'types/UserTypes';
 import { makeRequest } from 'hooks/makeRequest';
 
 
@@ -16,10 +16,6 @@ const UsersList: FC = () => {
     const toggleDrawer = (open: boolean) => {
         setDrawerOpen(open)
     }
-
-    //tutaj mamy miec tabele wszystkich userow
-    // po klikenieciu w konkretnego usera jestesmy przekierowywani
-    // do podgladu jego profilu
 
     const columns: GridColDef[] = [
         { field: '_id', headerName: 'ID', width: 90 },

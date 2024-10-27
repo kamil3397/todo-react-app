@@ -1,7 +1,9 @@
 import { Loader } from 'components/Loader';
 import { makeRequest } from 'hooks/makeRequest';
 import React, { FC, useEffect, useState } from 'react';
-import { UserType, ListItem } from 'types/ListTypes';
+import { ListItem } from 'types/ListTypes';
+import { UserType } from 'types/UserTypes';
+
 
 type UserTasksPreviewProps = {
     userId: string;
