@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { Box, Button, Card, Checkbox, FormControlLabel, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from 'context/AuthContext';
-import { RegistrationData } from 'types/ListTypes';
+import { RegistrationData } from 'types/UserTypes';
 import { FC, useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAlertContext } from 'context/AlertContext';

@@ -1,6 +1,6 @@
 import { makeRequest } from 'hooks/makeRequest'
 import React, { createContext, FC, ReactNode, useContext, useEffect, useState } from 'react'
-import { EditUserType, LoginInputs, RegistrationData, UserType } from 'types/ListTypes'
+import { EditUserType, LoginInputs, RegistrationData, UserType } from 'types/UserTypes'
 
 
 type AuthContextProps = {
@@ -18,7 +18,6 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<UserType>();
-    const [users, setUsers] = useState<UserType[]>([])
 
     useEffect(() => {
         const userId = localStorage.getItem('userId');

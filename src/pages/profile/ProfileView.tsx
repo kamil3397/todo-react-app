@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { TaskInfo } from 'layouts/SingleTaskPage';
-import { EditUserType, } from 'types/ListTypes';
+import { EditUserType, } from 'types/UserTypes';
 import { Box, Button, Typography } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 

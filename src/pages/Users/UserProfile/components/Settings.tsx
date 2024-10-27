@@ -2,7 +2,7 @@ import { Button, Box, Typography, Badge } from '@mui/material';
 import { useAlertContext } from 'context/AlertContext';
 import { makeRequest } from 'hooks/makeRequest';
 import React, { FC, useState } from 'react';
-import { UserRoles } from 'types/ListTypes';
+import { UserRoles } from 'types/UserTypes';
 
 const roleDescriptions: Record<UserRoles, string> = {
     admin: 'Allows managing users and system settings.',

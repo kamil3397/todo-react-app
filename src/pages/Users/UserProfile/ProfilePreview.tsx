@@ -3,7 +3,7 @@ import { Box, Tabs, Tab } from '@mui/material';
 import { Preview } from './components/Preview';
 import { Settings } from './components/Settings';
 import { makeRequest } from 'hooks/makeRequest';
-import { UserType } from 'types/ListTypes';
+import { UserType } from 'types/UserTypes';
 import UserTasksPreview from './components/UserTasksPreview';
 import { Loader } from 'components/Loader';
 

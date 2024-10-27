@@ -14,30 +14,57 @@ const UserTasksPreview: FC<UserTasksPreviewProps> = ({ userId }) => {
     const [tasks, setTasks] = useState<ListItem[]>([]);
     const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const fetchUserAndTasks = () => {
-            setLoading(true);
+    // useEffect(() => {
+    //     const fetchUserAndTasks = () => {
+    //         setLoading(true);
 
-            // Pobieramy dane użytkownika
+    //         // Pobieramy dane użytkownika
+    //         makeRequest('GET', `/users/${userId}`)
+    //             .then(user => {
+    //                 setUser(user?.data);
+
+    //                 // Po pobraniu użytkownika, pobieramy zadania
+    //                 return makeRequest('GET', `/user/${userId}/tasks`);
+    //             })
+    //             .then(tasks => {
+    //                 setTasks(tasks?.data);
+    //                 setLoading(false);
+    //             })
+    //             .catch(err => {
+    //                 console.error('Error fetching user or tasks:', err);
+    //                 setLoading(false);
+    //             });
+    //     };
+
+    //     fetchUserAndTasks();
+    // }, [userId]);
+
+    useEffect(() => {
+        const fetchUser = () => {
+            setLoading(true)
             makeRequest('GET', `/users/${userId}`)
                 .then(user => {
-                    setUser(user?.data);
-
-                    // Po pobraniu użytkownika, pobieramy zadania
-                    return makeRequest('GET', `/user/${userId}/tasks`);
+                    setUser(user?.data)
                 })
+                .catch(err => {
+                    throw new Error('Error fetch user', err)
+                })
+        }
+
+        const fetchTasks = () => {
+            makeRequest('GET', `/user/${userId}/tasks`)
                 .then(tasks => {
-                    setTasks(tasks?.data);
+                    setTasks(tasks?.data)
                     setLoading(false);
                 })
                 .catch(err => {
-                    console.error('Error fetching user or tasks:', err);
-                    setLoading(false);
-                });
-        };
+                    throw new Error('Error fetching tasks', err)
+                })
 
-        fetchUserAndTasks();
-    }, [userId]);
+        }
+        fetchUser()
+        fetchTasks()
+    }, [userId])
 
     if (loading) {
         return <Loader />;

@@ -28,8 +28,3 @@ export type TaskItem = {
     category: TaskCategory,
     status: 'completed' | 'in-progress' | "active";
 }
-
-// powinnismy miec rozne pliki dla roznych typow typow
-// nazwa pliku to ListTypes
-// jak do Listy ma sie np UserRoles, TaskItem czy EditUserType?
-// SOLID - Interface Segregation Principle!!!
