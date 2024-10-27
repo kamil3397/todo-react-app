@@ -35,35 +35,26 @@ export const MenuList = () => {
             <List>
                 {MENU_LIST.map((item) => (
                     <ListItem key={item.label} disablePadding>
-                        {item.link === '/add-task' ? (
-                            //tutaj specjalny warunek w przypadku addTask
-                            <ListItemButton
-                                onClick={() => toggleDrawer(true)}
-                                sx={{
-                                    backgroundColor:
-                                        location.pathname === item.link ? '#B3B3CC' : 'transparent',
-                                }}
-                            >
-                                <ListItemIcon style={{ color: '#202142' }}>
-                                    {item.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={item.label} />
-                            </ListItemButton>
-                        ) : (
-                            <ListItemButton
-                                component={Link}
-                                to={item.link}
-                                sx={{
-                                    backgroundColor:
-                                        location.pathname === item.link ? '#B3B3CC' : 'transparent',
-                                }}
-                            >
-                                <ListItemIcon style={{ color: '#202142' }}>
-                                    {item.icon}
-                                </ListItemIcon>
-                                <ListItemText primary={item.label} />
-                            </ListItemButton>
-                        )}
+                        <ListItemButton
+                            {...{
+                                ...(item.link === '/add-task' ?
+                                    { onClick: () => toggleDrawer(true) }
+                                    : {
+                                        component: Link,
+                                        to: item.link
+                                    }
+                                )
+                            }}
+                            sx={{
+                                backgroundColor:
+                                    location.pathname === item.link ? '#B3B3CC' : 'transparent',
+                            }}
+                        >
+                            <ListItemIcon style={{ color: '#202142' }}>
+                                {item.icon}
+                            </ListItemIcon>
+                            <ListItemText primary={item.label} />
+                        </ListItemButton>
                     </ListItem>
                 ))}
             </List>
