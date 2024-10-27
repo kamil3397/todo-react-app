@@ -60,7 +60,6 @@ const TablePage: FC = () => {
   };
   const apiRef = useGridApiRef();
 
-
   useEffect(() => {
     const handleStateChange = () => {
       const state = apiRef.current.state;
