@@ -13,69 +13,33 @@ const UserTasksPreview: FC<UserTasksPreviewProps> = ({ userId }) => {
     const [user, setUser] = useState<UserType | null>(null);
     const [tasks, setTasks] = useState<ListItem[]>([]);
     const [loading, setLoading] = useState(true);
-
-    // useEffect(() => {
-    //     const fetchUserAndTasks = () => {
-    //         setLoading(true);
-
-    //         // Pobieramy dane użytkownika
-    //         makeRequest('GET', `/users/${userId}`)
-    //             .then(user => {
-    //                 setUser(user?.data);
-
-    //                 // Po pobraniu użytkownika, pobieramy zadania
-    //                 return makeRequest('GET', `/user/${userId}/tasks`);
-    //             })
-    //             .then(tasks => {
-    //                 setTasks(tasks?.data);
-    //                 setLoading(false);
-    //             })
-    //             .catch(err => {
-    //                 console.error('Error fetching user or tasks:', err);
-    //                 setLoading(false);
-    //             });
-    //     };
-
-    //     fetchUserAndTasks();
-    // }, [userId]);
+    const [error, setError] = useState(false)
 
     useEffect(() => {
-        const fetchUser = () => {
+        const fetchData = async () => {
             setLoading(true)
-            makeRequest('GET', `/users/${userId}`)
-                .then(user => {
-                    setUser(user?.data)
+            await Promise.all([
+                makeRequest('GET', `/users/${userId}`),
+                makeRequest('GET', `/users/${userId}/tasks`)]) // to bylo zmienione z /user/ poprawic na backendzie
+                .then(([userRes, tasksRes]) => {
+                    setUser(userRes?.data);
+                    setTasks(tasksRes?.data);
                 })
-                .catch(err => {
-                    throw new Error('Error fetch user', err)
+                .catch((err) => {
+                    setError(err)
                 })
+                .finally(() => setLoading(false))
         }
+        fetchData()
 
-        const fetchTasks = () => {
-            makeRequest('GET', `/user/${userId}/tasks`)
-                .then(tasks => {
-                    setTasks(tasks?.data)
-                    setLoading(false);
-                })
-                .catch(err => {
-                    throw new Error('Error fetching tasks', err)
-                })
-
-        }
-        fetchUser()
-        fetchTasks()
     }, [userId])
 
     if (loading) {
         return <Loader />;
     }
 
-    if (!user) {
-        return <p>User not found</p>;
-    }
-
-    if (!tasks.length) {
-        return <h3>No tasks available for this user</h3>;
+    if (error || !user || !tasks.length) {
+        return <p>No data to display</p>;
     }
 
     return (

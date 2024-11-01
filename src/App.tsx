@@ -87,12 +87,13 @@ export default App;
         - uzyjmy tabeli, ktora juz mamy (sprawic aby byla reuzywalna) (jak nie dasz rady to zrob nowa)
         #####- po kliknieciu w konkretnego usera jestesmy przekierowywani na /users/:id
   2. Profil usera
-    - wyswietlamy wszystkie dane profilu
-    - opcja assign role (tylko dla admina)
-      - otwiera nam sie drawer
-      - mamy autocomplete z dostepnymi rolami (najpierw zrobimy to na backendzie, zeby mozna bylo je pobrac)
-      - wybieramy nowa role dla usera i wysylamy post request
-      - aktualizujemy profil, aby wyswietlal aktualne informacje
+    - ####### wyswietlamy wszystkie dane profilu
+    - ####### opcja assign role
+      ! (tylko dla admina) to do zrobienia
+    - ####### otwiera nam sie drawer
+    - ####### mamy autocomplete z dostepnymi rolami (najpierw zrobimy to na backendzie, zeby mozna bylo je pobrac)
+    - ####### wybieramy nowa role dla usera i wysylamy post request
+    - ####### aktualizujemy profil, aby wyswietlal aktualne informacje
   3. Wyswietlanie kto jest przypisany itd
-  4.Na lekcji- skonfigurac MUI theme
+  4. ####### Na lekcji- skonfigurac MUI theme
 */
