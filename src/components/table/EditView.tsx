@@ -1,8 +1,8 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC } from 'react';
 import { ListItem } from 'types/ListTypes';
 import { useTaskContext } from '../../context/TaskContext';
 import TextField from '@mui/material/TextField';
-import { Button, Alert } from '@mui/material';
+import { Button } from '@mui/material';
 import * as yup from "yup"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { useForm } from 'react-hook-form';
@@ -42,7 +42,7 @@ const EditView: FC<EditViewProps> = ({ task, setIsEditing }) => {
     setDialogConfiguration({
       onSubmit: async () => {
         editTask(editedTask)
-        navigate('/yourTasks')
+        navigate('/tasks')
       },
       title: "Confirm Save",
       description: "Are you sure you want to save the changes?",

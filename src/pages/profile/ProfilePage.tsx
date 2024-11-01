@@ -20,7 +20,7 @@ const schema = yup.object({
 })
 
 const ProfilePage: FC = () => {
-    const { user, updateClient, fetchSingleClient } = useAuthContext();
+    const { user, updateClient } = useAuthContext();
     const [isEditing, setIsEditing] = useState(false)
     const { register, formState: { errors }, handleSubmit, getValues } = useForm<Inputs>({
         resolver: yupResolver(schema),

@@ -23,7 +23,7 @@ export const Settings: FC<{ role: UserRoles, userId: string, setSubmitted: (arg:
     };
 
     const handleSave = () => {
-        makeRequest('POST', `/user/${userId}/update-role`, { role: selectedRole })
+        makeRequest('POST', `/users/${userId}/update-role`, { role: selectedRole })
             .then(() => {
                 showSuccessAlert('Role updated successfully!');
                 setIsModified(false);

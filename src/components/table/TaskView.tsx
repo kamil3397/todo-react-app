@@ -20,7 +20,7 @@ const TaskView: FC<TaskViewProps> = ({ task }) => {
   const deleteTaskWithRedirection = async (taskId: string) => {
     await deleteTask(taskId).then(() => {
       showSuccessAlert('Task deleted succesfully')
-      navigate('/yourTasks')
+      navigate('/tasks')
     }).catch(() => {
       showErrorAlert('Something went wrong! Status has not been changed.')
     })
@@ -29,7 +29,7 @@ const TaskView: FC<TaskViewProps> = ({ task }) => {
   const updateStatusWithRedirection = async (task: ListItem) => {
     await editTask(task).then(() => {
       showSuccessAlert('Task status updated succesfully')
-      navigate('/yourTasks')
+      navigate('/tasks')
     }).catch((err) => {
       showErrorAlert('Something went wrong! Task has not been updated.')
     })
@@ -50,7 +50,7 @@ const TaskView: FC<TaskViewProps> = ({ task }) => {
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', marginBottom: 2 }}>
         <Typography variant='h3'>{task.title}</Typography>
       </Box>
-     
+
       <TextField sx={{ p: 1 }} id="outlined-read-only-input"
         label="Description"
         defaultValue={task.description}
