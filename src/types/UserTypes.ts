@@ -1,4 +1,4 @@
-export type RegistrationData = {
+export type RegisterData = {
     email: string;
     name: string;
     surname: string;
@@ -7,11 +7,11 @@ export type RegistrationData = {
     terms: boolean;
 }
 
-export type LoginInputs = {
+export type LoginData = {
     email?: string,
     password: string,
 }
-export type LogourData = {
+export type LogoutData = {
     _id: string,
 }
 
@@ -22,10 +22,11 @@ export enum UserRoles {
 }
 
 export type UserType = {
+    _id: string
     email: string
+    password?: string,
     name: string
     surname: string,
-    _id: string
     phone: string
     role: UserRoles
 }
