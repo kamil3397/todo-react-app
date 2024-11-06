@@ -1,21 +1,12 @@
 import { makeRequest } from 'hooks/makeRequest'
 import React, { createContext, FC, ReactNode, useContext, useEffect, useState } from 'react'
-import { EditUserType, LoginInputs, RegistrationData } from 'types/ListTypes'
+import { EditUserType, LoginData, RegisterData, UserType } from 'types/UserTypes'
 
-
-type UserType = {
-    email: string
-    name: string
-    surname: string,
-    _id: string
-    phone: string
-    role: string | null // should be an enum
-}
 
 type AuthContextProps = {
     loginUser: (userId: string) => void
-    registerClient: (values: RegistrationData) => Promise<void>
-    loginClient: (values: LoginInputs) => Promise<void>
+    registerClient: (values: RegisterData) => Promise<void>
+    loginClient: (values: LoginData) => Promise<void>
     logOutClient: () => Promise<void>
     fetchSingleClient: (userId: string) => Promise<EditUserType>
     updateClient: (user: EditUserType) => void;
@@ -36,20 +27,21 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         }
     }, []);
 
-    const registerClient = async (values: RegistrationData) => {
+    const registerClient = async (values: RegisterData) => {
         await makeRequest('POST', '/register', values)
             .catch((error) => {
                 throw new Error(error)
             })
     };
 
-    const loginClient = async (values: LoginInputs) => {
+    const loginClient = async (values: LoginData) => {
         return await makeRequest('POST', '/login', values)
             .then((response) => {
                 const userData = response?.data;
                 if (userData && userData.user._id) {
                     localStorage.setItem('userId', userData.user._id);
                     localStorage.setItem('accessToken', userData.accessToken)
+                    localStorage.setItem('role', userData.role)
                     setUser(userData.user);
                 } else { console.error("Invalid user data received") }
             })
@@ -85,7 +77,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
     const updateClient = async (user: EditUserType) => {
         const { _id, ...rest } = user;
-        return await makeRequest('PUT', `/updateUser/${_id}`, rest)
+        return await makeRequest('PUT', `/users/${_id}/update`, rest)
             .then((res) => setUser(res?.data))
             .catch((error) => console.log(error))
     }
@@ -97,7 +89,7 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         logOutClient,
         fetchSingleClient,
         updateClient,
-        user
+        user,
     }
 
     return (

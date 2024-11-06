@@ -20,7 +20,8 @@ const StyledDataGrid = styled(DataGrid)({
 });
 const TablePage: FC = () => {
   const { tasks, fetchTasks } = useTaskContext();
-  const { sortModel, setSortModel, changeTableState, tableState } = useTableContext();
+  const { changeTableState, tableState } = useTableContext();
+  const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'status', sort: 'desc' }]);
 
   const [drawerOpen, setDrawerOpen] = useState(false)
   const navigate = useNavigate();
@@ -121,3 +122,24 @@ const TablePage: FC = () => {
 };
 
 export default TablePage;
+
+
+// const soringModel = gridSortModelSelector(
+//   apiRef.current.state,
+//   apiRef.current
+// )
+
+// const [sortModel, setSortModel] = useState<GridSortModel>();
+// const handleSaveSortToContext = () => {
+//   apiRef.current.applySorting();
+//   const sortModel = apiRef.current.state.sorting.sortModel
+//   setSortModel(sortModel)
+// }
+
+/*
+1. Stworzyc nowy table context
+2. Zapisywac w nim zmiany ustawien tabeli (np tak jak tu sortowanie)
+3. Przy przeladowaniu strony, zamiast podawac initialState jak teraz, powinnismy dawac initalState z contextu.
+4. Narazie ogarnij sort i density.
+ 
+*/

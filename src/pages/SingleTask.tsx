@@ -40,7 +40,7 @@ const SingleTask: FC = () => {
           <Button variant="contained" sx={{ m: 1 }} onClick={() => toggleDrawer(true)}>
             <FontAwesomeIcon icon={faPenToSquare} />
           </Button>
-          <Button variant="contained" color="error" sx={{ m: 1 }} onClick={() => navigate('/yourTasks')}>
+          <Button variant="contained" color="error" sx={{ m: 1 }} onClick={() => navigate('/tasks')}>
             <FontAwesomeIcon icon={faXmark} />
           </Button>
         </Box>

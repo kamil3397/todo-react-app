@@ -7,11 +7,8 @@ import { Button, Container, Card as MuiCard, TextField, Typography, styled } fro
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuthContext } from 'context/AuthContext'
 import { useAlertContext } from 'context/AlertContext'
+import { LoginData } from 'types/UserTypes'
 
-type LoginInputs = {
-  email?: string,
-  password: string,
-}
 
 const schema = yup.object({
   email: yup.string().email('Email is required'),
@@ -44,11 +41,11 @@ const LogInPage: FC = () => {
   const { loginClient } = useAuthContext()
   const { showErrorAlert, showSuccessAlert } = useAlertContext()
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginInputs>({ resolver: yupResolver(schema) });
+  const { register, handleSubmit, formState: { errors } } = useForm<LoginData>({ resolver: yupResolver(schema) });
 
-  const onSubmit = async (values: LoginInputs) => {
+  const onSubmit = async (values: LoginData) => {
     const { email, password } = values
-    const userLogin: LoginInputs = { email, password }
+    const userLogin: LoginData = { email, password }
 
     await loginClient(userLogin)
       .then(() => {

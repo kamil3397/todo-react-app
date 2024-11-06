@@ -1,12 +1,15 @@
 import React, { PropsWithChildren, useState } from 'react';
 import { styled } from '@mui/material/styles';
-import { Box, Drawer as MuiDrawer, CssBaseline, List, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText, Button, IconButton } from '@mui/material'
+import { Box, Drawer as MuiDrawer, CssBaseline, List, Divider, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonIcon from '@mui/icons-material/Person';
+import GroupsIcon from '@mui/icons-material/Groups';
 import { DrawerAppBar } from './AppBar';
 import { DrawerHeader } from './DrawerHeader';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from 'context/AuthContext';
 import { MenuList } from './MenuList';
-import LogoutIcon from '@mui/icons-material/Logout';
+
 
 export const DRAWER_WIDTH = 240;
 
@@ -74,9 +77,39 @@ export const Drawer = ({ children }: PropsWithChildren) => {
                 <Divider />
                 <MenuList />
                 <Divider />
-
-                <Button startIcon={<LogoutIcon />} onClick={() => handleLogout()}>Logout</Button>
-
+                <List>
+                    <Link to='/profile' style={{ textDecoration: 'none', color: '#202142' }}>
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <PersonIcon style={{ color: '#202142' }} />
+                                </ListItemIcon>
+                                <ListItemText primary={'Profile'} />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
+                    <Link to='/users' style={{ textDecoration: 'none', color: '#202142' }}>
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <GroupsIcon style={{ color: '#202142' }} />
+                                </ListItemIcon>
+                                <ListItemText primary={'All Users'} />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
+                    <Link to='/' style={{ textDecoration: 'none', color: '#202142' }}>
+                        <ListItem disablePadding>
+                            <ListItemButton onClick={handleLogout}>
+                                <ListItemIcon>
+                                    <LogoutIcon style={{ color: '#202142' }} />
+                                </ListItemIcon>
+                                <ListItemText primary={'Logout'} />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
+                    {/* // * tutaj dodaj wszystkie swoje routy, czyli redirecty */}
+                </List>
             </MuiDrawer>
             <Main open={open}>
                 {children}

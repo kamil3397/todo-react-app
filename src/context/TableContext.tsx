@@ -1,17 +1,14 @@
 import { createContext, FC, useContext, useState, useEffect, ReactNode } from "react";
-import { GridSortModel, GridDensity } from "@mui/x-data-grid";
-import { GridInitialStateCommunity, GridStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
+import { GridDensity } from "@mui/x-data-grid";
+import { GridInitialStateCommunity } from "@mui/x-data-grid/models/gridStateCommunity";
 
 export type GridInitialState = GridInitialStateCommunity & {
     density: GridDensity
 }
 
 type TableContextProps = {
-    sortModel: GridSortModel,
-    setSortModel: (model: GridSortModel) => void,
     changeTableState: (value: GridInitialState) => void
     tableState: GridInitialState;
-
 }
 
 const LOCAL_STORAGE_KEYS = ['sorting', 'filter', 'density'];
@@ -21,7 +18,6 @@ type TableStateKeys = keyof GridInitialStateCommunity | 'density'
 const TableContext = createContext<TableContextProps | undefined>(undefined);
 
 export const TableProvider: FC<{ children: ReactNode }> = ({ children }) => {
-    const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'status', sort: 'desc' }]);
     const [tableState, setTableState] = useState<GridInitialState>({ density: 'standard' })
 
 
@@ -50,7 +46,7 @@ export const TableProvider: FC<{ children: ReactNode }> = ({ children }) => {
 
 
     return (
-        <TableContext.Provider value={{ sortModel, setSortModel, changeTableState, tableState }}>
+        <TableContext.Provider value={{ changeTableState, tableState }}>
             {children}
         </TableContext.Provider>
     );

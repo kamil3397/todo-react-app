@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { Box, Button, Card, Checkbox, FormControlLabel, IconButton, InputAdornment, TextField, Typography } from '@mui/material';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuthContext } from 'context/AuthContext';
-import { RegistrationData } from 'types/ListTypes';
+import { RegisterData } from 'types/UserTypes';
 import { FC, useState } from 'react';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAlertContext } from 'context/AlertContext';
@@ -57,7 +57,7 @@ const RegisterPage: FC = () => {
 
     const onSubmit = (values: Inputs) => {
         const { email, name, surname, phone, password, terms } = values;
-        const newUserData: RegistrationData = { email, name, surname, phone, password, terms };
+        const newUserData: RegisterData = { email, name, surname, phone, password, terms };
 
         registerClient(newUserData)
             .then(() => {
