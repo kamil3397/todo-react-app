@@ -1,12 +1,13 @@
 import React, { FC, useEffect, useState } from "react";
-import { useTaskContext } from "../context/TaskContext";
+import { useTaskContext } from "../../context/TaskContext";
 import { Button, Container, styled } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { DataGrid, GridColDef, GridRowParams, GridSortModel, GridToolbar, useGridApiRef } from "@mui/x-data-grid";
 import { ReusableDrawer } from "components/drawer/ReusableDrawer";
-import AddTask from "./AddTask"
+import AddTask from "../AddTask"
 import { GridInitialState, useTableContext } from "context/TableContext";
 import { isEqual } from 'lodash'
+import CustomToolbar from "./componetns/CustomToolbar";
 
 
 const StyledDataGrid = styled(DataGrid)({
@@ -22,6 +23,8 @@ const TablePage: FC = () => {
   const { tasks, fetchTasks } = useTaskContext();
   const { changeTableState, tableState } = useTableContext();
   const [sortModel, setSortModel] = useState<GridSortModel>([{ field: 'status', sort: 'desc' }]);
+  const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
+
 
   const [drawerOpen, setDrawerOpen] = useState(false)
   const navigate = useNavigate();
@@ -107,7 +110,13 @@ const TablePage: FC = () => {
           }
           initialState={tableState}
           pageSizeOptions={[5]}
-          slots={{ toolbar: GridToolbar }}
+          slots={{ toolbar: CustomToolbar }}
+          slotProps={{
+            toolbar: {
+              selectedUserId,
+              setSelectedUserId,
+            }
+          }}
           onRowClick={handleRowClick}
 
         />
