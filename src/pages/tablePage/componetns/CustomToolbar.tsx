@@ -17,6 +17,7 @@ interface CustomToolbarProps {
 
 const CustomToolbar: FC<CustomToolbarProps> = ({ selectedUserId, setSelectedUserId }) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+    const [selectedUser, setSelectedUser] = useState<UserType | null>(null);
     const { clients, fetchClients } = useAuthContext();
 
     useEffect(() => {
@@ -37,11 +38,16 @@ const CustomToolbar: FC<CustomToolbarProps> = ({ selectedUserId, setSelectedUser
 
     const handleClose = () => setAnchorEl(null);
 
-    const handleUserSelect = (userId: string | null) => {
-        setSelectedUserId(userId);
+    const handleUserSelect = (user: UserType) => {
+        if (selectedUserId === user._id) {
+            setSelectedUserId(null);
+            setSelectedUser(null);
+        } else {
+            setSelectedUserId(user._id);
+            setSelectedUser(user);
+        }
         handleClose();
-    };
-
+    }
 
     return (
         <GridToolbarContainer>
@@ -50,21 +56,22 @@ const CustomToolbar: FC<CustomToolbarProps> = ({ selectedUserId, setSelectedUser
             <GridToolbarDensitySelector />
             <GridToolbarExport />
             <Button color="primary" onClick={handleUsersClick}>
-                USERS
+                {selectedUserId ? `Selected: ${selectedUser?.name} ${selectedUser?.surname}` : "USERS"}
             </Button>
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
                 {clients.map((client: UserType) => (
                     <MenuItem
                         key={client._id}
                         selected={selectedUserId === client._id}
-                        onClick={() => handleUserSelect(client._id)}
+                        onClick={() => handleUserSelect(client)}
                     >
-                        {client.name} {client.surname}
+                        {`${client.name} ${client.surname}`}
                     </MenuItem>
                 ))}
             </Menu>
         </GridToolbarContainer>
     );
 };
+
 
 export default CustomToolbar;

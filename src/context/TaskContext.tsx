@@ -6,7 +6,7 @@ type TaskContextProps = {
   tasks: ListItem[];
   setTasks: (newTasks: ListItem[]) => void;
   deleteTask: (_id: string) => Promise<void>;
-  fetchTasks: () => Promise<void>;
+  fetchTasks: (userId?: string) => Promise<void>;
   fetchSingleTask: (taskId: string) => Promise<ListItem>;
   editTask: (task: ListItem) => Promise<void>;
   addTask: (newTask: Pick<ListItem, 'title' | 'description' | 'userId' | 'category' | 'startDate' | 'endDate'>) => Promise<void>;
@@ -34,10 +34,8 @@ export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
       .catch((error) => { throw new Error(error) });
   };
 
-  const fetchTasks = async (): Promise<void> => {
-    const userId = localStorage.getItem('userId');
-
-    await makeRequest('GET', `/users/${userId}/tasks`)
+  const fetchTasks = async (userId?: string): Promise<void> => {
+    await makeRequest('GET', `/tasks${userId ? `?userId=${userId}` : ''}`)
       .then((response) => {
         setTasks(response?.data)
       })
@@ -47,7 +45,7 @@ export const TaskProvider: FC<{ children: ReactNode }> = ({ children }) => {
   };
 
 
-  const fetchUserId = async (): Promise<string | null> => {
+  const fetchUserId = async (): Promise<string | null> => { // nie powinno byc tutaj tej funkcji
     return await makeRequest('GET', '/userId')
       .then((res) => {
         return res?.data.userId;

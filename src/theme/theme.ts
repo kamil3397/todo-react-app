@@ -1,4 +1,4 @@
-import { createTheme } from "@mui/material";
+import { createTheme } from "@mui/material/styles";
 
 export const theme = createTheme({
     palette: {
@@ -7,7 +7,7 @@ export const theme = createTheme({
         },
         secondary: {
             main: '#ff6a95'
-        }
+        },
     },
     typography: {
         fontFamily: "Poppins, sans-serif",
@@ -20,5 +20,11 @@ export const theme = createTheme({
             fontWeight: 'bold'
         },
     },
+    components: {
+        MuiButton: {
+            styleOverrides: {
+            }
+        }
+    }
 });
 
