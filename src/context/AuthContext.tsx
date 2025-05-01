@@ -10,6 +10,8 @@ type AuthContextProps = {
     logOutClient: () => Promise<void>
     fetchSingleClient: (userId: string) => Promise<EditUserType>
     updateClient: (user: EditUserType) => void;
+    fetchClients: () => Promise<UserType[]>;
+    clients: UserType[];
     user?: UserType
 }
 
@@ -18,6 +20,8 @@ const AuthContext = createContext<AuthContextProps | undefined>(undefined)
 
 export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
     const [user, setUser] = useState<UserType>();
+    const [clients, setClients] = useState<UserType[]>([]);
+
 
     useEffect(() => {
         const userId = localStorage.getItem('userId');
@@ -74,8 +78,16 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
             })
             .catch((err) => { throw new Error(err) });
     }
-
-    const updateClient = async (user: EditUserType) => {
+    const fetchClients = async (): Promise<UserType[]> => {
+        return await makeRequest('GET', '/users')
+            .then((res) => {
+                setClients(res?.data);
+                return res?.data;
+            })
+            .catch((err) => {
+                throw new Error(err);
+            });
+    }; const updateClient = async (user: EditUserType) => {
         const { _id, ...rest } = user;
         return await makeRequest('PUT', `/users/${_id}/update`, rest)
             .then((res) => setUser(res?.data))
@@ -89,6 +101,8 @@ export const AuthProvider: FC<{ children: ReactNode }> = ({ children }) => {
         logOutClient,
         fetchSingleClient,
         updateClient,
+        fetchClients,
+        clients,
         user,
     }
 
